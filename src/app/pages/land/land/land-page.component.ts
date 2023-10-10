@@ -90,52 +90,16 @@ export class LandPageComponent implements OnInit, OnDestroy {
   }
 
   onFileDropped(event) {
-    //add new item to docs
-    this.docs.push({parserObject:{ parserStrategy: 'Auto', callingParser: false, file: undefined }, langToExtract:'', medicalText: '', finish: false});
-    var reader = new FileReader();
-    reader.readAsDataURL(event[0]); // read file as data url
-    reader.onload = (event2: any) => { // called once readAsDataURL is completed
-        var the_url = event2.target.result
-        var extension = (event[0]).name.substr((event[0]).name.lastIndexOf('.'));
-        extension = extension.toLowerCase();
-        if (event[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || extension == '.docx') {
-            this.loadFile(the_url, function (err, content) {
-                if (err) { console.log(err); };
-                var doc = new Docxgen(content);
-                var text = doc.getFullText();
-                this.detectLanguage(text, 'otherdocs');
-                this.medicalText = text;
-                this.showPanelExtractor = true;
-                this.expanded = true;
-            }.bind(this))
-        } else if (event[0].type == 'application/pdf' || extension == '.pdf' || extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif') {
-            this.docs[this.docs.length - 1].parserObject.file = event[0];
-            if (extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif') {
-              this.docs[this.docs.length - 1].parserObject.parserStrategy = 'OcrOnly';
-            } else {
-              this.docs[this.docs.length - 1].parserObject.parserStrategy = 'OcrOnly';//Auto
-            }
-            let index = this.docs.length - 1;
-            this.callParser(index);
-        } else {
-            Swal.fire(this.translate.instant("dashboardpatient.error extension"), '', "error");
-        }
-
-    }
-}
-
-onFileChangePDF(event) {
-  this.docs.push({parserObject:{ parserStrategy: 'Auto', callingParser: false, file: undefined }, langToExtract:'', medicalText: '', finish: false});
-  if (event.target.files && event.target.files[0]) {
+    console.log(event)
+    for(let file of event) {
       var reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
+      reader.readAsDataURL(file); // read file as data url
       reader.onload = (event2: any) => { // called once readAsDataURL is completed
           var the_url = event2.target.result
-
-          var extension = (event.target.files[0]).name.substr((event.target.files[0]).name.lastIndexOf('.'));
+          this.docs.push({parserObject:{ parserStrategy: 'Auto', callingParser: false, file: undefined }, langToExtract:'', medicalText: '', finish: false});
+          var extension = (file).name.substr((file).name.lastIndexOf('.'));
           extension = extension.toLowerCase();
-          this.docs[this.docs.length - 1].langToExtract = '';
-          if (event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || extension == '.docx') {
+          if (file.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || extension == '.docx') {
               this.loadFile(the_url, function (err, content) {
                   if (err) { console.log(err); };
                   var doc = new Docxgen(content);
@@ -145,8 +109,8 @@ onFileChangePDF(event) {
                   this.showPanelExtractor = true;
                   this.expanded = true;
               }.bind(this))
-          } else if (event.target.files[0].type == 'application/pdf' || extension == '.pdf' || extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif') {
-            this.docs[this.docs.length - 1].parserObject.file = event.target.files[0]
+          } else if (file.type == 'application/pdf' || extension == '.pdf' || extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif') {
+              this.docs[this.docs.length - 1].parserObject.file = file;
               if (extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif') {
                 this.docs[this.docs.length - 1].parserObject.parserStrategy = 'OcrOnly';
               } else {
@@ -154,14 +118,56 @@ onFileChangePDF(event) {
               }
               let index = this.docs.length - 1;
               this.callParser(index);
-
           } else {
               Swal.fire(this.translate.instant("dashboardpatient.error extension"), '', "error");
           }
-
+  
       }
+    }
+}
 
+onFileChangePDF(event) {
+  for(let file of event.target.files) {
+    console.log(file)
+    
+    if (event.target.files && file) {
+        var reader = new FileReader();
+        reader.readAsDataURL(file); // read file as data url
+        reader.onload = (event2: any) => { // called once readAsDataURL is completed
+            var the_url = event2.target.result
+            this.docs.push({parserObject:{ parserStrategy: 'Auto', callingParser: false, file: undefined }, langToExtract:'', medicalText: '', finish: false});
+            var extension = (file).name.substr((file).name.lastIndexOf('.'));
+            extension = extension.toLowerCase();
+            this.docs[this.docs.length - 1].langToExtract = '';
+            if (file.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || extension == '.docx') {
+                this.loadFile(the_url, function (err, content) {
+                    if (err) { console.log(err); };
+                    var doc = new Docxgen(content);
+                    var text = doc.getFullText();
+                    this.detectLanguage(text, 'otherdocs');
+                    this.medicalText = text;
+                    this.showPanelExtractor = true;
+                    this.expanded = true;
+                }.bind(this))
+            } else if (file.type == 'application/pdf' || extension == '.pdf' || extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif') {
+              this.docs[this.docs.length - 1].parserObject.file = file
+                if (extension == '.jpg' || extension == '.png' || extension == '.gif' || extension == '.tiff' || extension == '.tif' || extension == '.bmp' || extension == '.dib' || extension == '.bpg' || extension == '.psd' || extension == '.jpeg' || extension == '.jpe' || extension == '.jfif') {
+                  this.docs[this.docs.length - 1].parserObject.parserStrategy = 'OcrOnly';
+                } else {
+                  this.docs[this.docs.length - 1].parserObject.parserStrategy = 'OcrOnly';//Auto
+                }
+                let index = this.docs.length - 1;
+                this.callParser(index);
+  
+            } else {
+                Swal.fire(this.translate.instant("dashboardpatient.error extension"), '', "error");
+            }
+  
+        }
+  
+    }
   }
+  
 }
 
 loadFile(url, callback) {
