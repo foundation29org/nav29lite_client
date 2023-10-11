@@ -3,7 +3,7 @@
       "Drag and drop file here": "Drag and drop a report here",
       "or": "or",
       "Browse for file": "Browse for file",
-      "Accepted files": "Accepted files: pdf, docx, images",
+      "Accepted files": "Accepted files: pdf, docx",
       "descripReports": "We understand that these data are very sensitive. If you do not register, all the data will be deleted when you close this window."
     },
    "waitlist":{
@@ -919,7 +919,7 @@
        "Search condition":"Digita il nome della tua condizione",
        "Nothing found. Try again.":"Non abbiamo trovato nulla. Riprova.",
        "Share":"Condividere",
-       "error extension":"Il file caricato deve avere un'estensione .pdf, .docx o file immagine",
+       "error extension":"Il file caricato deve avere un'estensione .pdf, o .docx",
        "Files uploaded":"File caricati"
     },
     "permissions":{

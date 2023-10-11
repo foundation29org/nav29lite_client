@@ -68,7 +68,7 @@
                                                     class="ml-2">{{'messages.m3.2' | translate
                                                     }}</span>
                                             </a>
-                                            <a class="dropdown-item py-1 danger" href="javascript:;"
+                                            <a *ngIf="!submitted" class="dropdown-item py-1 danger" href="javascript:;"
                                                 (click)="deleteDoc(doc, i);">
                                                 <i class="fa-1_5x fa fa-trash"></i><span
                                                     class="ml-2">{{'generics.Delete' | translate
@@ -76,17 +76,18 @@
                                             </a>
                                         </div>
                                     </span>
-                                    <span *ngIf="doc.parserObject.file">
-                                        <span class="d-inline-block">{{doc.parserObject.file.name}}</span>
-                                        <span class="d-block text-muted">{{ doc.parserObject.file.size | bytes }} </span>
+                                    <span *ngIf="doc.dataFile">
+                                        <span class="d-inline-block">{{doc.dataFile.name}}</span>
+                                        <span class="d-block text-muted">{{ doc.dataFile.event.size | bytes }} </span>
                                     </span>
                                     <span>
                                         Estado:
                                     </span>
-                                    <span *ngIf="doc.finish">
+                                    <span *ngIf="doc.state=='done'">
                                         <em class="fa fa-check fa-fw success"></em>
                                     </span>
-                                    <span *ngIf="!doc.finish">
+                                    <span *ngIf="doc.state!='done'">
+                                        <span *ngIf="doc.state=='uploading'">{{'messages.m1.1' | translate }}</span>
                                         <em class="fa fa-spinner fa-spin fa-fw primary"></em>
                                     </span>
                                     
@@ -125,7 +126,7 @@
                                     <span [innerHTML]= "message.text | safe: 'html'" (click)="onMessageClick($event, i)"></span>
                                     <span *ngIf="!message.isUser && i== messages.length-1" class="d-block mt-2">
                                         <span class="float-right" *ngIf="i!=0">
-                                            <em class="fa-regular fa-clipboard pointer" (click)="copymsg(message)"></em>
+                                            <em class="fa fa-clipboard pointer" (click)="copymsg(message)"></em>
                                         </span>
                                         
                                     </span>
@@ -172,3 +173,28 @@
         
     </div>    
 </div>
+
+<ng-template #contentSummaryDoc id="contentSummaryDoc" let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header" id="idHeader">
+        <div class="content-header text-left">
+            <h4 class="mb-0">{{actualDoc.dataFile.name}}</h4>
+        </div>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal();">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body content-wrapper p-2" id="idBody">
+        <div class="p-1">
+            <div>
+                <span class="animate-bottom" *ngIf="showButtonScroll" id="buttomScroll">
+                    <button type="button" class="btn btn-dark round mb-0" (click)="goToTop()">Go top</button>
+                </span>
+                <div class="">
+                    <div style="text-align: justify;"
+                        [innerHTML]="actualDoc.medicalText | safe: 'html'"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</ng-template>
