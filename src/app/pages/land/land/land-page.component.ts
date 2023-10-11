@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
 import { TrackEventsService } from 'app/shared/services/track-events.service';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { EventsService } from 'app/shared/services/events.service';
 import { InsightsService } from 'app/shared/services/azureInsights.service';
 import Swal from 'sweetalert2';
@@ -43,6 +43,9 @@ export class LandPageComponent implements OnInit, OnDestroy {
   context = [];
   conversation = [];
   submitted: boolean = false;
+  @ViewChild('contentSummaryDoc', { static: false }) contentSummaryDoc: TemplateRef<any>;
+  modalReference: NgbModalRef;
+  actualDoc: any = {};
 
   constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public trackEventsService: TrackEventsService, public insightsService: InsightsService, private clipboard: Clipboard) {
     this.screenWidth = window.innerWidth;
@@ -379,6 +382,19 @@ export class LandPageComponent implements OnInit, OnDestroy {
     setTimeout(function () {
         Swal.close();
     }, 2000);
+}
+
+openResults(doc, contentSummaryDoc) {
+  this.actualDoc=doc;
+  let ngbModalOptions: NgbModalOptions = {
+    keyboard: false,
+    windowClass: 'ModalClass-sm' // xl, lg, sm
+  };
+  if (this.modalReference != undefined) {
+    this.modalReference.close();
+    this.modalReference = undefined;
+  }
+  this.modalReference = this.modalService.open(contentSummaryDoc, ngbModalOptions);
 }
 
 

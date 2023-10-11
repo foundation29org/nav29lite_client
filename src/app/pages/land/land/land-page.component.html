@@ -173,3 +173,28 @@
         
     </div>    
 </div>
+
+<ng-template #contentSummaryDoc id="contentSummaryDoc" let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header" id="idHeader">
+        <div class="content-header text-left">
+            <h4 class="mb-0">{{actualDoc.dataFile.name}}</h4>
+        </div>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal();">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body content-wrapper p-2" id="idBody">
+        <div class="p-1">
+            <div>
+                <span class="animate-bottom" *ngIf="showButtonScroll" id="buttomScroll">
+                    <button type="button" class="btn btn-dark round mb-0" (click)="goToTop()">Go top</button>
+                </span>
+                <div class="">
+                    <div style="text-align: justify;"
+                        [innerHTML]="actualDoc.medicalText | safe: 'html'"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</ng-template>
