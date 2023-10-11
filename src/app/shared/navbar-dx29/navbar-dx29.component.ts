@@ -6,12 +6,9 @@ import { Subscription } from 'rxjs';
 import { ConfigService } from '../services/config.service';
 import { LangService } from 'app/shared/services/lang.service';
 import { EventsService } from 'app/shared/services/events.service';
-import { TrackEventsService } from 'app/shared/services/track-events.service';
 import { InsightsService } from 'app/shared/services/azureInsights.service';
 import { Injectable, Injector } from '@angular/core';
 import { filter } from 'rxjs/operators';
-
-declare let gtag: any;
 
 @Component({
   selector: 'app-navbar-dx29',
@@ -45,7 +42,7 @@ export class NavbarD29Component implements OnInit, AfterViewInit, OnDestroy {
   _startTime: any;
   private subscription: Subscription = new Subscription();
 
-  constructor(public translate: TranslateService, private layoutService: LayoutService, private configService: ConfigService, private langService: LangService, private router: Router, private inj: Injector, public trackEventsService: TrackEventsService, public insightsService: InsightsService) {
+  constructor(public translate: TranslateService, private layoutService: LayoutService, private configService: ConfigService, private langService: LangService, private router: Router, private inj: Injector, public insightsService: InsightsService) {
 
     this.loadLanguages();
 

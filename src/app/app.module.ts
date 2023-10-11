@@ -46,7 +46,6 @@ import { LocalizedDatePipe } from 'app/shared/services/localizedDatePipe.service
 import { HighlightSearch } from 'app/shared/services/search-filter-highlight.service';
 import { SearchFilterPipe } from 'app/shared/services/search-filter.service';
 import { Data } from 'app/shared/services/data.service';
-import { TrackEventsService } from 'app/shared/services/track-events.service';
 import { InsightsService } from 'app/shared/services/azureInsights.service';
 
 
@@ -95,7 +94,6 @@ export function createTranslateLoader(http: HttpClient) {
     DatePipe,
     DateService,
     SearchService,
-    TrackEventsService,
     InsightsService,
     HighlightSearch,
     LocalizedDatePipe,
