@@ -126,7 +126,7 @@
                                     <span [innerHTML]= "message.text | safe: 'html'" (click)="onMessageClick($event, i)"></span>
                                     <span *ngIf="!message.isUser && i== messages.length-1" class="d-block mt-2">
                                         <span class="float-right" *ngIf="i!=0">
-                                            <em class="fa-regular fa-clipboard pointer" (click)="copymsg(message)"></em>
+                                            <em class="fa fa-clipboard pointer" (click)="copymsg(message)"></em>
                                         </span>
                                         
                                     </span>

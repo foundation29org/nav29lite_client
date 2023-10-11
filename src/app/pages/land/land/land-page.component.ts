@@ -10,6 +10,7 @@ import { EventsService } from 'app/shared/services/events.service';
 import { InsightsService } from 'app/shared/services/azureInsights.service';
 import Swal from 'sweetalert2';
 import { environment } from 'environments/environment';
+import { Clipboard } from "@angular/cdk/clipboard"
 
 declare var JSZipUtils: any;
 declare var Docxgen: any;
@@ -46,7 +47,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
   conversation = [];
   submitted: boolean = false;
 
-  constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public trackEventsService: TrackEventsService, public insightsService: InsightsService) {
+  constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public trackEventsService: TrackEventsService, public insightsService: InsightsService, private clipboard: Clipboard) {
     this.screenWidth = window.innerWidth;
     this.lang = sessionStorage.getItem('lang');
     this.originalLang = sessionStorage.getItem('lang');
@@ -313,9 +314,9 @@ export class LandPageComponent implements OnInit, OnDestroy {
       .subscribe(async (res: any) => {
 
         this.conversation.push({ role: "user", content: this.message });
-        this.conversation.push({ role: "assistant", content: res.answer });
+        this.conversation.push({ role: "assistant", content: res.response });
         this.message = '';
-        this.translateInverse(res.answer).catch(error => {
+        this.translateInverse(res.response).catch(error => {
           console.error('Error al procesar el mensaje:', error);
           this.insightsService.trackException(error);
         });
@@ -368,6 +369,20 @@ export class LandPageComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+  copymsg(msg){
+    this.clipboard.copy(msg.text);
+    Swal.fire({
+        icon: 'success',
+        html: this.translate.instant("messages.Results copied to the clipboard"),
+        showCancelButton: false,
+        showConfirmButton: false,
+        allowOutsideClick: false
+    })
+    setTimeout(function () {
+        Swal.close();
+    }, 2000);
+}
 
 
 }
