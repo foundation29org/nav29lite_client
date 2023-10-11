@@ -174,8 +174,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
     this.submitted = true;
     this.subscription.add(this.http.post(environment.api + '/api/upload', formData)
       .subscribe((res: any) => {
-        this.docs[res.index].state = 'done';
-        this.docs[res.index].medicalText = res.text;
+        this.docs[res.doc_id].state = 'done';
+        this.docs[res.doc_id].medicalText = res.data;
       }, (err) => {
         this.docs[index].state = 'failed';
         console.log(err);
