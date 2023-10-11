@@ -919,7 +919,7 @@
        "Search condition":"Digita il nome della tua condizione",
        "Nothing found. Try again.":"Non abbiamo trovato nulla. Riprova.",
        "Share":"Condividere",
-       "error extension":"Il file caricato deve avere un'estensione .pdf, .docx o file immagine",
+       "error extension":"Il file caricato deve avere un'estensione .pdf, o .docx",
        "Files uploaded":"File caricati"
     },
     "permissions":{

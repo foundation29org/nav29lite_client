@@ -920,7 +920,7 @@
     "Search condition": "Escribe el nombre de tu enfermedad",
     "Nothing found. Try again.": "No se ha encontrado nada. Inténtalo de nuevo.",
     "Share": "Compartir",
-    "error extension": "El archivo cargado debe tener una extensión .pdf, .docx o archivos de imagen",
+    "error extension": "El archivo cargado debe tener una extensión .pdf, .docx",
     "Files uploaded": "Archivos añadidos"
   },
   "permissions":{

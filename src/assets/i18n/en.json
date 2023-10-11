@@ -919,7 +919,7 @@
     "Search condition": "Type the name of your condition",
     "Nothing found. Try again.": "Nothing found. Try again.",
     "Share": "Share",
-    "error extension": "The uploaded file must have a .pdf, .docx extension, or image files",
+    "error extension": "The uploaded file must have a .pdf, or .docx extension",
     "Files uploaded": "Uploaded files"
   },
   "permissions":{

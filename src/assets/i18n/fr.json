@@ -919,7 +919,7 @@
        "Search condition":"Tapez le nom de votre condition",
        "Nothing found. Try again.":"Rien n'a été trouvé. Réessayer.",
        "Share":"Partager",
-       "error extension":"Le fichier téléchargé doit avoir une extension .pdf, .docx ou des fichiers image",
+       "error extension":"Le fichier téléchargé doit avoir une extension .pdf, ou .docx",
        "Files uploaded":"Fichiers téléchargés"
     },
     "permissions":{
