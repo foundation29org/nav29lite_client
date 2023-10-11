@@ -92,6 +92,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
         if (pos > 0 && extension == '.gz') {
           extension = (filename).substr(pos);
         }
+        filename = filename.split(extension)[0];
         var uniqueFileName = this.getUniqueFileName();
           filename = uniqueFileName + '/' + filename + extension;
           this.docs.push({ dataFile: { event: file, name: file.name, url: filename }, parserObject: { parserStrategy: 'Auto', callingParser: false, file: undefined }, langToExtract: '', medicalText: '', state: 'false' });
@@ -119,6 +120,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
           if (pos > 0 && extension == '.gz') {
             extension = (filename).substr(pos);
           }
+          filename = filename.split(extension)[0];
           var uniqueFileName = this.getUniqueFileName();
           filename = uniqueFileName + '/' + filename + extension;
           this.docs.push({ dataFile: { event: file, name: file.name, url: filename }, parserObject: { parserStrategy: 'Auto', callingParser: false, file: undefined }, langToExtract: '', medicalText: '', state: 'false' });
