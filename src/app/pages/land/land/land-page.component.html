@@ -87,7 +87,7 @@
                                         <em class="fa fa-check fa-fw success"></em>
                                     </span>
                                     <span *ngIf="doc.state!='done'">
-                                        <span *ngIf="doc.state=='uploading'">Extracting text</span>
+                                        <span *ngIf="doc.state=='uploading'">{{'messages.m1.1' | translate }}</span>
                                         <em class="fa fa-spinner fa-spin fa-fw primary"></em>
                                     </span>
                                     
