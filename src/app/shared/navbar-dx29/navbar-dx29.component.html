@@ -3,23 +3,23 @@
     <div class="container-fluid">
       <div>
           <span class="navbar-header-logos d-none d-sm-inline">
-            <img *ngIf="isHomePage" class="logo-img-big" width="120px" src='assets/img/logo-lg-white.png' (click)="trackEventsService.trackEventsService.lauchEvent('Logo');"/>
-            <img *ngIf="!isHomePage" class="logo-img-big" width="120px" src='assets/img/logo-lg-white.png' routerLink="/." (click)="trackEventsService.lauchEvent('Logo');" style="cursor: pointer;"/>
+            <img *ngIf="isHomePage" class="logo-img-big" width="120px" height="46px" src='assets/img/logo-lg-white.png' alt="logo nav29 lite" />
+            <img *ngIf="!isHomePage" class="logo-img-big" width="120px" height="46px" src='assets/img/logo-lg-white.png' alt="logo nav29 lite" routerLink="/." style="cursor: pointer;"/>
           </span>
           <span class="navbar-header-logos d-inline d-sm-none">
-            <img *ngIf="isHomePage" class="logo-img" src='assets/img/logo.png' (click)="trackEventsService.lauchEvent('Logo');"/>
-            <img *ngIf="!isHomePage" class="logo-img" src='assets/img/logo.png' routerLink="/." (click)="trackEventsService.lauchEvent('Logo');" style="cursor: pointer;"/>
+            <img *ngIf="isHomePage" class="logo-img" src='assets/img/logo.png' />
+            <img *ngIf="!isHomePage" class="logo-img" src='assets/img/logo.png' routerLink="/." style="cursor: pointer;"/>
           </span>
       </div>
         <div class="navbar-container pl-0">
             <div  id="navbarSupportedContent">
                 <ul class="navbar-nav m-r-0">
                   <li class="nav-item mr-2 d-inline" ngbDropdown display="dynamic" placement="bottom-right">
-                    <a class="position-relative colorlink" id="dropdownLang" ngbDropdownToggle>
+                    <a class="position-relative colorlink" id="dropdownLang" ngbDropdownToggle role="button">
                         <u>{{currentLang}}</u>
                     </a>
                     <div ngbDropdownMenu aria-labelledby="dropdownLang" class="dropdownLang">
-                        <a *ngFor="let lang of langs" class="dropdown-item py-1 lang" href="javascript:;" (click)="ChangeLanguage(lang.code);trackEventsService.lauchEvent('Change lang 1')">
+                        <a *ngFor="let lang of langs" class="dropdown-item py-1 lang" href="javascript:;" (click)="ChangeLanguage(lang.code);">
                             <span>{{lang.name}}</span>
                         </a>
                     </div>

@@ -9,9 +9,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { LangService } from 'app/shared/services/lang.service';
 import Swal from 'sweetalert2';
 import { EventsService } from 'app/shared/services/events.service';
-import { TrackEventsService } from 'app/shared/services/track-events.service';
 import { InsightsService } from 'app/shared/services/azureInsights.service';
-
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
     selector: 'app-root',
@@ -24,9 +23,9 @@ export class AppComponent implements OnInit, OnDestroy {
     actualPage: string = '';
     hasLocalLang: boolean = false;
     tituloEvent: string = '';
+    myuuid: string = uuidv4();
 
-    constructor(public toastr: ToastrService, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title, public translate: TranslateService, private langService: LangService, private eventsService: EventsService, private meta: Meta, public trackEventsService: TrackEventsService, public insightsService: InsightsService) {
-      this.trackEventsService.lauchEvent('App loaded');
+    constructor(public toastr: ToastrService, private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title, public translate: TranslateService, private langService: LangService, private eventsService: EventsService, private meta: Meta, public insightsService: InsightsService) {
       if (localStorage.getItem('lang')) {
           this.translate.use(localStorage.getItem('lang'));
           this.hasLocalLang = true;
@@ -39,6 +38,12 @@ export class AppComponent implements OnInit, OnDestroy {
     
         this.loadLanguages();
         this.loadCultures();
+
+        if(localStorage.getItem('uuid')==null){
+          this.myuuid = uuidv4();
+          localStorage.setItem('uuid', this.myuuid);
+        }
+        
     }
 
     loadLanguages() {

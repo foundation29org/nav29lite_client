@@ -13,7 +13,6 @@ import { ConfigService } from "app/shared/services/config.service";
 import { DOCUMENT } from "@angular/common";
 import { Subscription } from "rxjs";
 import { CustomizerService } from 'app/shared/services/customizer.service';
-import { TrackEventsService } from 'app/shared/services/track-events.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { LayoutService } from 'app/shared/services/layout.service';
 import { WINDOW } from 'app/shared/services/window.service';
@@ -54,8 +53,7 @@ export class LandPageLayoutComponent implements OnInit, AfterViewInit, OnDestroy
     @Inject(WINDOW) private window: Window,
     private renderer: Renderer2,
     private cdr: ChangeDetectorRef,
-    private deviceService: DeviceDetectorService,
-    public trackEventsService: TrackEventsService
+    private deviceService: DeviceDetectorService
   ) {
 
     this.config = this.configService.templateConf;

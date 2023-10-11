@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/c
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
-import { TrackEventsService } from 'app/shared/services/track-events.service';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal, NgbModalRef, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
@@ -47,7 +46,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
   modalReference: NgbModalRef;
   actualDoc: any = {};
 
-  constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public trackEventsService: TrackEventsService, public insightsService: InsightsService, private clipboard: Clipboard) {
+  constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public insightsService: InsightsService, private clipboard: Clipboard) {
     this.screenWidth = window.innerWidth;
     this.lang = sessionStorage.getItem('lang');
     this.originalLang = sessionStorage.getItem('lang');
@@ -307,8 +306,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
     for (let doc of this.docs) {
       this.context.push(doc.medicalText);
     }
-
-    var query = { "question": msg, "conversation": this.conversation, "userId": this.trackEventsService.myuuid, "context": this.context };
+    let uuid = localStorage.getItem('uuid');
+    var query = { "question": msg, "conversation": this.conversation, "userId": uuid, "context": this.context };
     console.log(query)
     this.subscription.add(this.http.post(environment.api + '/api/callnavigator/', query)
       .subscribe(async (res: any) => {
@@ -397,5 +396,16 @@ openResults(doc, contentSummaryDoc) {
   this.modalReference = this.modalService.open(contentSummaryDoc, ngbModalOptions);
 }
 
+openFileInput(fileInput: any): void {
+  fileInput.click();
+}
+
+async closeModal() {
+
+  if (this.modalReference != undefined) {
+    this.modalReference.close();
+    this.modalReference = undefined;
+  }
+}
 
 }
