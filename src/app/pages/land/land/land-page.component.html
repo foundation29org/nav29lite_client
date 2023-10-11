@@ -68,7 +68,7 @@
                                                     class="ml-2">{{'messages.m3.2' | translate
                                                     }}</span>
                                             </a>
-                                            <a class="dropdown-item py-1 danger" href="javascript:;"
+                                            <a *ngIf="!submitted" class="dropdown-item py-1 danger" href="javascript:;"
                                                 (click)="deleteDoc(doc, i);">
                                                 <i class="fa-1_5x fa fa-trash"></i><span
                                                     class="ml-2">{{'generics.Delete' | translate
@@ -83,10 +83,11 @@
                                     <span>
                                         Estado:
                                     </span>
-                                    <span *ngIf="doc.finish">
+                                    <span *ngIf="doc.state=='done'">
                                         <em class="fa fa-check fa-fw success"></em>
                                     </span>
-                                    <span *ngIf="!doc.finish">
+                                    <span *ngIf="doc.state!='done'">
+                                        <span *ngIf="doc.state=='uploading'">Extracting text</span>
                                         <em class="fa fa-spinner fa-spin fa-fw primary"></em>
                                     </span>
                                     
