@@ -163,7 +163,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     this.docs[index].state = 'uploading';
     const formData = new FormData();
     formData.append("thumbnail", this.docs[index].dataFile.event);
-    formData.append("url", this.dataFile.url);
+    formData.append("url", this.docs[index].dataFile.url);
     formData.append("docId", index);
     this.sendFile(formData, index);
   }
