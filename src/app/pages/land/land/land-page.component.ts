@@ -12,9 +12,6 @@ import Swal from 'sweetalert2';
 import { environment } from 'environments/environment';
 import { Clipboard } from "@angular/cdk/clipboard"
 
-declare var JSZipUtils: any;
-declare var Docxgen: any;
-
 @Component({
   selector: 'app-land',
   templateUrl: './land-page.component.html',
@@ -96,8 +93,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
         filename = filename.split(extension)[0];
         var uniqueFileName = this.getUniqueFileName();
           filename = uniqueFileName + '/' + filename + extension;
-          this.docs.push({ dataFile: { event: file, name: file.name, url: filename }, parserObject: { parserStrategy: 'Auto', callingParser: false, file: undefined }, langToExtract: '', medicalText: '', state: 'false' });
-        if (extension == '.jpg' || extension == '.png' || extension == '.jpeg' || event.target.files[0].type == 'application/pdf' || extension == '.docx' || event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+          this.docs.push({ dataFile: { event: file, name: file.name, url: filename }, langToExtract: '', medicalText: '', state: 'false' });
+        if (event.target.files[0].type == 'application/pdf' || extension == '.docx' || event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
           let index = this.docs.length - 1;
           //this.callParser(index);
           this.prepareFile(index);
@@ -124,8 +121,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
           filename = filename.split(extension)[0];
           var uniqueFileName = this.getUniqueFileName();
           filename = uniqueFileName + '/' + filename + extension;
-          this.docs.push({ dataFile: { event: file, name: file.name, url: filename }, parserObject: { parserStrategy: 'Auto', callingParser: false, file: undefined }, langToExtract: '', medicalText: '', state: 'false' });
-          if (extension == '.jpg' || extension == '.png' || extension == '.jpeg' || event.target.files[0].type == 'application/pdf' || extension == '.docx' || event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+          this.docs.push({ dataFile: { event: file, name: file.name, url: filename }, langToExtract: '', medicalText: '', state: 'false' });
+          if (event.target.files[0].type == 'application/pdf' || extension == '.docx' || event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
             let index = this.docs.length - 1;
             this.prepareFile(index);
           } else {

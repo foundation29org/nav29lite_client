@@ -76,9 +76,9 @@
                                             </a>
                                         </div>
                                     </span>
-                                    <span *ngIf="doc.parserObject.file">
-                                        <span class="d-inline-block">{{doc.parserObject.file.name}}</span>
-                                        <span class="d-block text-muted">{{ doc.parserObject.file.size | bytes }} </span>
+                                    <span *ngIf="doc.dataFile">
+                                        <span class="d-inline-block">{{doc.dataFile.name}}</span>
+                                        <span class="d-block text-muted">{{ doc.dataFile.event.size | bytes }} </span>
                                     </span>
                                     <span>
                                         Estado:
