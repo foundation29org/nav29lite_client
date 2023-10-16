@@ -4,7 +4,9 @@
     "or": "o",
     "Browse for file": "Busque el archivo",
     "Accepted files": "Ficheros aceptados: pdf, docx",
-    "descripReports": "Entendemos que estos datos son muy sensibles. Si no te registras todos los datos se borran al cerrar esta ventana."
+    "descripReports": "Entendemos que estos datos son muy sensibles. Si no te registras todos los datos se borran al cerrar esta ventana.",
+    "Tokens limit exceeded": "Límite de tokens excedido, elimine un documento para continuar.",
+    "Make a summary of the patient": "Haz un resumen del paciente"
    },
   "waitlist":{
     "title": "Para que no estés nunca con el culo al aire con tus datos médicos puedes probar Nav29",
