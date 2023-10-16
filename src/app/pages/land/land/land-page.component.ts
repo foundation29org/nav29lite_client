@@ -462,10 +462,16 @@ madeSummary(){
     this.subscription.add(this.http.post(environment.api + '/api/callsummary/', query)
       .subscribe(async (res: any) => {
         console.log(res)
-        this.translateInverseSummary(res.response).catch(error => {
-          console.error('Error al procesar el mensaje:', error);
-          this.insightsService.trackException(error);
-        });
+        if(res.response != undefined){
+          this.translateInverseSummary(res.response).catch(error => {
+            console.error('Error al procesar el mensaje:', error);
+            this.insightsService.trackException(error);
+          });
+        }else{
+          this.callingSummary = false;
+          this.toastr.error('', this.translate.instant("generics.error try again"));
+        }
+        
 
       }, (err) => {
         this.callingSummary = false;
@@ -485,17 +491,20 @@ async translateInverseSummary(msg): Promise<string> {
             msg = res2.text;
           }
           this.summaryPatient = msg;
+          this.summaryPatient = this.summaryPatient.replace(/\n/g, '<br>');
           this.callingSummary = false;
           resolve('ok')
         }, (err) => {
           console.log(err);
           this.insightsService.trackException(err);
           this.summaryPatient = msg;
+          this.summaryPatient = this.summaryPatient.replace(/\n/g, '<br>');
           this.callingSummary = false;
           resolve('ok')
         }));
     } else {
       this.summaryPatient = msg;
+      this.summaryPatient = this.summaryPatient.replace(/\n/g, '<br>');
       this.callingSummary = false;
       resolve('ok')
     }
