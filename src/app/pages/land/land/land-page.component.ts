@@ -45,6 +45,12 @@ export class LandPageComponent implements OnInit, OnDestroy {
   @ViewChild('contentSummaryDoc', { static: false }) contentSummaryDoc: TemplateRef<any>;
   modalReference: NgbModalRef;
   actualDoc: any = {};
+  totalTokens = 0;
+  readonly TOKENS_LIMIT: number = 80000;
+  modegod: boolean = false;
+  countModeGod: number = 0;
+  callingSummary: boolean = false;
+  summaryPatient: string = '';
 
   constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public insightsService: InsightsService, private clipboard: Clipboard) {
     this.screenWidth = window.innerWidth;
@@ -95,7 +101,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
         filename = filename.split(extension)[0];
         var uniqueFileName = this.getUniqueFileName();
           filename = uniqueFileName + '/' + filename + extension;
-          this.docs.push({ dataFile: { event: file, name: file.name, url: filename }, langToExtract: '', medicalText: '', state: 'false' });
+          this.docs.push({ dataFile: { event: file, name: file.name, url: filename }, langToExtract: '', medicalText: '', state: 'false', tokens: 0 });
         if (event.target.files[0].type == 'application/pdf' || extension == '.docx' || event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
           let index = this.docs.length - 1;
           //this.callParser(index);
@@ -123,7 +129,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
           filename = filename.split(extension)[0];
           var uniqueFileName = this.getUniqueFileName();
           filename = uniqueFileName + '/' + filename + extension;
-          this.docs.push({ dataFile: { event: file, name: file.name, url: filename }, langToExtract: '', medicalText: '', state: 'false' });
+          this.docs.push({ dataFile: { event: file, name: file.name, url: filename }, langToExtract: '', medicalText: '', state: 'false', tokens: 0 });
           if (event.target.files[0].type == 'application/pdf' || extension == '.docx' || event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
             let index = this.docs.length - 1;
             this.prepareFile(index);
@@ -176,6 +182,9 @@ export class LandPageComponent implements OnInit, OnDestroy {
       .subscribe((res: any) => {
         this.docs[res.doc_id].state = 'done';
         this.docs[res.doc_id].medicalText = res.data;
+        this.docs[res.doc_id].tokens = res.tokens;
+        this.totalTokens = this.totalTokens + res.tokens;
+        this.submitted = false;
       }, (err) => {
         this.docs[index].state = 'failed';
         console.log(err);
@@ -209,11 +218,16 @@ export class LandPageComponent implements OnInit, OnDestroy {
   }
 
   confirmDeleteDoc(doc, index) {
+    this.totalTokens = this.totalTokens - doc.tokens;
     this.docs.splice(index, 1);
   }
 
   sendMessage() {
     if (!this.message) {
+      return;
+    }
+    if(this.totalTokens > this.TOKENS_LIMIT){
+      this.toastr.error('', this.translate.instant("demo.Tokens limit exceeded"));
       return;
     }
 
@@ -407,5 +421,79 @@ async closeModal() {
     this.modalReference = undefined;
   }
 }
+
+copyConversationToClipboard() {
+  let conversationText = '';
+  let me = this.translate.instant("generics.Me")
+  for (let message of this.messages) {
+    console.log(message)
+    conversationText += message.isUser ? me+`: ${message.text}\n` : `Nav29: ${message.text}\n`;
+  }
+  navigator.clipboard.writeText(conversationText).then(() => {
+    alert('Conversación copiada al portapapeles.');
+  });
+}
+
+showModeGod(){
+  this.countModeGod++;
+  if(this.countModeGod == 5){
+    this.modegod = true;
+    this.toastr.success('', 'Mode God activated');
+  }
+}
+
+madeSummary(){
+  this.callingSummary = true;
+  this.summaryPatient = '';
+  this.context = [];
+    for (let doc of this.docs) {
+      this.context.push(doc.medicalText);
+    }
+    let uuid = localStorage.getItem('uuid');
+    var query = { "userId": uuid, "context": this.context, "conversation": this.conversation };
+    console.log(query)
+    this.subscription.add(this.http.post(environment.api + '/api/callsummary/', query)
+      .subscribe(async (res: any) => {
+        console.log(res)
+        this.translateInverseSummary(res.response).catch(error => {
+          console.error('Error al procesar el mensaje:', error);
+          this.insightsService.trackException(error);
+        });
+
+      }, (err) => {
+        this.callingSummary = false;
+        console.log(err);
+        this.insightsService.trackException(err);
+      }));
+}
+
+async translateInverseSummary(msg): Promise<string> {
+  return new Promise((resolve, reject) => {
+
+    if (this.detectedLang != 'en') {
+      var jsontestLangText = [{ "Text": msg }]
+      this.subscription.add(this.apiDx29ServerService.getDeepLTranslationInvert(this.detectedLang, jsontestLangText)
+        .subscribe((res2: any) => {
+          if (res2.text != undefined) {
+            msg = res2.text;
+          }
+          this.summaryPatient = msg;
+          this.callingSummary = false;
+          resolve('ok')
+        }, (err) => {
+          console.log(err);
+          this.insightsService.trackException(err);
+          this.summaryPatient = msg;
+          this.callingSummary = false;
+          resolve('ok')
+        }));
+    } else {
+      this.summaryPatient = msg;
+      this.callingSummary = false;
+      resolve('ok')
+    }
+  });
+}
+
 
 }
