@@ -1,13 +1,14 @@
 {
   "demo":{
-    "Drag and drop file here": "Drag and drop a report here",
+    "Drag and drop file here": "Drag and drop your reports here",
     "or": "or",
-    "Browse for file": "Browse for file",
+    "Browse for file": "Browse the files",
     "Accepted files": "Accepted files: pdf, docx",
-    "descripReports": "We understand that these data are very sensitive. If you do not register, all the data will be deleted when you close this window.",
+    "descripReports": "We understand that these data are very sensitive. All the data will be deleted when you close this window.",
     "Tokens limit exceeded": "Token limit exceeded, delete a document to continue.",
     "Make a summary of the patient": "Make a summary of the patient",
-    "No documents to summarize": "There are no documents to summarize, or you have not finished extracting the text."
+    "No documents to summarize": "There are no documents to summarize, or you have not finished extracting the text.",
+    "Add new reports": "Add new reports"
   },
   "waitlist":{
     "title": "So that you are never up to no good with your medical data you can try Nav29",

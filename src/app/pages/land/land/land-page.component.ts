@@ -516,5 +516,25 @@ async translateInverseSummary(msg): Promise<string> {
   });
 }
 
+/* let testLangText = '';
+    for (let doc of this.docs) {
+      if(doc.state == 'done'){
+        testLangText+=doc.medicalText;
+      }
+    }
+    testLangText = testLangText.substr(0, 2000)
+    this.subscription.add(this.apiDx29ServerService.getDetectLanguage(testLangText)
+        .subscribe((res: any) => {
+          if (res[0].language != 'en') {
+
+          }
+
+          }, (err) => {
+            console.log(err);
+            this.insightsService.trackException(err);
+            this.toastr.error('', this.translate.instant("generics.error try again"));
+          }));
+          */
+
 
 }

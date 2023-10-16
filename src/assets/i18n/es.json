@@ -1,13 +1,14 @@
 {
   "demo":{
-    "Drag and drop file here": "Arrastre y suelte un informe aquí",
+    "Drag and drop file here": "Arrastre y suelte sus informes aquí",
     "or": "o",
-    "Browse for file": "Busque el archivo",
+    "Browse for file": "Busque los archivos",
     "Accepted files": "Ficheros aceptados: pdf, docx",
-    "descripReports": "Entendemos que estos datos son muy sensibles. Si no te registras todos los datos se borran al cerrar esta ventana.",
+    "descripReports": "Entendemos que estos datos son muy sensibles. Todos los datos se borran al cerrar esta ventana.",
     "Tokens limit exceeded": "Límite de tokens excedido, elimine un documento para continuar.",
     "Make a summary of the patient": "Haz un resumen del paciente",
-    "No documents to summarize": "No hay documentos para resumir, o no ha terminado de extraer el texto."
+    "No documents to summarize": "No hay documentos para resumir, o no ha terminado de extraer el texto.",
+    "Add new reports": "Añadir nuevos informes"
    },
   "waitlist":{
     "title": "Para que no estés nunca con el culo al aire con tus datos médicos puedes probar Nav29",
@@ -183,7 +184,6 @@
     "expect3": "Por favor, ten paciencia mientras nuestra inteligencia artificial trabaja intensamente analizando tus reportes y cotejándolos con cientos de fuentes de información. Este proceso puede tardar hasta un minuto para garantizar una respuesta precisa y personalizada.",
     "expect4": "Estamos empleando nuestra inteligencia artificial para analizar tus reportes y compararlos con múltiples fuentes de información, para así ofrecerte la respuesta más precisa y personalizada posible. Esta tarea puede llevar hasta un minuto. Agradecemos tu paciencia durante este tiempo.",
     "expect5": "Nuestra inteligencia artificial está en pleno trabajo, analizando tus reportes y comparándolos con una vasta cantidad de fuentes de información para brindarte la mejor respuesta posible. Este procedimiento puede tomar hasta un minuto. Gracias por tu comprensión y paciencia",
-  "errindex": "An error occurred while processing the document. Please try again.",
     "errindex": "Ha ocurrido un error al procesar el documento. Por favor, vuelva a intentarlo.",
     "minago": "hace {{value}} minutos",
     "Mark all as read": "Marcar todo como leído",
