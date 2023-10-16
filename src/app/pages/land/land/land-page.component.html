@@ -132,7 +132,7 @@
                 <div class="center-elements">
                     <button class="btn btn-primary" [disabled]="callingSummary" (click)="madeSummary()">{{'demo.Make a summary of the patient' | translate }}</button>
                     <span *ngIf="callingSummary" class="d-block mt-2"><em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em></span>
-                    <div *ngIf="!callingSummary && summaryPatient!=''" class="d-block mt-2">
+                    <div *ngIf="!callingSummary && summaryPatient!=''" class="d-block mt-2 text-left">
                         <span [innerHTML]= "summaryPatient | safe: 'html'"></span>
                     </div>
                 </div>
