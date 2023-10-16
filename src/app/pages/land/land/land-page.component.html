@@ -109,7 +109,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="p-2">
+                        <div class="p-2" *ngIf="totalTokens>1000">
                             <div class="progress">
                                 <div 
                                   class="progress-bar" 
@@ -120,7 +120,7 @@
                                   aria-valuemax="TOKENS_LIMIT">
                                 </div>
                               </div>
-                              <p *ngIf="totalTokens>1000"> {{totalTokens | tokens}} / {{TOKENS_LIMIT |tokens}}</p>
+                              <p> {{totalTokens | tokens}} / {{TOKENS_LIMIT |tokens}}</p>
                               <p *ngIf="totalTokens>TOKENS_LIMIT" class="danger"> {{'demo.Tokens limit exceeded' | translate }}</p>
                         </div>
                         
@@ -137,8 +137,8 @@
                 </div>
             </div>
             <div class="col-md-7" *ngIf="docs.length>0">
-                <div class="card">
-                    <h5 class="text-muted mt-3" (click)="showModeGod()">{{'generics.Options' | translate }}</h5>
+                <div class="card card-body">
+                    <h5 class="text-muted" (click)="showModeGod()">{{'generics.Options' | translate }}</h5>
                     <div class="center-elements">
                         <button class="btn btn-primary" [disabled]="callingSummary" (click)="madeSummary()">{{'demo.Make a summary of the patient' | translate }}</button>
                         <span *ngIf="callingSummary" class="d-block mt-2"><em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em></span>
