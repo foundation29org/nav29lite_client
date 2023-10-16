@@ -54,6 +54,10 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
   constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public insightsService: InsightsService, private clipboard: Clipboard) {
     this.screenWidth = window.innerWidth;
+    if(sessionStorage.getItem('lang') == null){
+      sessionStorage.setItem('lang', this.translate.store.currentLang);
+
+    }
     this.lang = sessionStorage.getItem('lang');
     this.originalLang = sessionStorage.getItem('lang');
   }
@@ -463,6 +467,7 @@ madeSummary(){
       .subscribe(async (res: any) => {
         console.log(res)
         if(res.response != undefined){
+          res.response = res.response.replace(/\n/g, '<br>');
           this.translateInverseSummary(res.response).catch(error => {
             console.error('Error al procesar el mensaje:', error);
             this.insightsService.trackException(error);
@@ -483,9 +488,9 @@ madeSummary(){
 async translateInverseSummary(msg): Promise<string> {
   return new Promise((resolve, reject) => {
 
-    if (this.detectedLang != 'en') {
+    if (this.lang != 'en') {
       var jsontestLangText = [{ "Text": msg }]
-      this.subscription.add(this.apiDx29ServerService.getDeepLTranslationInvert(this.detectedLang, jsontestLangText)
+      this.subscription.add(this.apiDx29ServerService.getDeepLTranslationInvert(this.lang, jsontestLangText)
         .subscribe((res2: any) => {
           if (res2.text != undefined) {
             msg = res2.text;
