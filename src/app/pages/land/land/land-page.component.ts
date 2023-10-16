@@ -447,7 +447,14 @@ madeSummary(){
   this.summaryPatient = '';
   this.context = [];
     for (let doc of this.docs) {
-      this.context.push(doc.medicalText);
+      if(doc.state == 'done'){
+        this.context.push(doc.medicalText);
+      }
+    }
+    if(this.context.length == 0){
+      this.callingSummary = false;
+      this.toastr.error('', this.translate.instant("demo.No documents to summarize"));
+      return;
     }
     let uuid = localStorage.getItem('uuid');
     var query = { "userId": uuid, "context": this.context, "conversation": this.conversation };
