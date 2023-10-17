@@ -329,14 +329,19 @@ export class LandPageComponent implements OnInit, OnDestroy {
     console.log(query)
     this.subscription.add(this.http.post(environment.api + '/api/callnavigator/', query)
       .subscribe(async (res: any) => {
-
-        this.conversation.push({ role: "user", content: this.message });
-        this.conversation.push({ role: "assistant", content: res.response });
-        this.message = '';
-        this.translateInverse(res.response).catch(error => {
-          console.error('Error al procesar el mensaje:', error);
-          this.insightsService.trackException(error);
-        });
+        if(res.response != undefined){
+          this.conversation.push({ role: "user", content: this.message });
+          this.conversation.push({ role: "assistant", content: res.response });
+          this.message = '';
+          this.translateInverse(res.response).catch(error => {
+            console.error('Error al procesar el mensaje:', error);
+            this.insightsService.trackException(error);
+          });
+        }else{
+          this.callingOpenai = false;
+          this.toastr.error('', this.translate.instant("generics.error try again"));
+        }
+        
 
       }, (err) => {
         this.callingOpenai = false;
@@ -360,6 +365,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
             if (res2.text != undefined) {
               msg = res2.text;
             }
+            msg = msg.replace(/\\n\\n/g, '<br>');
+            msg = msg.replace(/\n/g, '<br>');
             this.messages.push({
               text: msg,
               isUser: false
@@ -369,6 +376,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
           }, (err) => {
             console.log(err);
             this.insightsService.trackException(err);
+            msg = msg.replace(/\\n\\n/g, '<br>');
+            msg = msg.replace(/\n/g, '<br>');
             this.messages.push({
               text: msg,
               isUser: false
@@ -377,6 +386,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
             resolve('ok')
           }));
       } else {
+        msg = msg.replace(/\\n\\n/g, '<br>');
+        msg = msg.replace(/\n/g, '<br>');
         this.messages.push({
           text: msg,
           isUser: false
@@ -467,6 +478,7 @@ madeSummary(){
       .subscribe(async (res: any) => {
         console.log(res)
         if(res.response != undefined){
+          res.response = res.response.replace(/\\n\\n/g, '<br>');
           res.response = res.response.replace(/\n/g, '<br>');
           this.translateInverseSummary(res.response).catch(error => {
             console.error('Error al procesar el mensaje:', error);
@@ -496,6 +508,7 @@ async translateInverseSummary(msg): Promise<string> {
             msg = res2.text;
           }
           this.summaryPatient = msg;
+          this.summaryPatient = this.summaryPatient.replace(/\\n\\n/g, '<br>');
           this.summaryPatient = this.summaryPatient.replace(/\n/g, '<br>');
           this.callingSummary = false;
           resolve('ok')
@@ -503,12 +516,14 @@ async translateInverseSummary(msg): Promise<string> {
           console.log(err);
           this.insightsService.trackException(err);
           this.summaryPatient = msg;
+          this.summaryPatient = this.summaryPatient.replace(/\\n\\n/g, '<br>');
           this.summaryPatient = this.summaryPatient.replace(/\n/g, '<br>');
           this.callingSummary = false;
           resolve('ok')
         }));
     } else {
       this.summaryPatient = msg;
+      this.summaryPatient = this.summaryPatient.replace(/\\n\\n/g, '<br>');
       this.summaryPatient = this.summaryPatient.replace(/\n/g, '<br>');
       this.callingSummary = false;
       resolve('ok')
@@ -536,5 +551,27 @@ async translateInverseSummary(msg): Promise<string> {
           }));
           */
 
+          async deleteChat() {
+            this.messages = [];
+            this.initChat();
+          }
+
+          initChat() {
+            if (this.messages.length == 0) {
+              this.messages = [];
+              if (this.docs.length == 0) {
+                this.messages.push({
+                  text: this.translate.instant('home.botmsg1'),
+                  isUser: false
+                });
+              } else {
+                this.messages.push({
+                  text: this.translate.instant('home.botmsg2'),
+                  isUser: false
+                });
+              }
+            }
+        
+          }
 
 }
