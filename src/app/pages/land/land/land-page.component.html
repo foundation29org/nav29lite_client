@@ -146,8 +146,8 @@
                             <span [innerHTML]= "summaryPatient | safe: 'html'"></span>
                         </div>
                     </div>
-                    <div *ngIf="modegod">
-                        <h5 class="text-muted mt-3">{{'home.s1.2' | translate }}
+                    <div class="p-2 rounded bg-grey" *ngIf="modegod">
+                        <h5 class="text-muted mt-3 white">{{'home.s1.2' | translate }}
                             <button class="float-right btn btn-primary" (click)="deleteChat()">
                                 <em class="fa fa-plus mr-1"></em> {{'home.s1.2.1' | translate }}
                             </button>
