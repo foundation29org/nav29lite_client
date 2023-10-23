@@ -87,13 +87,13 @@
                                     <span *ngIf="doc.state=='done'">
                                         <em class="fa fa-check fa-fw success"></em>
                                     </span>
-                                    <span *ngIf="doc.state!='done'">
+                                    <span *ngIf="doc.state!='done' && doc.state!='failed'">
                                         <span *ngIf="doc.state=='uploading'">{{'messages.m1.1' | translate }}</span>
                                         <em class="fa fa-spinner fa-spin fa-fw primary"></em>
                                     </span>
-                                    
-                                    
-                                    
+                                    <span *ngIf="doc.state=='failed'">
+                                        <em class="fa fa-times fa-fw danger"></em>
+                                    </span>
                                 </span>
                                 <div class="d-block">
                                     <span *ngIf="doc.numTotalEvents>0">
