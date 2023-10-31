@@ -62,15 +62,21 @@
                                         </a>
                                         <div ngbDropdownMenu aria-labelledby="dropdownSympt{{i}}"
                                             class="dropdown">
-                                            <a class="dropdown-item py-1" href="javascript:;"
+                                            <a class="dropdown-item py-1" 
+                                            (click)="getBlobUrl(doc)"
+                                            target="_blank">
+                                                <i class="fa fa-file"></i>
+                                                <span class="ml-2">{{'messages.m1.3' | translate }}</span>
+                                            </a>
+                                            <!--<a class="dropdown-item py-1" href="javascript:;"
                                                 (click)="openResults(doc, contentSummaryDoc)">
-                                                <i class="fa-1_5x fa fa-file"></i><span
+                                                <i class="fa fa-file"></i><span
                                                     class="ml-2">{{'messages.m1.2' | translate
                                                     }}</span>
-                                            </a>
+                                            </a>-->
                                             <a *ngIf="doc.state=='done'" class="dropdown-item py-1 danger" href="javascript:;"
                                                 (click)="deleteDoc(doc, i);">
-                                                <i class="fa-1_5x fa fa-trash"></i><span
+                                                <i class="fa fa-trash"></i><span
                                                     class="ml-2">{{'generics.Delete' | translate
                                                     }}</span>
                                             </a>
@@ -140,7 +146,10 @@
                 <div class="card card-body">
                     <h5 class="text-muted" (click)="showModeGod()">{{'generics.Options' | translate }}</h5>
                     <div class="center-elements">
-                        <button class="btn btn-primary" [disabled]="callingSummary" (click)="madeSummary()">{{'demo.Make a summary of the patient' | translate }}</button>
+                        <button class="btn btn-primary float-left" [disabled]="callingSummary" (click)="madeSummary()">{{'demo.Make a summary of the patient' | translate }}</button>
+                        <a class="btn btn-primary float-right" *ngIf="!callingSummary && summaryPatient!=''" [disabled]="callingSummary" href="https://uueho380s3z.typeform.com/to/HWWpbcAy" target="_blank">{{'demo.Make evaluation' | translate }}</a>
+                    </div>
+                    <div class="center-elements">
                         <span *ngIf="callingSummary" class="d-block mt-2"><em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em></span>
                         <div *ngIf="!callingSummary && summaryPatient!=''" class="d-block mt-2 text-left">
                             <span [innerHTML]= "summaryPatient | safe: 'html'"></span>
@@ -239,3 +248,45 @@
         </div>
     </div>
 </ng-template>
+<ng-template #contentIntro let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-body">
+      <div class="row text-left">
+        <div class="card-body col-md-12">
+          <div class="row">
+            <div class="col-sm-12" *ngIf="stepDisclaimer==1">
+              <h5><strong>{{'disclaimer.t1' | translate }}</strong></h5>
+              <p>{{'disclaimer.m1.1' | translate }}</p>
+              <p class="mb-1"><strong>{{'disclaimer.m1.2' | translate }}</strong></p>
+              <ul class="pl-0">
+                <li><strong>{{'disclaimer.m1.3' | translate }}</strong> {{'disclaimer.m1.4' | translate }}</li>
+                <li><strong>{{'disclaimer.m1.5' | translate }}</strong> {{'disclaimer.m1.6' | translate }}</li>
+                <li><strong>{{'disclaimer.m1.7' | translate }}</strong> {{'disclaimer.m1.8' | translate }}</li>
+              </ul>
+              <p>{{'disclaimer.m1.9' | translate }}</p>
+            </div>
+            <div class="col-sm-12" *ngIf="stepDisclaimer==2">
+              <h5><strong>{{'disclaimer.t2' | translate }}</strong></h5>
+              <p>{{'disclaimer.m2.1' | translate }}</p>
+              <p class="mb-0"><strong>{{'disclaimer.m2.2' | translate }}</strong></p>
+              <p>{{'disclaimer.m2.3' | translate }}</p>
+              <p class="mb-0"><strong>{{'disclaimer.m2.4' | translate }}</strong></p>
+              <p>{{'disclaimer.m2.5' | translate }}</p>
+              <p class="mb-0"><strong>{{'disclaimer.m2.6' | translate }}</strong></p>
+              <p>{{'disclaimer.m2.7' | translate }}</p>
+              <p class="mb-0"><strong>{{'disclaimer.m2.8' | translate }}</strong></p>
+              <p>{{'disclaimer.m2.9' | translate }}</p>
+              <p>{{'disclaimer.m2.10' | translate }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="form-actions col-md-12 center-elements">
+        <button type="button" *ngIf="stepDisclaimer>1" class="btn round btn-secondary float-left" (click)="prevDisclaimer();">{{'generics.Back' | translate }}</button>
+        <button type="button" *ngIf="stepDisclaimer==1" class="btn round btn-primary float-right" (click)="nextDisclaimer()">{{'generics.Begin' | translate }}</button>
+        <button type="button" *ngIf="stepDisclaimer==2" class="btn round btn-primary float-right" (click)="nextDisclaimer()">{{'generics.I agree' | translate }}</button>
+      </div>
+    </div>
+  </ng-template>
+<button id="openModalIntro" [hidden]="true" (click)="showPanelIntro(contentIntro)">.</button>

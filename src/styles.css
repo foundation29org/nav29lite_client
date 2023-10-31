@@ -88,9 +88,13 @@ span{
   font-size: 1rem !important;
 }
 
-/*body{
-  font-size: 11px !important;
-}*/
+body, button{
+  font-size: 0.8rem !important;
+}
+
+.card, .form-control, form label, .dropdown-menu {
+  font-size: 0.8rem !important;
+}
 
 .dark{
   color: #343a40;
