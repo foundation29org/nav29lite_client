@@ -51,6 +51,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
   countModeGod: number = 0;
   callingSummary: boolean = false;
   summaryPatient: string = '';
+  stepDisclaimer: number = 1;
 
   constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public insightsService: InsightsService, private clipboard: Clipboard) {
     this.screenWidth = window.innerWidth;
@@ -70,6 +71,9 @@ export class LandPageComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+
+    this.showDisclaimer();
+
     this.loadedDocs = true;
     if (this.docs.length == 0) {
       this.step = 1;
@@ -85,6 +89,47 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
   }
 
+  showDisclaimer() {
+    console.log(localStorage.getItem('hideDisclaimerlite'))
+    if (localStorage.getItem('hideDisclaimerlite') == null || !localStorage.getItem('hideDisclaimerlite')) {
+        this.stepDisclaimer = 1;
+        document.getElementById("openModalIntro").click();
+    }
+  }
+
+  showPanelIntro(content) {
+    if (this.modalReference != undefined) {
+        this.modalReference.close();
+    }
+    let ngbModalOptions: NgbModalOptions = {
+        backdrop: 'static',
+        keyboard: false,
+        windowClass: 'ModalClass-sm'
+    };
+    this.modalReference = this.modalService.open(content, ngbModalOptions);
+}
+
+nextDisclaimer() {
+  this.stepDisclaimer++;
+  if (this.stepDisclaimer > 2) {
+      this.finishDisclaimer();
+  }
+}
+
+prevDisclaimer() {
+  this.stepDisclaimer--;
+}
+
+finishDisclaimer() {
+  if (this.modalReference != undefined) {
+      this.modalReference.close();
+  }
+  localStorage.setItem('hideDisclaimerlite', 'true')
+}
+
+showForm() {
+}
+
 
   isSmallScreen(): boolean {
     return this.screenWidth < 576; // Bootstrap's breakpoint for small screen
@@ -93,7 +138,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
   onFileDropped(event) {
     for (let file of event) {
       var reader = new FileReader();
-      reader.readAsDataURL(file); // read file as data url
+      reader.readAsArrayBuffer(file); // read file as data url
       reader.onload = (event2: any) => { // called once readAsDataURL is completed
         var filename = (file).name;
         var extension = filename.substr(filename.lastIndexOf('.'));
@@ -105,7 +150,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
         filename = filename.split(extension)[0];
         var uniqueFileName = this.getUniqueFileName();
           filename = uniqueFileName + '/' + filename + extension;
-          this.docs.push({ dataFile: { event: file, name: file.name, url: filename }, langToExtract: '', medicalText: '', state: 'false', tokens: 0 });
+          this.docs.push({ dataFile: { event: file, name: file.name, url: filename, content: event2.target.result }, langToExtract: '', medicalText: '', state: 'false', tokens: 0 });
         if (event.target.files[0].type == 'application/pdf' || extension == '.docx' || event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
           let index = this.docs.length - 1;
           //this.callParser(index);
@@ -121,7 +166,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
     for (let file of event.target.files) {
       if (event.target.files && file) {
         var reader = new FileReader();
-        reader.readAsDataURL(file); // read file as data url
+        reader.readAsArrayBuffer(file); // read file as data url
         reader.onload = (event2: any) => { // called once readAsDataURL is completed
           var filename = (file).name;
           var extension = filename.substr(filename.lastIndexOf('.'));
@@ -133,7 +178,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
           filename = filename.split(extension)[0];
           var uniqueFileName = this.getUniqueFileName();
           filename = uniqueFileName + '/' + filename + extension;
-          this.docs.push({ dataFile: { event: file, name: file.name, url: filename }, langToExtract: '', medicalText: '', state: 'false', tokens: 0 });
+          this.docs.push({ dataFile: { event: file, name: file.name, url: filename, content: event2.target.result }, langToExtract: '', medicalText: '', state: 'false', tokens: 0 });
           if (event.target.files[0].type == 'application/pdf' || extension == '.docx' || event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
             let index = this.docs.length - 1;
             this.prepareFile(index);
@@ -417,7 +462,13 @@ export class LandPageComponent implements OnInit, OnDestroy {
     }, 2000);
 }
 
+getBlobUrl(doc){
+  let url = URL.createObjectURL(doc.dataFile.event);
+  window.open(url);
+}
+
 openResults(doc, contentSummaryDoc) {
+  console.log(doc)
   this.actualDoc=doc;
   let ngbModalOptions: NgbModalOptions = {
     keyboard: false,
