@@ -59,8 +59,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
       sessionStorage.setItem('lang', this.translate.store.currentLang);
 
     }
-    this.lang = sessionStorage.getItem('lang');
-    this.originalLang = sessionStorage.getItem('lang');
+    this.lang = this.translate.store.currentLang;
+    this.originalLang = this.translate.store.currentLang;
   }
 
   async ngOnDestroy() {
@@ -151,7 +151,7 @@ showForm() {
         var uniqueFileName = this.getUniqueFileName();
           filename = uniqueFileName + '/' + filename + extension;
           this.docs.push({ dataFile: { event: file, name: file.name, url: filename, content: event2.target.result }, langToExtract: '', medicalText: '', state: 'false', tokens: 0 });
-        if (event.target.files[0].type == 'application/pdf' || extension == '.docx' || event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        if (file.type == 'application/pdf' || extension == '.docx' || file.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
           let index = this.docs.length - 1;
           //this.callParser(index);
           this.prepareFile(index);
