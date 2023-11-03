@@ -407,6 +407,70 @@ showForm() {
 
   async translateInverse(msg): Promise<string> {
     return new Promise((resolve, reject) => {
+  
+      // Función auxiliar para procesar el contenido de la tabla
+      const processTable = (tableContent) => {
+        // Dentro de las tablas, mantenemos los saltos de línea intactos
+        return tableContent;
+      };
+  
+      // Función auxiliar para procesar el texto fuera de las tablas
+      const processNonTableContent = (text) => {
+        // Fuera de las tablas, convertimos los saltos de línea en <br>
+        return text.replace(/\\n\\n/g, '<br>').replace(/\n/g, '<br>');
+      };
+  
+      if (this.detectedLang != 'en') {
+        var jsontestLangText = [{ "Text": msg }];
+        this.subscription.add(this.apiDx29ServerService.getDeepLTranslationInvert(this.detectedLang, jsontestLangText)
+          .subscribe((res2: any) => {
+            if (res2.text != undefined) {
+              msg = res2.text;
+            }
+  
+            // Dividimos el mensaje en partes de tabla y no tabla
+            const parts = msg.split(/(<table>|<\/table>)/);
+  
+            // Procesamos las secciones y reconstruimos el mensaje final
+            msg = parts.map((part, index) => {
+              // Solo procesamos el texto fuera de las etiquetas de la tabla
+              if (part === '<table>' || part === '</table>') {
+                return part;
+              }
+              return index % 4 === 2 ? processTable(part) : processNonTableContent(part);
+            }).join('');
+  
+            this.messages.push({
+              text: msg,
+              isUser: false
+            });
+            this.callingOpenai = false;
+            resolve('ok');
+          }, (err) => {
+            console.log(err);
+            this.insightsService.trackException(err);
+            msg = processNonTableContent(msg);
+            this.messages.push({
+              text: msg,
+              isUser: false
+            });
+            this.callingOpenai = false;
+            resolve('ok');
+          }));
+      } else {
+        msg = processNonTableContent(msg);
+        this.messages.push({
+          text: msg,
+          isUser: false
+        });
+        this.callingOpenai = false;
+        resolve('ok');
+      }
+    });
+  }
+  
+  async translateInverse2(msg): Promise<string> {
+    return new Promise((resolve, reject) => {
 
       if (this.detectedLang != 'en') {
         var jsontestLangText = [{ "Text": msg }]
@@ -553,7 +617,7 @@ madeSummary(){
       }));
 }
 
-async translateInverseSummary(msg): Promise<string> {
+async translateInverseSummary2(msg): Promise<string> {
   return new Promise((resolve, reject) => {
 
     if (this.lang != 'en') {
@@ -586,6 +650,54 @@ async translateInverseSummary(msg): Promise<string> {
     }
   });
 }
+
+async translateInverseSummary(msg): Promise<string> {
+  return new Promise((resolve, reject) => {
+    // Función auxiliar para procesar el contenido de la tabla
+    const processTable = (tableContent) => {
+      return tableContent.replace(/\n/g, ''); // Eliminar saltos de línea dentro de la tabla
+    };
+
+    // Función auxiliar para procesar el texto fuera de las tablas
+    const processNonTableContent = (text) => {
+      return text.replace(/\\n\\n/g, '<br>').replace(/\n/g, '<br>');
+    };
+
+    if (this.lang != 'en') {
+      var jsontestLangText = [{ "Text": msg }]
+      this.subscription.add(this.apiDx29ServerService.getDeepLTranslationInvert(this.lang, jsontestLangText)
+        .subscribe((res2: any) => {
+          if (res2.text != undefined) {
+            msg = res2.text;
+          }
+          
+          // Aquí procesamos el mensaje
+          const parts = msg.split(/(<table>|<\/table>)/); // Divide el mensaje en partes de tabla y no tabla
+          this.summaryPatient = parts.map((part, index) => {
+            if (index % 4 === 2) { // Los segmentos de tabla estarán en las posiciones 2, 6, 10, etc. (cada 4 desde el segundo)
+              return processTable(part);
+            } else {
+              return processNonTableContent(part);
+            }
+          }).join('');
+
+          this.callingSummary = false;
+          resolve('ok');
+        }, (err) => {
+          console.log(err);
+          this.insightsService.trackException(err);
+          this.summaryPatient = processNonTableContent(msg);
+          this.callingSummary = false;
+          resolve('ok');
+        }));
+    } else {
+      this.summaryPatient = processNonTableContent(msg);
+      this.callingSummary = false;
+      resolve('ok');
+    }
+  });
+}
+
 
 /* let testLangText = '';
     for (let doc of this.docs) {
