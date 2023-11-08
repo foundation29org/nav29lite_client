@@ -46,7 +46,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
   modalReference: NgbModalRef;
   actualDoc: any = {};
   totalTokens = 0;
-  readonly TOKENS_LIMIT: number = 80000;
+  readonly TOKENS_LIMIT: number = 100000;
   modegod: boolean = false;
   countModeGod: number = 0;
   callingSummary: boolean = false;
@@ -598,6 +598,7 @@ madeSummary(){
       .subscribe(async (res: any) => {
         console.log(res)
         if(res.response != undefined){
+          res.response = res.response.replace(/^```html\n|\n```$/g, '');
           res.response = res.response.replace(/\\n\\n/g, '<br>');
           res.response = res.response.replace(/\n/g, '<br>');
           this.translateInverseSummary(res.response).catch(error => {
