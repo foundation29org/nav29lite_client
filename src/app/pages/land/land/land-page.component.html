@@ -156,23 +156,20 @@
                         </div>
                         <div class="col-md-12">
                             <div class="center-elements">
-                                <button class="btn btn-primary mr-1" (click)="madeSummary('physician')">{{'demo.a physician' | translate }}</button>
-                                <button class="btn btn-primary ml-1 mr-1" (click)="selectSubrole()">{{'demo.a patient' | translate }}</button>
-                                <button class="btn btn-primary ml-1" (click)="madeSummary('transcript')">{{'demo.Summarise the transcript' | translate }}</button>
+                                <button class="mb-2 btn btn-primary mr-1" (click)="madeSummary('physician')">{{'demo.a physician' | translate }}</button>
+                                <button class="mb-2 btn btn-primary ml-1 mr-1" (click)="selectSubrole()">{{'demo.a patient' | translate }}</button>
+                                <button class="mb-2 btn btn-primary ml-1" (click)="madeSummary('transcript')">{{'demo.Summarise the transcript' | translate }}</button>
                             </div>
                             <div *ngIf="showPatientTypeButtons" class="center-elements mt-3">
                                 <div class="col-md-12">
-                                    <h5 class="text-muted text-center">{{'demo.The patient is' | translate }}</h5>
+                                    <h5 class="text-muted text-center">{{'demo.Written for' | translate }}</h5>
                                 </div>
                                 <div class="col-md-12">
-                                    <button class="btn btn-secondary mr-1" (click)="madeSummary('pediatric')">
-                                        {{ 'demo.Pediatric' | translate }}
+                                    <button class="mb-2 btn btn-secondary ml-1" (click)="madeSummary('adult')">
+                                        {{ 'demo.Adults' | translate }}
                                     </button>
-                                    <button class="btn btn-secondary ml-1" (click)="madeSummary('adult')">
-                                        {{ 'demo.Adult' | translate }}
-                                    </button>
-                                    <button class="btn btn-secondary ml-1" (click)="madeSummary('young')">
-                                        {{ 'demo.For kids' | translate }}
+                                    <button class="mb-2 btn btn-secondary ml-1" (click)="madeSummary('young')">
+                                        {{ 'demo.Children' | translate }}
                                     </button>
                                 </div>
                                 
