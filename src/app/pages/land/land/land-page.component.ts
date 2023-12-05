@@ -10,12 +10,14 @@ import { InsightsService } from 'app/shared/services/azureInsights.service';
 import Swal from 'sweetalert2';
 import { environment } from 'environments/environment';
 import { Clipboard } from "@angular/cdk/clipboard"
+import { jsPDFService } from 'app/shared/services/jsPDF.service'
+import * as QRCode from 'qrcode';
 
 @Component({
   selector: 'app-land',
   templateUrl: './land-page.component.html',
   styleUrls: ['./land-page.component.scss'],
-  providers: [ApiDx29ServerService]
+  providers: [ApiDx29ServerService, jsPDFService]
 })
 
 export class LandPageComponent implements OnInit, OnDestroy {
@@ -52,8 +54,9 @@ export class LandPageComponent implements OnInit, OnDestroy {
   callingSummary: boolean = false;
   summaryPatient: string = '';
   stepDisclaimer: number = 1;
+  showPatientTypeButtons = false;
 
-  constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public insightsService: InsightsService, private clipboard: Clipboard) {
+  constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public insightsService: InsightsService, private clipboard: Clipboard, public jsPDFService: jsPDFService) {
     this.screenWidth = window.innerWidth;
     if(sessionStorage.getItem('lang') == null){
       sessionStorage.setItem('lang', this.translate.store.currentLang);
@@ -577,7 +580,14 @@ showModeGod(){
   }
 }
 
-madeSummary(){
+selectSubrole(){
+  this.showPatientTypeButtons = true;
+}
+
+madeSummary(role){
+  if(role=='physician'){
+    this.showPatientTypeButtons = false;
+  }
   this.callingSummary = true;
   this.summaryPatient = '';
   this.context = [];
@@ -592,11 +602,9 @@ madeSummary(){
       return;
     }
     let uuid = localStorage.getItem('uuid');
-    var query = { "userId": uuid, "context": this.context, "conversation": this.conversation };
-    console.log(query)
+    var query = { "userId": uuid, "context": this.context, "conversation": this.conversation, "role": role };
     this.subscription.add(this.http.post(environment.api + '/api/callsummary/', query)
       .subscribe(async (res: any) => {
-        console.log(res)
         if(res.response != undefined){
           res.response = res.response.replace(/^```html\n|\n```$/g, '');
           res.response = res.response.replace(/\\n\\n/g, '<br>');
@@ -741,6 +749,26 @@ async translateInverseSummary(msg): Promise<string> {
               }
             }
         
+          }
+
+          async download(){
+           
+            const qrCodeDataURL = await QRCode.toDataURL('https://uueho380s3z.typeform.com/to/HWWpbcAy');
+            console.log(this.summaryPatient)
+            let tempSumary = this.summaryPatient.replace(/<br\s*\/?>/gi, '').replace(/\s{2,}/g, ' ');
+            this.jsPDFService.generateResultsPDF(tempSumary, this.translate.store.currentLang, qrCodeDataURL)
+            /* let htmldemo={"text":"<div><br>  <h3>Resumen médico</h3><br>  <p>Los documentos que acaba de cargar son historiales médicos y ayudan a explicar su historial de salud, su estado actual y los tratamientos en curso. Este resumen está diseñado para ofrecerle una comprensión clara de su situación médica.</p><br>  <h4>Presentación del paciente</h4><br>  <p>El paciente es Sergio Isla Miranda, un varón de 14 años con un historial de afecciones médicas complejas, principalmente de naturaleza neurológica.</p><br>  <h4>Diagnósticos</h4><br>  <ul><br>    <li><strong>Epilepsia:</strong> Sergio padece epilepsia refractaria, concretamente Síndrome de Dravet, que es una forma grave de epilepsia de difícil tratamiento.</li><br>    <li><strong>Trastornos del desarrollo:</strong> Tiene un trastorno generalizado del desarrollo y un trastorno grave del lenguaje expresivo y comprensivo.</li><br>    <li><strong>Condiciones físicas:</strong> Sergio también tiene los pies muy arqueados (pies cavos), anemia ferropénica y una curvatura de la columna vertebral (escoliosis dorsolumbar).</li><br>  </ul><br>  <h4>Tratamiento y medicación</h4><br>  <ul><br>    <li><strong>Medicación:</strong> Sergio toma varios medicamentos, entre ellos Diacomit, Depakine, Noiafren y Fenfluramina para controlar su epilepsia.</li><br>    <li><strong>Suplementos:</strong> También toma suplementos de hierro para tratar su anemia.</li><br>    <li><strong>Terapias:</strong> Participa en fisioterapia, logopedia y educación física adaptada para favorecer su desarrollo y su salud física.</li><br>  </ul><br>  <h4>Otros</h4><br>  <ul><br>    <li>Sergio ha sufrido estados epilépticos, que son ataques prolongados que requieren atención médica inmediata.</li><br>    <li>Tiene una mutación en el gen SCN1A, que está asociada a su epilepsia.</li><br>    <li>Su plan de tratamiento se sigue de cerca y se ajusta según sea necesario para controlar su enfermedad.</li><br>    <li>Sergio requiere atención y seguimiento continuos debido a la gravedad de su epilepsia, que puede incluir emergencias potencialmente mortales como una parada cardiaca.</li><br>  </ul><br>  <p>Es importante que Sergio y sus cuidadores mantengan una comunicación abierta con los profesionales sanitarios para garantizar el mejor tratamiento posible de su enfermedad.</p><br></div>"};
+            htmldemo.text = htmldemo.text.replace(/<br\s*\/?>/gi, '').replace(/\s{2,}/g, ' ');
+            this.jsPDFService.generateResultsPDF(htmldemo.text, this.translate.store.currentLang, qrCodeDataURL)*/
+          }
+
+          openFeedback(){
+            //href="https://uueho380s3z.typeform.com/to/HWWpbcAy"
+            window.open("https://uueho380s3z.typeform.com/to/HWWpbcAy", "_blank");
+          }
+
+          newSummary(){
+            this.summaryPatient = '';
           }
 
 }

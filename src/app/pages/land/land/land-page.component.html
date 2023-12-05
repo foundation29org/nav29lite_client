@@ -1,6 +1,7 @@
 <div *ngIf="!loadedDocs">
     <div class="mt-4 mx-auto center-elements" style="max-width: 40rem !important;">
         <em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em>
+        <p>{{'generics.Please wait' | translate }}</p>
     </div>
 </div>
 <div *ngIf="loadedDocs">
@@ -31,7 +32,7 @@
                             <div class="media pb-1">
                                 <div class="media-body text-left">
                                     <span *ngIf="loadedDocs">
-                                        <h3 class="font-large-1 mb-0" *ngIf="docs.length>0">
+                                        <h3 class="font-large-1 mb-0" *ngIf="docs.length>0" (click)="showModeGod()">
                                             {{docs.length}}</h3>
                                         <h3 class="font-large-1 mb-0" *ngIf="docs.length==0">0</h3>
                                     </span>
@@ -144,15 +145,49 @@
             </div>
             <div class="col-md-7" *ngIf="docs.length>0">
                 <div class="card card-body">
-                    <h5 class="text-muted" (click)="showModeGod()">{{'generics.Options' | translate }}</h5>
-                    <div class="center-elements">
-                        <button class="btn btn-primary float-left" [disabled]="callingSummary" (click)="madeSummary()">{{'demo.Make a summary of the patient' | translate }}</button>
-                        <a class="btn btn-primary float-right" *ngIf="!callingSummary && summaryPatient!=''" [disabled]="callingSummary" href="https://uueho380s3z.typeform.com/to/HWWpbcAy" target="_blank">{{'demo.Make evaluation' | translate }}</a>
+                    <div class="row" *ngIf="callingSummary">
+                        <div class="col-md-12">
+                            <span class="d-block mt-2 center-elements"><em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em></span>
+                        </div>
                     </div>
-                    <div class="center-elements">
-                        <span *ngIf="callingSummary" class="d-block mt-2"><em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em></span>
-                        <div *ngIf="!callingSummary && summaryPatient!=''" class="d-block mt-2 text-left">
-                            <span [innerHTML]= "summaryPatient | safe: 'html'"></span>
+                    <div class="row" *ngIf="!callingSummary && summaryPatient==''">
+                        <div class="col-md-12">
+                            <h5 class="text-muted text-center">{{'demo.Make a summary for' | translate }}</h5>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="center-elements">
+                                <button class="btn btn-primary mr-1" (click)="madeSummary('physician')">{{'demo.a physician' | translate }}</button>
+                                <button class="btn btn-primary ml-1 mr-1" (click)="selectSubrole()">{{'demo.a patient' | translate }}</button>
+                                <button class="btn btn-primary ml-1" (click)="madeSummary('transcript')">{{'demo.Summarise the transcript' | translate }}</button>
+                            </div>
+                            <div *ngIf="showPatientTypeButtons" class="center-elements mt-3">
+                                <div class="col-md-12">
+                                    <h5 class="text-muted text-center">{{'demo.The patient is' | translate }}</h5>
+                                </div>
+                                <div class="col-md-12">
+                                    <button class="btn btn-secondary mr-1" (click)="madeSummary('pediatric')">
+                                        {{ 'demo.Pediatric' | translate }}
+                                    </button>
+                                    <button class="btn btn-secondary ml-1" (click)="madeSummary('adult')">
+                                        {{ 'demo.Adult' | translate }}
+                                    </button>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="!callingSummary && summaryPatient!=''">
+                        <div class="center-elements">
+                            <div class="d-block mt-2">
+                                <div class="center-elements">
+                                    <button class="btn btn-primary mr-1" (click)="newSummary()">{{'demo.New summary' | translate }}</button>
+                                    <button class="btn btn-primary ml-1 mr-1" (click)="openFeedback()" target="_blank">{{'demo.Make evaluation' | translate }}</button>
+                                    <button class="btn btn-primary ml-1" (click)="download()">{{'generics.ExportData' | translate }}</button>
+                                </div>
+                                <div class="text-left p-2">
+                                    <span [innerHTML]= "summaryPatient | safe: 'html'"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="p-2 mt-2 rounded bg-grey" *ngIf="modegod">
@@ -215,6 +250,7 @@
                             </span>
                         </div>
                     </div>
+                    
                 </div>
                 
                 

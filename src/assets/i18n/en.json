@@ -6,7 +6,14 @@
     "Accepted files": "Accepted files: pdf, docx",
     "descripReports": "We understand that these data are very sensitive. All the data will be deleted when you close this window.",
     "Tokens limit exceeded": "Token limit exceeded, delete a document to continue.",
-    "Make a summary of the patient": "Make a summary of the patient",
+    "Make a summary for": "Make a summary for",
+    "a patient": "A patient",
+    "a physician": "A physician",
+    "Summarise the transcript": "Summarise the transcript",
+    "The patient is": "The patient is",
+    "Pediatric": "Pediatric",
+    "Adult": "Adult",
+    "New summary": "New summary",
     "Make evaluation": "Make evaluation",
     "No documents to summarize": "There are no documents to summarize, or you have not finished extracting the text.",
     "Add new reports": "Add new reports"
@@ -1292,7 +1299,7 @@
   },
   "pdf":{
     "page": "Page",
-    "Scan to view the patient data": "Scan to view the patient data"
+    "Scan to rate the summary": "Scan to rate the summary"
   },
   "open":{
     "Public sharing": "Share",
