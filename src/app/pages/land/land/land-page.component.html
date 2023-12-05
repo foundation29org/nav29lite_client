@@ -225,11 +225,11 @@
                             <div class="chat-messages pt-2" *ngIf="callingOpenai"  style="border-radius: 1rem;">
                                 <span class="response-message font-small-3" style="background-color: white !important;" [innerHTML]="messagesExpectOutPut">
                                 </span>
-                                <em class="ml-1 fa fa-spinner fa-spin primary fa-fw" style="align-self: center;"></em>
+                                <em class="ml-1 fa fa-spinner fa-spin white fa-fw fa-2x" style="align-self: center;"></em>
                             </div>
-                            <div *ngIf="callingOpenai">
+                            <!--<div *ngIf="callingOpenai">
                                 <em class="fa fa-spinner fa-spin primary fa-fw"></em>
-                            </div>
+                            </div>-->
                             <span>
                                 <div class="d-flex align-items-center input-container mt-3" *ngIf="!callingOpenai">
                                     <input type="text" [(ngModel)]="message" 
