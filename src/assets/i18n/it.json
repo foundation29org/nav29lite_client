@@ -6,7 +6,14 @@
       "Accepted files": "File accettati: pdf, docx",
       "descripReports": "Comprendiamo che questi dati sono molto sensibili. Tutti i dati verranno eliminati quando chiudi questa finestra.",
       "Tokens limit exceeded": "Limite token superato, elimina un documento per continuare.",
-      "Make a summary of the patient": "Fai un riassunto del paziente",
+      "Make a summary for": "Fai un riepilogo per",
+      "a patient": "Un paziente",
+      "a physician": "Un medico",
+      "Summarise the transcript": "Riassumi la trascrizione",
+      "The patient is": "Il paziente è",
+      "Pediatric": "Pediatrico",
+      "Adult": "Adulto",
+      "New summary": "Nuovo riepilogo",
       "Make evaluation": "Esegui valutazione",
       "No documents to summarize": "Non ci sono documenti da riassumere, oppure non hai finito di estrarre il testo.",
       "Add new reports": "Aggiungi nuovi rapporti"
@@ -1288,7 +1295,7 @@
     },
     "pdf":{
       "page": "Pagina",
-      "Scan to view the patient data": "Scansiona per visualizzare i dati"
+      "Scan to rate the summary": "Scansiona per valutare il riepilogo"
     },
     "open":{
        "Public sharing":"Condividere",
