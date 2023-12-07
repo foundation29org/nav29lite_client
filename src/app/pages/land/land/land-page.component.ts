@@ -12,6 +12,7 @@ import { environment } from 'environments/environment';
 import { Clipboard } from "@angular/cdk/clipboard"
 import { jsPDFService } from 'app/shared/services/jsPDF.service'
 import * as QRCode from 'qrcode';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-land',
@@ -55,6 +56,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
   summaryPatient: string = '';
   stepDisclaimer: number = 1;
   showPatientTypeButtons = false;
+  myuuid: string = uuidv4();
+  actualUrl: string = null;
 
   constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public insightsService: InsightsService, private clipboard: Clipboard, public jsPDFService: jsPDFService) {
     this.screenWidth = window.innerWidth;
@@ -151,8 +154,10 @@ showForm() {
           extension = (filename).substr(pos);
         }
         filename = filename.split(extension)[0];
-        var uniqueFileName = this.getUniqueFileName();
-          filename = uniqueFileName + '/' + filename + extension;
+        if(this.actualUrl == null){
+          this.actualUrl = this.getUniqueFileName();
+        }
+          filename = this.actualUrl + '/' + filename + extension;
           this.docs.push({ dataFile: { event: file, name: file.name, url: filename, content: event2.target.result }, langToExtract: '', medicalText: '', state: 'false', tokens: 0 });
         if (file.type == 'application/pdf' || extension == '.docx' || file.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
           let index = this.docs.length - 1;
@@ -179,8 +184,10 @@ showForm() {
             extension = (filename).substr(pos);
           }
           filename = filename.split(extension)[0];
-          var uniqueFileName = this.getUniqueFileName();
-          filename = uniqueFileName + '/' + filename + extension;
+          if(this.actualUrl == null){
+            this.actualUrl = this.getUniqueFileName();
+          }
+          filename = this.actualUrl + '/' + filename + extension;
           this.docs.push({ dataFile: { event: file, name: file.name, url: filename, content: event2.target.result }, langToExtract: '', medicalText: '', state: 'false', tokens: 0 });
           if (event.target.files[0].type == 'application/pdf' || extension == '.docx' || event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
             let index = this.docs.length - 1;
@@ -201,11 +208,8 @@ showForm() {
     var h = now.getHours();
     var mm = now.getMinutes();
     var ss = now.getSeconds();
-    var ff = Math.round(now.getMilliseconds() / 10);
-    var date = '' + y.toString().substr(-2) + (m < 10 ? '0' : '') + m + (d < 10 ? '0' : '') + d + (h < 10 ? '0' : '') + h + (mm < 10 ? '0' : '') + mm + (ss < 10 ? '0' : '') + ss + (ff < 10 ? '0' : '') + ff;
-    var randomString = this.makeid(8);
-    var name = date + randomString;
-    var url = y.toString().substr(-2) + '/' + (m < 10 ? '0' : '') + m + '/' + (d < 10 ? '0' : '') + d + '/' + name;
+    var date = '' + y.toString().substr(-2) + (m < 10 ? '0' : '') + m + (d < 10 ? '0' : '') + d + (h < 10 ? '0' : '') + h + (mm < 10 ? '0' : '') + mm + (ss < 10 ? '0' : '') + ss;
+    var url = this.myuuid+ '/' +date;
     return url;
   }
 
@@ -377,8 +381,7 @@ showForm() {
     for (let doc of this.docs) {
       this.context.push(doc.medicalText);
     }
-    let uuid = localStorage.getItem('uuid');
-    var query = { "question": msg, "conversation": this.conversation, "userId": uuid, "context": this.context };
+    var query = { "question": msg, "conversation": this.conversation, "userId": this.myuuid, "context": this.context };
     console.log(query)
     this.subscription.add(this.http.post(environment.api + '/api/callnavigator/', query)
       .subscribe(async (res: any) => {
@@ -591,9 +594,11 @@ madeSummary(role){
   this.callingSummary = true;
   this.summaryPatient = '';
   this.context = [];
+  let nameFiles = [];
     for (let doc of this.docs) {
       if(doc.state == 'done'){
         this.context.push(doc.medicalText);
+        nameFiles.push(doc.dataFile.name);
       }
     }
     if(this.context.length == 0){
@@ -601,8 +606,7 @@ madeSummary(role){
       this.toastr.error('', this.translate.instant("demo.No documents to summarize"));
       return;
     }
-    let uuid = localStorage.getItem('uuid');
-    var query = { "userId": uuid, "context": this.context, "conversation": this.conversation, "role": role };
+    var query = { "userId": this.myuuid, "context": this.context, "conversation": this.conversation, "role": role, nameFiles: nameFiles, url: this.actualUrl };
     this.subscription.add(this.http.post(environment.api + '/api/callsummary/', query)
       .subscribe(async (res: any) => {
         if(res.response != undefined){
@@ -753,7 +757,7 @@ async translateInverseSummary(msg): Promise<string> {
 
           async download(){
            
-            const qrCodeDataURL = await QRCode.toDataURL('https://uueho380s3z.typeform.com/to/HWWpbcAy');
+            const qrCodeDataURL = await QRCode.toDataURL('https://davlv9v24on.typeform.com/to/z6hgZFGs');
             console.log(this.summaryPatient)
             let tempSumary = this.summaryPatient.replace(/<br\s*\/?>/gi, '').replace(/\s{2,}/g, ' ');
             this.jsPDFService.generateResultsPDF(tempSumary, this.translate.store.currentLang, qrCodeDataURL)
@@ -763,8 +767,7 @@ async translateInverseSummary(msg): Promise<string> {
           }
 
           openFeedback(){
-            //href="https://uueho380s3z.typeform.com/to/HWWpbcAy"
-            window.open("https://uueho380s3z.typeform.com/to/HWWpbcAy", "_blank");
+            window.open("https://davlv9v24on.typeform.com/to/z6hgZFGs", "_blank");
           }
 
           newSummary(){
