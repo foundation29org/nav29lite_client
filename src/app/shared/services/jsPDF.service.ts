@@ -30,9 +30,9 @@ export class jsPDFService {
         logoHealth.src = "assets/img/logo-foundation-twentynine-footer.png"
         doc.addImage(logoHealth, 'png', 20, 284, 25, 10);
         doc.setFont(undefined, 'normal');
-        doc.setFontSize(10);
+        /*doc.setFontSize(10);
         doc.setTextColor(51, 101, 138)
-        doc.textWithLink("https://nav29.org", 148, 290, { url: 'https://nav29.org' });
+        doc.textWithLink("https://nav29.org", 148, 290, { url: 'https://nav29.org' });*/
         doc.setTextColor(0, 0, 0);
     }
 
@@ -131,7 +131,7 @@ export class jsPDFService {
         /*img_logo.src = "assets/img/logo.png"
         doc.addImage(img_logo, 'png', 10, 10, 20, 17);*/
         img_logo.src = "assets/img/logo-lg-white.png"
-        doc.addImage(img_logo, 'png', 10, 10, 22, 18);
+        doc.addImage(img_logo, 'png', 10, 17, 15, 12);
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
         var actualDate = new Date();
