@@ -57,7 +57,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
   stepDisclaimer: number = 1;
   showPatientTypeButtons = false;
   myuuid: string = uuidv4();
-  actualUrl: string = null;
+  paramForm: string = null;
+  actualRole: string = '';
 
   constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public insightsService: InsightsService, private clipboard: Clipboard, public jsPDFService: jsPDFService) {
     this.screenWidth = window.innerWidth;
@@ -154,10 +155,7 @@ showForm() {
           extension = (filename).substr(pos);
         }
         filename = filename.split(extension)[0];
-        if(this.actualUrl == null){
-          this.actualUrl = this.getUniqueFileName();
-        }
-          filename = this.actualUrl + '/' + filename + extension;
+          filename = this.myuuid + '/' + filename + extension;
           this.docs.push({ dataFile: { event: file, name: file.name, url: filename, content: event2.target.result }, langToExtract: '', medicalText: '', state: 'false', tokens: 0 });
         if (file.type == 'application/pdf' || extension == '.docx' || file.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
           let index = this.docs.length - 1;
@@ -184,10 +182,7 @@ showForm() {
             extension = (filename).substr(pos);
           }
           filename = filename.split(extension)[0];
-          if(this.actualUrl == null){
-            this.actualUrl = this.getUniqueFileName();
-          }
-          filename = this.actualUrl + '/' + filename + extension;
+          filename = this.myuuid + '/' + filename + extension;
           this.docs.push({ dataFile: { event: file, name: file.name, url: filename, content: event2.target.result }, langToExtract: '', medicalText: '', state: 'false', tokens: 0 });
           if (event.target.files[0].type == 'application/pdf' || extension == '.docx' || event.target.files[0].type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
             let index = this.docs.length - 1;
@@ -198,19 +193,6 @@ showForm() {
         }
       }
     }
-  }
-
-  getUniqueFileName() {
-    var now = new Date();
-    var y = now.getFullYear();
-    var m = now.getMonth() + 1;
-    var d = now.getDate();
-    var h = now.getHours();
-    var mm = now.getMinutes();
-    var ss = now.getSeconds();
-    var date = '' + y.toString().substr(-2) + (m < 10 ? '0' : '') + m + (d < 10 ? '0' : '') + d + (h < 10 ? '0' : '') + h + (mm < 10 ? '0' : '') + mm + (ss < 10 ? '0' : '') + ss;
-    var url = this.myuuid+ '/' +date;
-    return url;
   }
 
   makeid(length) {
@@ -588,6 +570,7 @@ selectSubrole(){
 }
 
 madeSummary(role){
+  this.actualRole = role;
   if(role=='physician'){
     this.showPatientTypeButtons = false;
   }
@@ -606,7 +589,8 @@ madeSummary(role){
       this.toastr.error('', this.translate.instant("demo.No documents to summarize"));
       return;
     }
-    var query = { "userId": this.myuuid, "context": this.context, "conversation": this.conversation, "role": role, nameFiles: nameFiles, url: this.actualUrl };
+    this.paramForm = this.myuuid+'/results/'+this.makeid(8)
+    var query = { "userId": this.myuuid, "context": this.context, "conversation": this.conversation, "role": role, nameFiles: nameFiles, paramForm: this.paramForm };
     this.subscription.add(this.http.post(environment.api + '/api/callsummary/', query)
       .subscribe(async (res: any) => {
         if(res.response != undefined){
@@ -756,8 +740,8 @@ async translateInverseSummary(msg): Promise<string> {
           }
 
           async download(){
-           
-            const qrCodeDataURL = await QRCode.toDataURL('https://davlv9v24on.typeform.com/to/z6hgZFGs');
+           let url = 'https://davlv9v24on.typeform.com/to/z6hgZFGs#uuid='+this.paramForm+'&role='+this.actualRole
+            const qrCodeDataURL = await QRCode.toDataURL(url);
             console.log(this.summaryPatient)
             let tempSumary = this.summaryPatient.replace(/<br\s*\/?>/gi, '').replace(/\s{2,}/g, ' ');
             this.jsPDFService.generateResultsPDF(tempSumary, this.translate.store.currentLang, qrCodeDataURL)
@@ -767,7 +751,8 @@ async translateInverseSummary(msg): Promise<string> {
           }
 
           openFeedback(){
-            window.open("https://davlv9v24on.typeform.com/to/z6hgZFGs", "_blank");
+            let url = 'https://davlv9v24on.typeform.com/to/z6hgZFGs#uuid='+this.paramForm+'&role='+this.actualRole
+            window.open(url, "_blank");
           }
 
           newSummary(){
