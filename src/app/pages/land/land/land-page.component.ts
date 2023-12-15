@@ -59,6 +59,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
   myuuid: string = uuidv4();
   paramForm: string = null;
   actualRole: string = '';
+  medicalText: string = '';
+  summaryDx29: string = '';
 
   constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public insightsService: InsightsService, private clipboard: Clipboard, public jsPDFService: jsPDFService) {
     this.screenWidth = window.innerWidth;
@@ -758,5 +760,131 @@ async translateInverseSummary(msg): Promise<string> {
           newSummary(){
             this.summaryPatient = '';
           }
+
+          getLiteral(literal) {
+            return this.translate.instant(literal);
+        }
+
+        showPanelBig(content) {
+          this.medicalText = '';
+          this.summaryDx29 = '';
+          if (this.modalReference != undefined) {
+              this.modalReference.close();
+          }
+          let ngbModalOptions: NgbModalOptions = {
+              backdrop: 'static',
+              keyboard: false,
+              windowClass: 'ModalClass-xl'
+          };
+          this.modalReference = this.modalService.open(content, ngbModalOptions);
+      }
+
+      createSummaryDx29(){
+            console.log(this.medicalText)
+            //this.summaryDx29
+            this.callingSummary = true;
+              if(this.medicalText.length == 0){
+                this.callingSummary = false;
+                this.toastr.error('', this.translate.instant("demo.No documents to summarize"));
+                return;
+              }
+              let context = [];
+              context.push(this.medicalText);
+              this.paramForm = this.myuuid+'/results/'+this.makeid(8)
+              var query = { "userId": this.myuuid, "context": context, "conversation": this.conversation, paramForm: this.paramForm };
+              this.subscription.add(this.http.post(environment.api + '/api/calldxsummary/', query)
+                .subscribe(async (res: any) => {
+                  if(res.response != undefined){
+                    res.response = res.response.replace(/^```html\n|\n```$/g, '');
+                    res.response = res.response.replace(/\\n\\n/g, '<br>');
+                    res.response = res.response.replace(/\n/g, '<br>');
+                    this.translateInverseSummaryDx(res.response).catch(error => {
+                      console.error('Error al procesar el mensaje:', error);
+                      this.insightsService.trackException(error);
+                    });
+                  }else{
+                    this.callingSummary = false;
+                    this.toastr.error('', this.translate.instant("generics.error try again"));
+                  }
+                  
+
+                }, (err) => {
+                  this.callingSummary = false;
+                  console.log(err);
+                  this.insightsService.trackException(err);
+                }));
+          }
+
+
+          async translateInverseSummaryDx(msg): Promise<string> {
+            return new Promise((resolve, reject) => {
+              // Función auxiliar para procesar el contenido de la tabla
+              const processTable = (tableContent) => {
+                return tableContent.replace(/\n/g, ''); // Eliminar saltos de línea dentro de la tabla
+              };
+          
+              // Función auxiliar para procesar el texto fuera de las tablas
+              const processNonTableContent = (text) => {
+                return text.replace(/\\n\\n/g, '<br>').replace(/\n/g, '<br>');
+              };
+          
+              if (this.lang != 'en') {
+                var jsontestLangText = [{ "Text": msg }]
+                this.subscription.add(this.apiDx29ServerService.getDeepLTranslationInvert(this.lang, jsontestLangText)
+                  .subscribe((res2: any) => {
+                    if (res2.text != undefined) {
+                      msg = res2.text;
+                    }
+                    
+                    // Aquí procesamos el mensaje
+                    const parts = msg.split(/(<table>|<\/table>)/); // Divide el mensaje en partes de tabla y no tabla
+                    this.summaryDx29 = parts.map((part, index) => {
+                      if (index % 4 === 2) { // Los segmentos de tabla estarán en las posiciones 2, 6, 10, etc. (cada 4 desde el segundo)
+                        return processTable(part);
+                      } else {
+                        return processNonTableContent(part);
+                      }
+                    }).join('');
+          
+                    this.callingSummary = false;
+                    resolve('ok');
+                  }, (err) => {
+                    console.log(err);
+                    this.insightsService.trackException(err);
+                    this.summaryDx29 = processNonTableContent(msg);
+                    this.callingSummary = false;
+                    resolve('ok');
+                  }));
+              } else {
+                this.summaryDx29 = processNonTableContent(msg);
+                this.callingSummary = false;
+                resolve('ok');
+              }
+            });
+          }
+
+          copySummaryDx(){
+            this.clipboard.copy(this.summaryDx29);
+            Swal.fire({
+                icon: 'success',
+                html: this.translate.instant("messages.Results copied to the clipboard"),
+                showCancelButton: false,
+                showConfirmButton: false,
+                allowOutsideClick: false
+            })
+            setTimeout(function () {
+                Swal.close();
+            }, 2000);
+        }
+
+        restartSummaryDx(){
+          this.summaryDx29 = '';
+          this.medicalText = '';
+        }
+
+        gotoDxGPT(){
+          let url = `https://dxgpt.app/?medicalText=${encodeURIComponent(this.summaryDx29)}`;
+          window.open(url, '_blank');
+        }
 
 }

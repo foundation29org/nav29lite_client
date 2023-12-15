@@ -142,6 +142,12 @@
                     accept=".pdf, .docx" />
                     </div>
                 </div>
+                <div class="row mt-3">
+                    <div class="col-md-12 center-elements">
+                        <buttom class="btn btn-lg btn-primary round mt-2"
+                            (click)="showPanelBig(contentSummaryDx)">{{'summaryDx.Summary for DxGPT' | translate }}</buttom>
+                    </div>
+                </div>
             </div>
             <div class="col-md-7" *ngIf="docs.length>0">
                 <div class="card card-body">
@@ -273,7 +279,7 @@
         <div class="p-1">
             <div>
                 <span class="animate-bottom" *ngIf="showButtonScroll" id="buttomScroll">
-                    <button type="button" class="btn btn-dark round mb-0" (click)="goToTop()">Go top</button>
+                    <button type="button" class="btn btn-dark round mb-0" (click)="goToTop()">{{'summaryDx.Go top' | translate }}</button>
                 </span>
                 <div class="">
                     <div style="text-align: justify;"
@@ -325,4 +331,45 @@
       </div>
     </div>
   </ng-template>
+
+  <ng-template #contentSummaryDx id="contentSummaryDx" let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header" id="idHeader">
+        <div class="content-header text-left">
+            <h4 class="mb-0">{{'summaryDx.Diagnostic Summarizer' | translate }} <button *ngIf="summaryDx29!='' && !callingSummary" class="btn btn-dark round mb-0 ml-2" (click)="restartSummaryDx()"> New summary</button></h4>
+        </div>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal();">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body content-wrapper p-2" id="idBody">
+        <div class="p-1">
+            <div>
+                <span class="animate-bottom" *ngIf="showButtonScroll" id="buttomScroll">
+                    <button type="button" class="btn btn-dark round mb-0" (click)="goToTop()">{{'summaryDx.Go top' | translate }}</button>
+                </span>
+                <div class="row">
+                    <div class="col-md-7 center-elements">
+                        <textarea #inputTextArea class="form-control data-hj-allow" style="height:320px;" [(ngModel)]="medicalText"
+                  name="medicalText" placeholder="{{'summaryDx.placeholder' | translate }}"></textarea>
+                  <button type="button" class="mt-2 btn btn-lg btn-primary round" [disabled]="callingSummary"
+                  [attr.title]="(medicalText.length<5) ? getLiteral('land.placeholderError') : getLiteral('land.Extract')"
+                  (click)="createSummaryDx29();">{{'summaryDx.Generate summary' | translate }}</button>
+                    </div>
+                    <div class="col-md-5">
+                        <p class="text-bold-500">{{'summaryDx.Summary for DxGPT' | translate }}</p>
+                        <span *ngIf="callingSummary"><em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em></span>
+                        <span *ngIf="summaryDx29=='' && !callingSummary">{{'summaryDx.The summary will appear here' | translate }}</span>
+                        <span *ngIf="summaryDx29!='' && !callingSummary" [innerHTML]= "summaryDx29 | safe: 'html'"></span>
+                        <span class="d-block center-elements" *ngIf="summaryDx29!='' && !callingSummary">
+                            <em class="fa fa-clipboard pointer fa-2x mt-2" (click)="copySummaryDx()"></em>
+                            <button class="btn btn-primary ml-2" (click)="gotoDxGPT()">{{'summaryDx.Test in DxGPT' | translate }}</button>
+                        </span>
+                    </div>
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+</ng-template>
 <button id="openModalIntro" [hidden]="true" (click)="showPanelIntro(contentIntro)">.</button>

@@ -18,6 +18,15 @@
       "No documents to summarize": "Não há documentos para resumir ou você não terminou de extrair o texto.",
       "Add new reports": "Adicionar novos relatórios"
     },
+    "summaryDx":{
+     "Summary for DxGPT": "Resumo para DxGPT",
+     "Diagnostic Summarizer": "Sumarizador de diagnóstico",
+     "Go top": "Ir para o topo",
+     "Generate summary": "Gerar resumo",
+     "The summary will appear here": "O resumo aparecerá aqui",
+     "placeholder": "Escreva ou recorte e cole um relatório. Então você deve clicar no botão gerar resumo.",
+     "Test in DxGPT": "Teste no DxGPT"
+    },
    "waitlist":{
       "title": "So that you are never up to no good with your medical data you can try Nav29",
       "subtitle": "An agent to manage your medical information. Nav29 can do tasks for you: store your medical information, your appointments, your reports, your data. Plus you can ask it anything you can think of about your illness because Nav29 uses AI in a way you've never seen before. You will have a medical agent at your fingertips 24 hours a day.",
