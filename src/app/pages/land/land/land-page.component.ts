@@ -106,6 +106,11 @@ export class LandPageComponent implements OnInit, OnDestroy {
     }
   }
 
+  showPolicy(){
+    this.stepDisclaimer = 2;
+    document.getElementById("openModalIntro").click();
+  }
+
   showPanelIntro(content) {
     if (this.modalReference != undefined) {
         this.modalReference.close();

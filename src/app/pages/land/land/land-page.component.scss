@@ -2,6 +2,18 @@ ul, ol {
   list-style: none;
 }
 
+.container-main {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 100px);
+}
+
+.footer {
+  height: 40px;
+  margin-top: auto; /* Empuja el footer hacia abajo */
+  text-align: center; /* Centra el enlace dentro del footer */
+}
+
 .chat-container {
   display: flex;
   flex-direction: column;
