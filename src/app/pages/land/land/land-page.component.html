@@ -366,9 +366,9 @@
                         <span *ngIf="callingSummary"><em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em></span>
                         <span *ngIf="summaryDx29=='' && !callingSummary">{{'summaryDx.The summary will appear here' | translate }}</span>
                         <span *ngIf="summaryDx29!='' && !callingSummary" [innerHTML]= "summaryDx29 | safe: 'html'"></span>
-                        <span class="d-block center-elements" *ngIf="summaryDx29!='' && !callingSummary">
-                            <em class="fa fa-clipboard pointer fa-2x mt-2" (click)="copySummaryDx()"></em>
-                            <button class="btn btn-primary ml-2" (click)="gotoDxGPT()">{{'summaryDx.Test in DxGPT' | translate }}</button>
+                        <span class="d-block center-elements mt-2" *ngIf="summaryDx29!='' && !callingSummary">
+                            <button class="btn btn-primary" (click)="gotoDxGPT()">{{'summaryDx.Test in DxGPT' | translate }}</button>
+                            <a class="d-block mt-1" href="javascript:;" (click)="copySummaryDx()"><em class="fa fa-clipboard pointer"></em> {{'generics.Copy' | translate }}</a>
                         </span>
                     </div>
                 </div>
