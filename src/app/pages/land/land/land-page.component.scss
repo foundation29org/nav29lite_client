@@ -42,12 +42,16 @@
 .mic-icon {
   cursor: pointer;
   display: inline-block;
-  font-size: 40px;
-  color: #007bff; /* Bootstrap primary color */
+  //font-size: 40px;
+  //color: #007bff; /* Bootstrap primary color */
+  color: #253240;
+  font-weight: 700;
+  font-size: 1.25rem;
 }
 
 .mic-icon:hover {
-  color: #0056b3; /* Darker shade for hover effect */
+  //color: #0056b3; /* Darker shade for hover effect */
+  color: #b0b6bb;
 }
 
 .recording-indicator {

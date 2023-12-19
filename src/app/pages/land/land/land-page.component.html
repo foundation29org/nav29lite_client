@@ -67,15 +67,16 @@
     <div class="col-md-12" *ngIf="submode=='opt2'">
         <div *ngIf="supported">
             <div class="voice-recorder">
-                <div class="mic-icon pointer" (click)="toggleRecording()">
+                <div class="card-body border round p-3 mic-icon pointer bg-white" (click)="toggleRecording()">
                   <span *ngIf="!recording" class="d-block">Iniciar Reconocimiento de Voz</span>
                   <i class="fa fa-microphone" *ngIf="!recording"></i>
                   <span *ngIf="recording" class="d-block">Detener Reconocimiento de Voz</span>
                   <i class="fa fa-stop danger" *ngIf="recording"></i>
-                </div>
-                <div *ngIf="recording" class="recording-indicator">
+                  <div *ngIf="recording" class="recording-indicator">
                     <i class="fa fa-circle record-icon"></i> Grabando...
+                  </div>
                 </div>
+                
               </div>
               <div *ngIf="medicalText.length>0" class="card border">
                 <div class="card-body">
@@ -100,7 +101,7 @@
               </div>
         </div>
         <div *ngIf="!supported" class="offset-md-3 col-md-6">
-            <div class="alert alert-warning">
+            <div class="alert alert-danger" style="font-size: 1.25rem !important;font-weight: 700;">
                 Lo sentimos, el reconocimiento de voz no es compatible con tu navegador.
               </div>
         </div>
@@ -129,7 +130,7 @@
                             </svg>
                             <h3 class="mt-2">{{'demo.Drag and drop file here' | translate }}</h3>
                             <h3>{{'demo.or' | translate }}</h3>
-                            <buttom class="btn btn-lg btn-primary round"
+                            <buttom class="btn btn-lg btn-primary"
                               style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
                               for="fileDropRef">{{'demo.Browse for file' | translate }}</buttom>
                             <h3 class="mt-2 d-block">{{'demo.Accepted files' | translate }}</h3>
@@ -457,7 +458,7 @@
                     <div class="col-md-7 center-elements">
                         <textarea #inputTextArea class="form-control data-hj-allow" style="height:320px;" [(ngModel)]="medicalText"
                   name="medicalText" placeholder="{{'summaryDx.placeholder' | translate }}"></textarea>
-                  <button type="button" class="mt-2 btn btn-lg btn-primary round" [disabled]="callingSummary"
+                  <button type="button" class="mt-2 btn btn-lg btn-primary" [disabled]="callingSummary"
                   [attr.title]="(medicalText.length<5) ? getLiteral('land.placeholderError') : getLiteral('land.Extract')"
                   (click)="createSummaryDx29();">{{'summaryDx.Generate summary' | translate }}</button>
                     </div>
