@@ -1,4 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
+import { trigger, transition, animate } from '@angular/animations';
+import { style } from '@angular/animations';
 import { TranslateService } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { ApiDx29ServerService } from 'app/shared/services/api-dx29-server.service';
@@ -13,13 +15,36 @@ import { Clipboard } from "@angular/cdk/clipboard"
 import { jsPDFService } from 'app/shared/services/jsPDF.service'
 import * as QRCode from 'qrcode';
 import { v4 as uuidv4 } from 'uuid';
+declare var webkitSpeechRecognition: any;
 
 @Component({
   selector: 'app-land',
   templateUrl: './land-page.component.html',
   styleUrls: ['./land-page.component.scss'],
-  providers: [ApiDx29ServerService, jsPDFService]
+  providers: [ApiDx29ServerService, jsPDFService],
+  animations: [
+    trigger('slideInOut', [
+      transition(':enter', [
+        style({ transform: 'translateX(-100%)' }), 
+        animate('1s ease-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition(':leave', [
+        animate('0.5s ease-in', style({ transform: 'translateX(-100%)' }))
+      ])
+    ]),
+    trigger('testani', [
+      transition(':enter', [
+        style({ transform: 'translateX(100%)' }), 
+        animate('1s ease-out', style({ transform: 'translateX(0)' }))
+      ]),
+      transition(':leave', [
+        animate('0.5s ease-in', style({ transform: 'translateX(100%)' }))
+      ])
+    ])
+  ]
 })
+
+
 
 export class LandPageComponent implements OnInit, OnDestroy {
 
@@ -61,6 +86,11 @@ export class LandPageComponent implements OnInit, OnDestroy {
   actualRole: string = '';
   medicalText: string = '';
   summaryDx29: string = '';
+  mode: string = '0';
+  submode: string = null;
+  recognition: any;
+  recording = false;
+  supported = false;
 
   constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public insightsService: InsightsService, private clipboard: Clipboard, public jsPDFService: jsPDFService) {
     this.screenWidth = window.innerWidth;
@@ -143,6 +173,145 @@ finishDisclaimer() {
 
 showForm() {
 }
+
+
+  selectOpt(opt){
+    this.mode = '1';
+    this.submode= opt;
+    this.medicalText = '';
+    this.summaryDx29 = '';
+    /*this.summaryPatient = '';
+    this.conversation = [];
+    this.context = [];
+    this.messages = [];
+    this.initChat();
+    this.totalTokens = 0;
+    this.modegod = false;
+    this.countModeGod = 0;
+    this.callingSummary = false;
+    this.docs = [];
+    this.recording = false;
+    this.loadedDocs = false;
+    this.step = 1;*/
+    if(this.submode=='opt2'){
+      if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+        // El navegador soporta la funcionalidad
+        console.log('soporta')
+        this.recognition = new webkitSpeechRecognition();
+        if(this.lang == 'en'){
+          this.recognition.lang = 'en-US';
+        }else if(this.lang == 'es'){
+          this.recognition.lang = 'es-ES';
+        }else if(this.lang == 'fr'){
+          this.recognition.lang = 'fr-FR';
+        }else if(this.lang == 'de'){
+          this.recognition.lang = 'de-DE';
+        }else if(this.lang == 'it'){
+          this.recognition.lang = 'it-IT';
+        }else if(this.lang == 'pt'){
+          this.recognition.lang = 'pt-PT';
+        }
+        this.recognition.continuous = true;
+        this.recognition.maxAlternatives = 3;
+        this.supported = true;
+      } else {
+        // El navegador no soporta la funcionalidad
+        this.supported = false;
+        console.log('no soporta')
+      }
+    }
+  }
+
+  backmode0(): void {
+    this.mode = '0';
+    this.submode = null;
+  }
+
+  toggleRecording() {
+    if (this.recording) {
+      this.recognition.stop();
+      this.recording = !this.recording;
+    } else {
+      if(this.medicalText.length > 0){
+        //quiere continuar con la grabacion o empezar una nueva
+        Swal.fire({
+          title: 'Do you want to continue recording?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#0CC27E',
+          cancelButtonColor: '#FF586B',
+          confirmButtonText: this.translate.instant("generics.Yes"),
+          cancelButtonText: 'No, quiero empezar una nueva.',
+          showLoaderOnConfirm: true,
+          allowOutsideClick: false
+        }).then((result) => {
+          if (result.value) {
+            this.continueRecording();
+          }else{
+            this.medicalText = '';
+            this.continueRecording();
+          }
+        });
+      }else{
+        this.continueRecording();
+      }
+    }
+    
+  }
+
+  continueRecording(){
+    this.recognition.start();
+    this.recognition.onresult = (event) => {
+      console.log(event)
+      var transcript = event.results[event.resultIndex][0].transcript;
+      console.log(transcript); // Utilizar el texto aquí
+      this.medicalText += transcript + '\n';
+      /*if (event.results[event.resultIndex].isFinal) {
+        this.medicalText += transcript;
+      }*/
+    };
+
+    this.recognition.onerror = function(event) {
+      console.error('Error en el reconocimiento de voz:', event.error);
+    };
+    this.recording = !this.recording;
+  }
+
+  madeSummaryTranscript(){
+    console.log(this.medicalText)
+    //this.summaryDx29
+    this.callingSummary = true;
+      if(this.medicalText.length == 0){
+        this.callingSummary = false;
+        this.toastr.error('', this.translate.instant("demo.No documents to summarize"));
+        return;
+      }
+      let context = [];
+      context.push(this.medicalText);
+      this.paramForm = this.myuuid+'/results/'+this.makeid(8)
+      var query = { "userId": this.myuuid, "context": context, "conversation": this.conversation, paramForm: this.paramForm };
+      this.subscription.add(this.http.post(environment.api + '/api/calltranscriptsummary/', query)
+        .subscribe(async (res: any) => {
+          if(res.response != undefined){
+            res.response = res.response.replace(/^```html\n|\n```$/g, '');
+            res.response = res.response.replace(/\\n\\n/g, '<br>');
+            res.response = res.response.replace(/\n/g, '<br>');
+            this.translateInverseSummaryDx(res.response).catch(error => {
+              console.error('Error al procesar el mensaje:', error);
+              this.insightsService.trackException(error);
+            });
+          }else{
+            this.callingSummary = false;
+            this.toastr.error('', this.translate.instant("generics.error try again"));
+          }
+          
+
+        }, (err) => {
+          this.callingSummary = false;
+          console.log(err);
+          this.insightsService.trackException(err);
+        }));
+  }
 
 
   isSmallScreen(): boolean {

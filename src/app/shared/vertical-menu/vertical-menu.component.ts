@@ -21,7 +21,7 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('toggleIcon') toggleIcon: ElementRef;
   public menuItems: any[];
   level: number = 0;
-  logoUrl = 'assets/img/logo.png';
+  logoUrl = 'assets/img/logo-lg-white.png';
   public config: any = {};
   protected innerWidth: any;
   layoutSub: Subscription;
@@ -94,10 +94,10 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
     if (this.config.layout.sidebar.backgroundColor === 'white') {
-      this.logoUrl = 'assets/img/logo.png';
+      this.logoUrl = 'assets/img/logo-lg-white.png';
     }
     else {
-      this.logoUrl = 'assets/img/logo.png';
+      this.logoUrl = 'assets/img/logo-lg-white.png';
     }
 
     if(this.config.layout.sidebar.collapsed) {
