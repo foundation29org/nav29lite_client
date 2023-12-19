@@ -128,10 +128,10 @@ export class jsPDFService {
 
         // Cabecera inicial
         var img_logo = new Image();
-        /*img_logo.src = "assets/img/logo.png"
+        /*img_logo.src = "assets/img/logo-lg-white.png"
         doc.addImage(img_logo, 'png', 10, 10, 20, 17);*/
         img_logo.src = "assets/img/logo-lg-white.png"
-        doc.addImage(img_logo, 'png', 10, 17, 15, 12);
+        doc.addImage(img_logo, 'png', 10, 17, 15, 15);
         doc.setFont(undefined, 'normal');
         doc.setFontSize(10);
         var actualDate = new Date();

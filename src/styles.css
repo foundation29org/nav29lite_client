@@ -42,7 +42,7 @@ html body.layout-dark:not(.layout-transparent) .card {
 }
 
 a {
-  color: #e52421;
+  color: #253240;
 }
 
 .close {
@@ -50,7 +50,7 @@ a {
 }
 
 input{
-  accent-color: #e52421 !important;
+  accent-color: #253240 !important;
 }
 
 .gradient-red-ocean {
@@ -213,8 +213,8 @@ a:hover, a:focus {
 }
 
 .swal2-icon.swal2-warning {
-  border-color: #e52421 !important;
-  color: #e52421 !important;
+  border-color: #253240 !important;
+  color: #253240 !important;
 }
 
 .tab-content {
@@ -368,10 +368,10 @@ a:hover, a:focus {
 }
 
 .textExtractedNcr > a > b{
-  background-color: #e52421;
+  background-color: #253240;
 }
 .textExtractedNcr >  b{
-  background-color: #e52421;
+  background-color: #253240;
 }
 
 .bold {
@@ -384,8 +384,8 @@ a:hover, a:focus {
 
 mark{
   text-decoration: underline;
-  -webkit-text-decoration-color: #e52421; /* Safari */  
-  text-decoration-color: #e52421;
+  -webkit-text-decoration-color: #253240; /* Safari */  
+  text-decoration-color: #253240;
   background-color: #FFF;
   text-decoration-thickness: 3px;
 }
