@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, NgZone } from '@angular/core';
 import { trigger, transition, animate } from '@angular/animations';
 import { style } from '@angular/animations';
 import { TranslateService } from '@ngx-translate/core';
@@ -91,8 +91,10 @@ export class LandPageComponent implements OnInit, OnDestroy {
   recognition: any;
   recording = false;
   supported = false;
+  private audioIntro = new Audio('assets/audio/sonido1.mp4');
+  private audioOutro = new Audio('assets/audio/sonido2.mp4');
 
-  constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public insightsService: InsightsService, private clipboard: Clipboard, public jsPDFService: jsPDFService) {
+  constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public insightsService: InsightsService, private clipboard: Clipboard, public jsPDFService: jsPDFService, private ngZone: NgZone) {
     this.screenWidth = window.innerWidth;
     if(sessionStorage.getItem('lang') == null){
       sessionStorage.setItem('lang', this.translate.store.currentLang);
@@ -176,6 +178,7 @@ showForm() {
 
 
   selectOpt(opt){
+    this.audioIntro.play().catch(error => console.error("Error al reproducir el audio:", error));
     this.mode = '1';
     this.submode= opt;
     this.medicalText = '';
@@ -223,6 +226,7 @@ showForm() {
   }
 
   backmode0(): void {
+    this.audioOutro.play().catch(error => console.error("Error al reproducir el audio:", error));
     this.mode = '0';
     this.submode = null;
   }
@@ -265,7 +269,10 @@ showForm() {
       console.log(event)
       var transcript = event.results[event.resultIndex][0].transcript;
       console.log(transcript); // Utilizar el texto aquí
-      this.medicalText += transcript + '\n';
+      //this.medicalText += transcript + '\n';
+      this.ngZone.run(() => {
+        this.medicalText += transcript + '\n';
+      });
       /*if (event.results[event.resultIndex].isFinal) {
         this.medicalText += transcript;
       }*/
