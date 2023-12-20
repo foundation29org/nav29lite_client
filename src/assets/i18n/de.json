@@ -1,5 +1,9 @@
 {
    "demo":{
+      "You want to do?": "Was möchten Sie tun?",
+      "Make a file summary": "Erstellen Sie eine Dateizusammenfassung",
+      "Summarize a conversation": "Fassen Sie ein Gespräch zusammen",
+      "Find a diagnosis": "Finden Sie eine Diagnose",
       "Drag and drop file here": "Ziehen Sie Ihre Berichte hier per Drag & Drop",
       "or": "oder",
       "Browse for file": "Dateien durchsuchen",
@@ -18,6 +22,19 @@
       "No documents to summarize": "Es sind keine Dokumente zum Zusammenfassen vorhanden, oder Sie haben das Extrahieren des Textes noch nicht abgeschlossen.",
       "Add new reports": "Neue Berichte hinzufügen"
     },
+    "voice":{
+     "Start Voice Recognition": "Starten Sie die Spracherkennung",
+     "Stop Voice Recognition": "Stoppen Sie die Spracherkennung",
+     "Recording": "Aufnahme",
+     "Sorry, voice recognition is not supported in your browser.": "Die Spracherkennung wird in Ihrem Browser nicht unterstützt.",
+     "We recommend that you use Google Chrome, Microsoft Edge, or Safari.": "Wir empfehlen Ihnen, Google Chrome, Microsoft Edge oder Safari zu verwenden.",
+     "Processing audio...": "Verarbeitung von Audio...",
+     "Please wait a few seconds.": "Bitte warten Sie ein paar Sekunden.",
+     "Do you want to continue recording?": "Möchten Sie die Aufnahme fortsetzen?",
+     "Yes, I want to continue.": "Ja, ich möchte fortfahren.",
+     "No, I want to start a new recording.": "Nein, ich möchte eine neue Aufnahme starten.",
+     "Error in voice recognition.": "Fehler bei der Spracherkennung."
+    },
     "summaryDx":{
      "Summary for DxGPT": "Zusammenfassung für DxGPT",
      "Diagnostic Summarizer": "Diagnostischer Summarizer",
@@ -25,7 +42,8 @@
      "Generate summary": "Zusammenfassung generieren",
      "The summary will appear here": "Die Zusammenfassung wird hier angezeigt",
      "placeholder": "Schreiben Sie einen Bericht oder schneiden Sie ihn aus und fügen Sie ihn ein. Anschließend müssen Sie auf die Schaltfläche „Zusammenfassung erstellen“ klicken.",
-     "Test in DxGPT": "Test in DxGPT"
+     "Test in DxGPT": "Test in DxGPT",
+     "New summary": "Neue Zusammenfassung"
     },
    "waitlist":{
       "title": "So that you are never up to no good with your medical data you can try Nav29",

@@ -1,5 +1,9 @@
 {
    "demo":{
+      "You want to do?": "Cosa vuoi fare?",
+      "Make a file summary": "Fai un riepilogo del file",
+      "Summarize a conversation": "Riassumi una conversazione",
+      "Find a diagnosis": "Trova una diagnosi",
       "Drag and drop file here": "Trascina e rilascia i tuoi rapporti qui",
       "or": "o",
       "Browse for file": "Sfoglia i file",
@@ -18,6 +22,19 @@
       "No documents to summarize": "Non ci sono documenti da riassumere, oppure non hai finito di estrarre il testo.",
       "Add new reports": "Aggiungi nuovi rapporti"
     },
+    "voice":{
+     "Start Voice Recognition": "Inizia il riconoscimento vocale",
+     "Stop Voice Recognition": "Interrompi il riconoscimento vocale",
+     "Recording": "Registrazione",
+     "Sorry, voice recognition is not supported in your browser.": "Spiacenti, il riconoscimento vocale non è supportato dal tuo browser.",
+     "We recommend that you use Google Chrome, Microsoft Edge, or Safari.": "Ti consigliamo di utilizzare Google Chrome, Microsoft Edge o Safari.",
+     "Processing audio...": "Elaborazione audio...",
+     "Please wait a few seconds.": "Attendere qualche secondo.",
+     "Do you want to continue recording?": "Vuoi continuare a registrare?",
+     "Yes, I want to continue.": "Sì, voglio continuare.",
+     "No, I want to start a new recording.": "No, voglio iniziare una nuova registrazione.",
+     "Error in voice recognition.": "Errore nel riconoscimento vocale."
+    },
     "summaryDx":{
      "Summary for DxGPT": "Riepilogo per DxGPT",
      "Diagnostic Summarizer": "Diagnostic Summarizer",
@@ -25,7 +42,8 @@
      "Generate summary": "Genera riepilogo",
      "The summary will appear here": "Il riepilogo apparirà qui",
      "placeholder": "Scrivi o taglia e incolla un report. Quindi devi fare clic sul pulsante Genera riepilogo.",
-     "Test in DxGPT": "Test in DxGPT"
+     "Test in DxGPT": "Test in DxGPT",
+     "New summary": "Nuovo riepilogo"
     },
    "waitlist":{
       "title": "So that you are never up to no good with your medical data you can try Nav29",

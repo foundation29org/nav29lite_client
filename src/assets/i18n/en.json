@@ -1,5 +1,9 @@
 {
   "demo":{
+    "You want to do?": "You want to do?",
+    "Make a file summary": "Make a file summary",
+    "Summarize a conversation": "Summarize a conversation",
+    "Find a diagnosis": "Find a diagnosis",
     "Drag and drop file here": "Drag and drop your reports here",
     "or": "or",
     "Browse for file": "Browse the files",
@@ -18,6 +22,19 @@
     "No documents to summarize": "There are no documents to summarize, or you have not finished extracting the text.",
     "Add new reports": "Add new reports"
   },
+  "voice":{
+   "Start Voice Recognition": "Start Voice Recognition",
+   "Stop Voice Recognition": "Stop Voice Recognition",
+   "Recording": "Recording",
+   "Sorry, voice recognition is not supported in your browser.": "Sorry, voice recognition is not supported in your browser.",
+   "We recommend that you use Google Chrome, Microsoft Edge, or Safari.": "We recommend that you use Google Chrome, Microsoft Edge, or Safari.",
+   "Processing audio...": "Processing audio...",
+   "Please wait a few seconds.": "Please wait a few seconds.",
+   "Do you want to continue recording?": "Do you want to continue recording?",
+   "Yes, I want to continue.": "Yes, I want to continue.",
+   "No, I want to start a new recording.": "No, I want to start a new recording.",
+   "Error in voice recognition.": "Error in voice recognition."
+  },
   "summaryDx":{
    "Summary for DxGPT": "Summary for DxGPT",
    "Diagnostic Summarizer": "Diagnostic Summarizer",
@@ -25,7 +42,8 @@
    "Generate summary": "Generate summary",
    "The summary will appear here": "The summary will appear here",
    "placeholder": "Write, or cut and paste a report. Then you have to click on the generate summary button.",
-   "Test in DxGPT": "Test in DxGPT"
+   "Test in DxGPT": "Test in DxGPT",
+   "New summary": "New summary"
   },
   "waitlist":{
     "title": "So that you are never up to no good with your medical data you can try Nav29",

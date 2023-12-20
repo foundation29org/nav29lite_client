@@ -91,6 +91,9 @@ export class LandPageComponent implements OnInit, OnDestroy {
   recognition: any;
   recording = false;
   supported = false;
+  timer: number = 0;
+  timerDisplay: string = '00:00';
+  private interval: any;
   private audioIntro = new Audio('assets/audio/sonido1.mp4');
   private audioOutro = new Audio('assets/audio/sonido2.mp4');
 
@@ -124,7 +127,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
     this.eventsService.on('changelang', function (task) {
       (async () => {
-        this.getTranslations();
+        this.setupRecognition();
       })();
     }.bind(this));
 
@@ -197,31 +200,7 @@ showForm() {
     this.loadedDocs = false;
     this.step = 1;*/
     if(this.submode=='opt2'){
-      if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-        // El navegador soporta la funcionalidad
-        console.log('soporta')
-        this.recognition = new webkitSpeechRecognition();
-        if(this.lang == 'en'){
-          this.recognition.lang = 'en-US';
-        }else if(this.lang == 'es'){
-          this.recognition.lang = 'es-ES';
-        }else if(this.lang == 'fr'){
-          this.recognition.lang = 'fr-FR';
-        }else if(this.lang == 'de'){
-          this.recognition.lang = 'de-DE';
-        }else if(this.lang == 'it'){
-          this.recognition.lang = 'it-IT';
-        }else if(this.lang == 'pt'){
-          this.recognition.lang = 'pt-PT';
-        }
-        this.recognition.continuous = true;
-        this.recognition.maxAlternatives = 3;
-        this.supported = true;
-      } else {
-        // El navegador no soporta la funcionalidad
-        this.supported = false;
-        console.log('no soporta')
-      }
+      this.setupRecognition();
     }
   }
 
@@ -231,39 +210,105 @@ showForm() {
     this.submode = null;
   }
 
+  setupRecognition() {
+    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+      // El navegador soporta la funcionalidad
+      console.log('soporta')
+      this.recognition = new webkitSpeechRecognition();
+      if(this.lang == 'en'){
+        this.recognition.lang = 'en-US';
+      }else if(this.lang == 'es'){
+        this.recognition.lang = 'es-ES';
+      }else if(this.lang == 'fr'){
+        this.recognition.lang = 'fr-FR';
+      }else if(this.lang == 'de'){
+        this.recognition.lang = 'de-DE';
+      }else if(this.lang == 'it'){
+        this.recognition.lang = 'it-IT';
+      }else if(this.lang == 'pt'){
+        this.recognition.lang = 'pt-PT';
+      }
+      this.recognition.continuous = true;
+      this.recognition.maxAlternatives = 3;
+      this.supported = true;
+    } else {
+      // El navegador no soporta la funcionalidad
+      this.supported = false;
+      console.log('no soporta')
+    }
+  }
+
+
+  startTimer(restartClock) {
+    if(restartClock){
+      this.timer = 0;
+      this.timerDisplay = '00:00';
+    }
+    this.interval = setInterval(() => {
+      this.timer++;
+      this.timerDisplay = this.secondsToDisplay(this.timer);
+    }, 1000);
+  }
+  
+  stopTimer() {
+    clearInterval(this.interval);
+    this.timerDisplay = this.secondsToDisplay(this.timer);
+  }
+  
+  secondsToDisplay(seconds: number): string {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  }
+
   toggleRecording() {
     if (this.recording) {
-      this.recognition.stop();
+      //mosstrar el swal durante dos segundos diciendo que es está procesando
+      Swal.fire({
+        title: this.translate.instant("voice.Processing audio..."),
+        html: this.translate.instant("voice.Please wait a few seconds."),
+        showCancelButton: false,
+        showConfirmButton: false,
+        allowOutsideClick: false
+      })
+      //esperar dos segundos
+      setTimeout(function () {
+        this.stopTimer();
+        this.recognition.stop();
+        Swal.close();
+      }.bind(this), 2000);
+      
       this.recording = !this.recording;
     } else {
       if(this.medicalText.length > 0){
         //quiere continuar con la grabacion o empezar una nueva
         Swal.fire({
-          title: 'Do you want to continue recording?',
+          title: this.translate.instant("voice.Do you want to continue recording?"),
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#0CC27E',
           cancelButtonColor: '#FF586B',
-          confirmButtonText: this.translate.instant("generics.Yes"),
-          cancelButtonText: 'No, quiero empezar una nueva.',
+          confirmButtonText: this.translate.instant("voice.Yes, I want to continue."),
+          cancelButtonText: this.translate.instant("voice.No, I want to start a new recording."),
           showLoaderOnConfirm: true,
           allowOutsideClick: false
         }).then((result) => {
           if (result.value) {
-            this.continueRecording();
+            this.continueRecording(false, true);
           }else{
             this.medicalText = '';
-            this.continueRecording();
+            this.continueRecording(true, true);
           }
         });
       }else{
-        this.continueRecording();
+        this.continueRecording(true, true);
       }
     }
     
   }
 
-  continueRecording(){
+  continueRecording(restartClock, changeState){
+    this.startTimer(restartClock);
     this.recognition.start();
     this.recognition.onresult = (event) => {
       console.log(event)
@@ -273,15 +318,29 @@ showForm() {
       this.ngZone.run(() => {
         this.medicalText += transcript + '\n';
       });
-      /*if (event.results[event.resultIndex].isFinal) {
-        this.medicalText += transcript;
-      }*/
+      if (event.results[event.resultIndex].isFinal) {
+        console.log('ha terminado')
+      }
     };
 
-    this.recognition.onerror = function(event) {
-      console.error('Error en el reconocimiento de voz:', event.error);
+   // this.recognition.onerror = function(event) {
+    this.recognition.onerror = (event) => {
+      if (event.error === 'no-speech') {
+        console.log('Reiniciando el reconocimiento de voz...');
+        this.restartRecognition(); // Llama a una función para reiniciar el reconocimiento
+      } else {
+        // Para otros tipos de errores, muestra un mensaje de error
+        this.toastr.error('', this.translate.instant("voice.Error in voice recognition."));
+      }
     };
-    this.recording = !this.recording;
+    if(changeState){
+      this.recording = !this.recording;
+    }
+  }
+
+  restartRecognition() {
+    this.recognition.stop(); // Detiene el reconocimiento actual
+    setTimeout(() => this.continueRecording(false, false), 100); // Un breve retraso antes de reiniciar
   }
 
   madeSummaryTranscript(){

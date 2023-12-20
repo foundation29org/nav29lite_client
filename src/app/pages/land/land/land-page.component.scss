@@ -249,7 +249,7 @@ input[type="text"],
   }
 
   h3 {
-    font-size: 20px;
+    font-size:  1.25rem !important;
     color: #38424c;
   }
 }
@@ -257,10 +257,15 @@ input[type="text"],
 @media ( max-width: 991px ){
   .logo-img {
     width: 150px !important;
-  }
+  }  
 }
 
 @media ( max-width: 767px ){
+
+  .title-home{
+    margin-top: 2em;
+  }
+
   .logo-img {
     width: 100px !important;
   }

@@ -89,11 +89,11 @@ span{
 }
 
 body, button{
-  font-size: 0.8rem !important;
+  font-size: 1rem !important;
 }
 
 .card, .form-control, form label, .dropdown-menu {
-  font-size: 0.8rem !important;
+  font-size: 1rem !important;
 }
 
 .dark{

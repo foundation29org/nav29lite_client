@@ -1,5 +1,9 @@
 {
    "demo":{
+      "You want to do?": "Que voulez-vous faire ?",
+      "Make a file summary": "Faire un résumé de fichier",
+      "Summarize a conversation": "Résumer une conversation",
+      "Find a diagnosis": "Trouver un diagnostic",
       "Drag and drop file here": "Faites glisser et déposez vos rapports ici",
       "or": "ou",
       "Browse for file": "Parcourir les fichiers",
@@ -18,6 +22,19 @@
       "No documents to summarize": "Il n'y a aucun document à résumer, ou vous n'avez pas fini d'extraire le texte.",
       "Add new reports": "Ajouter de nouveaux rapports"
     },
+    "voice":{
+     "Start Voice Recognition": "Démarrer la reconnaissance vocale",
+     "Stop Voice Recognition": "Arrêter la reconnaissance vocale",
+     "Recording": "Enregistrement",
+     "Sorry, voice recognition is not supported in your browser.": "Désolé, la reconnaissance vocale n'est pas prise en charge par votre navigateur.",
+     "We recommend that you use Google Chrome, Microsoft Edge, or Safari.": "Nous vous recommandons d'utiliser Google Chrome, Microsoft Edge ou Safari.",
+     "Processing audio...": "Traitement audio...",
+     "Please wait a few seconds.": "Veuillez patienter quelques secondes.",
+     "Do you want to continue recording?": "Voulez-vous continuer l'enregistrement ?",
+     "Yes, I want to continue.": "Oui, je veux continuer.",
+     "No, I want to start a new recording.": "Non, je veux commencer un nouvel enregistrement.",
+     "Error in voice recognition.": "Erreur de reconnaissance vocale."
+    },
     "summaryDx":{
      "Summary for DxGPT": "Résumé pour DxGPT",
      "Diagnostic Summarizer": "Diagnostic Summarizer",
@@ -25,7 +42,8 @@
      "Generate summary": "Générer un résumé",
      "The summary will appear here": "Le résumé apparaîtra ici",
      "placeholder": "Écrivez ou coupez et collez un rapport. Ensuite, vous devez cliquer sur le bouton générer un résumé.",
-     "Test in DxGPT": "Testez-le dans DxGPT"
+     "Test in DxGPT": "Testez-le dans DxGPT",
+     "New summary": "Nouveau résumé"
     },
    "waitlist":{
       "title": "So that you are never up to no good with your medical data you can try Nav29",
