@@ -1,8 +1,8 @@
 {
   "demo":{
-    "You want to do?": "¿Qué quiere hacer?",
-    "Make a file summary": "Hacer un resumen de ficheros",
-    "Summarize a conversation": "Hacer un resumen de una conversación",
+    "What do you want to do?": "¿Qué quiere hacer?",
+    "Summarize medical reports": "Resumir informes médicos",
+    "Summarize a medical conversation": "Resumir una conversación médica",
     "Find a diagnosis": "Buscar un diagnóstico",
     "Drag and drop file here": "Arrastre y deje sus informes aquí",
     "or": "o",

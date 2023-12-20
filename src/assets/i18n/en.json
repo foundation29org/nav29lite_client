@@ -1,8 +1,8 @@
 {
   "demo":{
-    "You want to do?": "You want to do?",
-    "Make a file summary": "Make a file summary",
-    "Summarize a conversation": "Summarize a conversation",
+    "What do you want to do?": "What do you want to do?",
+    "Summarize medical reports": "Summarize medical reports",
+    "Summarize a medical conversation": "Summarize a medical conversation",
     "Find a diagnosis": "Find a diagnosis",
     "Drag and drop file here": "Drag and drop your reports here",
     "or": "or",
