@@ -144,7 +144,13 @@ export class LandPageComponent implements OnInit, OnDestroy {
   showPolicy(){
     this.stepDisclaimer = 2;
     document.getElementById("openModalIntro").click();
+    this.scrollTo();
   }
+
+  async scrollTo() {
+    await this.delay(200);
+    document.getElementById('initcontentIntro').scrollIntoView({ behavior: "smooth" });
+}
 
   showPanelIntro(content) {
     if (this.modalReference != undefined) {
