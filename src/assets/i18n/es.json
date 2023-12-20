@@ -1,5 +1,9 @@
 {
   "demo":{
+    "You want to do?": "¿Qué quiere hacer?",
+    "Make a file summary": "Hacer un resumen de ficheros",
+    "Summarize a conversation": "Hacer un resumen de una conversación",
+    "Find a diagnosis": "Buscar un diagnóstico",
     "Drag and drop file here": "Arrastre y deje sus informes aquí",
     "or": "o",
     "Browse for file": "Busque los archivos",
@@ -18,6 +22,19 @@
     "No documents to summarize": "No hay documentos para resumir, o no ha terminado de extraer el texto.",
     "Add new reports": "Añadir nuevos informes"
    },
+   "voice":{
+    "Start Voice Recognition": "Iniciar reconocimiento de voz",
+    "Stop Voice Recognition": "Detener reconocimiento de voz",
+    "Recording": "Grabando",
+    "Sorry, voice recognition is not supported in your browser.": "Lo sentimos, el reconocimiento de voz no es compatible con su navegador.",
+    "We recommend that you use Google Chrome, Microsoft Edge, or Safari.": "Recomendamos que utilice Google Chrome, Microsoft Edge o Safari.",
+    "Processing audio...": "Procesando audio...",
+    "Please wait a few seconds.": "Por favor, espere unos segundos.",
+    "Do you want to continue recording?": "¿Quieres continuar grabando?",
+    "Yes, I want to continue.": "Sí, quiero continuar.",
+    "No, I want to start a new recording.": "No, quiero empezar una nueva grabación.",
+    "Error in voice recognition.": "Error en el reconocimiento de voz."
+   },
    "summaryDx":{
     "Summary for DxGPT": "Resumen para DxGPT",
     "Diagnostic Summarizer": "Resumidor para diagnóstico",
@@ -25,7 +42,8 @@
     "Generate summary": "Generar resumen",
     "The summary will appear here": "El resumen aparecerá aquí",
     "placeholder": "Escribe, o corta y pega un infome. Después tienes que hacer clic en el botón de generar resumen.",
-    "Test in DxGPT": "Probar en DxGPT"
+    "Test in DxGPT": "Probar en DxGPT",
+    "New summary": "Nuevo resumen"
    },
   "waitlist":{
     "title": "Para que no estés nunca con el culo al aire con tus datos médicos puedes probar Nav29",

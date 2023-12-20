@@ -1,5 +1,9 @@
 {
    "demo":{
+      "You want to do?":"O que você quer fazer?",
+      "Make a file summary": "Faça um resumo de um arquivo",
+      "Summarize a conversation": "Resumir uma conversa",
+      "Find a diagnosis": "Encontre um diagnóstico",
       "Drag and drop file here": "Arraste e solte seus relatórios aqui",
       "or": "ou",
       "Browse for file": "Procurar pelos arquivos",
@@ -18,6 +22,19 @@
       "No documents to summarize": "Não há documentos para resumir ou você não terminou de extrair o texto.",
       "Add new reports": "Adicionar novos relatórios"
     },
+    "voice":{
+     "Start Voice Recognition": "Iniciar reconhecimento de voz",
+     "Stop Voice Recognition": "Parar reconhecimento de voz",
+     "Recording": "Gravação",
+     "Sorry, voice recognition is not supported in your browser.": "Desculpe, o reconhecimento de voz não é suportado no seu navegador.",
+     "We recommend that you use Google Chrome, Microsoft Edge, or Safari.": "Recomendamos que você use o Google Chrome, Microsoft Edge ou Safari.",
+     "Processing audio...": "Processando áudio...",
+     "Please wait a few seconds.": "Por favor, aguarde alguns segundos.",
+     "Do you want to continue recording?": "Você quer continuar gravando?",
+     "Yes, I want to continue.": "Sim, quero continuar.",
+     "No, I want to start a new recording.": "Não, quero iniciar uma nova gravação.",
+     "Error in voice recognition.": "Erro no reconhecimento de voz."
+    },
     "summaryDx":{
      "Summary for DxGPT": "Resumo para DxGPT",
      "Diagnostic Summarizer": "Sumarizador de diagnóstico",
@@ -25,7 +42,8 @@
      "Generate summary": "Gerar resumo",
      "The summary will appear here": "O resumo aparecerá aqui",
      "placeholder": "Escreva ou recorte e cole um relatório. Então você deve clicar no botão gerar resumo.",
-     "Test in DxGPT": "Teste no DxGPT"
+     "Test in DxGPT": "Teste no DxGPT",
+     "New summary": "Novo resumo"
     },
    "waitlist":{
       "title": "So that you are never up to no good with your medical data you can try Nav29",
