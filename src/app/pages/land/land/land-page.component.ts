@@ -458,6 +458,7 @@ showForm() {
   prepareFile(index) {
     this.docs[index].state = 'uploading';
     const formData = new FormData();
+    formData.append("userId", this.myuuid);
     formData.append("thumbnail", this.docs[index].dataFile.event);
     formData.append("url", this.docs[index].dataFile.url);
     formData.append("docId", index);
@@ -473,6 +474,7 @@ showForm() {
         }else{
           this.docs[res.doc_id].state = 'done';
           this.docs[res.doc_id].medicalText = res.data;
+          this.docs[res.doc_id].summary = res.summary;
           this.docs[res.doc_id].tokens = res.tokens;
           this.totalTokens = this.totalTokens + res.tokens;
           this.submitted = false;
