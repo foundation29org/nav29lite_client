@@ -833,7 +833,8 @@ madeSummary(role){
   let nameFiles = [];
     for (let doc of this.docs) {
       if(doc.state == 'done'){
-        this.context.push(doc.summary);
+        //this.context.push(doc.summary);
+        this.context.push(doc.medicalText);
         nameFiles.push(doc.dataFile.name);
       }
     }
