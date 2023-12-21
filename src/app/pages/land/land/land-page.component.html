@@ -267,67 +267,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="p-2 mt-2 rounded bg-grey" *ngIf="modegod">
-                                    <h5 class="text-muted mt-3 white">{{'home.s1.2' | translate }}
-                                        <button class="float-right btn btn-primary" (click)="deleteChat()">
-                                            <em class="fa fa-plus mr-1"></em> {{'home.s1.2.1' | translate }}
-                                        </button>
-                                        <button *ngIf="messages.length>1" class="float-right btn btn-primary mr-2" (click)="copyConversationToClipboard()"> <em class="fa fa-clipboard mr-1"></em> {{'generics.Copy' | translate }} Chat</button>
-                                    </h5>
-                                    <div class="chat-container">
-                                        <div *ngFor="let message of messages; let i = index" class="chat-messages" [ngClass]="{'user-is-sender': message.isUser}">
-                                            <div *ngIf="!message.isUser" class="ia-message-container mr-2 bg-white border" style="padding: 0.5rem;align-self: flex-start;border-radius: 1rem;">
-                                                <img src="assets/img/iconchat.webp" />
-                                            </div>
-                                            <div class="message-row"  [ngClass]="{'user-message': message.isUser, 'response-message': !message.isUser, 'response-form': !message.isUser}">
-                                                    <ng-container *ngIf="!message.task && !message.file">
-                                                        <span [innerHTML]= "message.text | safe: 'html'" (click)="onMessageClick($event, i)"></span>
-                                                        <span *ngIf="!message.isUser && i== messages.length-1" class="d-block mt-2">
-                                                            <span class="float-right" *ngIf="i!=0">
-                                                                <em class="fa fa-clipboard pointer" (click)="copymsg(message)"></em>
-                                                            </span>
-                                                            
-                                                        </span>
-                                                    </ng-container>
-                                                
-                                            </div>
-                                            <div *ngIf="message.isUser" [ngClass]="{'user-message': message.isUser}" class="ml-2 bg-primary white" style="padding: 0.5rem;">
-                                                <strong>{{'generics.Me' | translate }}</strong>
-                                            </div>
-                                        </div>
-                                        <span *ngIf="preparingFile">
-                                            <small class="d-block">{{'generics.Preparing to upload' | translate }}</small>
-                                            <i class="fa fa-spinner fa-spin fa-3x fa-fw primary"></i>
-                                        </span>
-                                        <div class="chat-messages pt-2" *ngIf="callingOpenai"  style="border-radius: 1rem;">
-                                            <span class="response-message font-small-3" style="background-color: white !important;" [innerHTML]="messagesExpectOutPut">
-                                            </span>
-                                            <em class="ml-1 fa fa-spinner fa-spin white fa-fw fa-2x" style="align-self: center;"></em>
-                                        </div>
-                                        <!--<div *ngIf="callingOpenai">
-                                            <em class="fa fa-spinner fa-spin primary fa-fw"></em>
-                                        </div>-->
-                                        <span>
-                                            <div class="d-flex align-items-center input-container mt-3" *ngIf="!callingOpenai">
-                                                <input type="text" [(ngModel)]="message" 
-                                                       [disabled]="callingOpenai" placeholder="{{'generics.Write a message' | translate }}..." 
-                                                       (keydown.enter)="sendMessage()" class="mt-0 border-0 mr-2 flex-grow-1">
-                                                <button class="mr-1 btn btn-secondary" style="padding: 0.2rem 0.57rem;" 
-                                                    [disabled]="callingOpenai" (click)="openFileInput(fileDropRef2)" aria-label="new file">
-                                                    <em class="fa fa-paperclip fa-rotate-180 h-4 w-auto" width="1em" height="1em" fill="currentColor"></em>
-                                                </button>
-                                                <input type="file" #fileDropRef2 id="fileDropRef2" multiple style="display: none;" (change)="onFileChangePDF($event)"
-                                                accept=".pdf, .docx, .jpg, .png, .jpeg, .bmp, .tiff, .heif, .pptx" />
-                                                <button class="mr-1 btn btn-primary" style="padding: 0.2rem 0.57rem;" 
-                                                        [disabled]="callingOpenai" (click)="sendMessage()" aria-label="send text">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 256 256" class="h-4 w-auto"><path d="M232,127.89a16,16,0,0,1-8.18,14L55.91,237.9A16.14,16.14,0,0,1,48,240a16,16,0,0,1-15.05-21.34L60.3,138.71A4,4,0,0,1,64.09,136H136a8,8,0,0,0,8-8.53,8.19,8.19,0,0,0-8.26-7.47H64.16a4,4,0,0,1-3.79-2.7l-27.44-80A16,16,0,0,1,55.85,18.07l168,95.89A16,16,0,0,1,232,127.89Z"></path></svg>
-                                                    </button>
-                                            </div>
-                                            
-                                        </span>
-                                    </div>
-                                </div>
-                                
                             </div>
                             
                             
@@ -367,6 +306,69 @@
                             </div>
                             
                         </div>
+                        <div class="offset-md-5 col-md-7" *ngIf="docs.length>0 && modegod">
+                            <div class="p-2 mt-2 rounded bg-grey" style="max-width: 700px;">
+                                <h5 class="text-muted mt-3 white">{{'home.s1.2' | translate }}
+                                    <button class="float-right btn btn-primary" (click)="deleteChat()">
+                                        <em class="fa fa-plus mr-1"></em> {{'home.s1.2.1' | translate }}
+                                    </button>
+                                    <button *ngIf="messages.length>1" class="float-right btn btn-primary mr-2" (click)="copyConversationToClipboard()"> <em class="fa fa-clipboard mr-1"></em> {{'generics.Copy' | translate }} Chat</button>
+                                </h5>
+                                <div class="chat-container">
+                                    <div *ngFor="let message of messages; let i = index" class="chat-messages" [ngClass]="{'user-is-sender': message.isUser}">
+                                        <div *ngIf="!message.isUser" class="ia-message-container mr-2 bg-white border" style="padding: 0.5rem;align-self: flex-start;border-radius: 1rem;">
+                                            <img src="assets/img/iconchat.webp" />
+                                        </div>
+                                        <div class="message-row"  [ngClass]="{'user-message': message.isUser, 'response-message': !message.isUser, 'response-form': !message.isUser}">
+                                                <ng-container *ngIf="!message.task && !message.file">
+                                                    <span [innerHTML]= "message.text | safe: 'html'" (click)="onMessageClick($event, i)"></span>
+                                                    <span *ngIf="!message.isUser && i== messages.length-1" class="d-block mt-2">
+                                                        <span class="float-right" *ngIf="i!=0">
+                                                            <em class="fa fa-clipboard pointer" (click)="copymsg(message)"></em>
+                                                        </span>
+                                                        
+                                                    </span>
+                                                </ng-container>
+                                            
+                                        </div>
+                                        <div *ngIf="message.isUser" [ngClass]="{'user-message': message.isUser}" class="ml-2 bg-primary white" style="padding: 0.5rem;">
+                                            <strong>{{'generics.Me' | translate }}</strong>
+                                        </div>
+                                    </div>
+                                    <span *ngIf="preparingFile">
+                                        <small class="d-block">{{'generics.Preparing to upload' | translate }}</small>
+                                        <i class="fa fa-spinner fa-spin fa-3x fa-fw primary"></i>
+                                    </span>
+                                    <div class="chat-messages pt-2" *ngIf="callingOpenai"  style="border-radius: 1rem;">
+                                        <span class="response-message font-small-3" style="background-color: white !important;" [innerHTML]="messagesExpectOutPut">
+                                        </span>
+                                        <em class="ml-1 fa fa-spinner fa-spin white fa-fw fa-2x" style="align-self: center;"></em>
+                                    </div>
+                                    <!--<div *ngIf="callingOpenai">
+                                        <em class="fa fa-spinner fa-spin primary fa-fw"></em>
+                                    </div>-->
+                                    <span>
+                                        <div class="d-flex align-items-center input-container mt-3" *ngIf="!callingOpenai">
+                                            <input type="text" [(ngModel)]="message" 
+                                                   [disabled]="callingOpenai" placeholder="{{'generics.Write a message' | translate }}..." 
+                                                   (keydown.enter)="sendMessage()" class="mt-0 border-0 mr-2 flex-grow-1">
+                                            <button class="mr-1 btn btn-secondary" style="padding: 0.2rem 0.57rem;" 
+                                                [disabled]="callingOpenai" (click)="openFileInput(fileDropRef2)" aria-label="new file">
+                                                <em class="fa fa-paperclip fa-rotate-180 h-4 w-auto" width="1em" height="1em" fill="currentColor"></em>
+                                            </button>
+                                            <input type="file" #fileDropRef2 id="fileDropRef2" multiple style="display: none;" (change)="onFileChangePDF($event)"
+                                            accept=".pdf, .docx, .jpg, .png, .jpeg, .bmp, .tiff, .heif, .pptx" />
+                                            <button class="mr-1 btn btn-primary" style="padding: 0.2rem 0.57rem;" 
+                                                    [disabled]="callingOpenai" (click)="sendMessage()" aria-label="send text">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 256 256" class="h-4 w-auto"><path d="M232,127.89a16,16,0,0,1-8.18,14L55.91,237.9A16.14,16.14,0,0,1,48,240a16,16,0,0,1-15.05-21.34L60.3,138.71A4,4,0,0,1,64.09,136H136a8,8,0,0,0,8-8.53,8.19,8.19,0,0,0-8.26-7.47H64.16a4,4,0,0,1-3.79-2.7l-27.44-80A16,16,0,0,1,55.85,18.07l168,95.89A16,16,0,0,1,232,127.89Z"></path></svg>
+                                                </button>
+                                        </div>
+                                        
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                     
                 </div>    
@@ -536,11 +538,26 @@
                 <span class="animate-bottom" *ngIf="showButtonScroll" id="buttomScroll">
                     <button type="button" class="btn btn-dark round mb-0" (click)="goToTop()">{{'summaryDx.Go top' | translate }}</button>
                 </span>
+                <div class="voice-recorder" *ngIf="supported" style="margin-bottom: 20px;">
+                    <div class="card-body border round p-3 mic-icon pointer bg-white" (click)="toggleRecording()">
+                      <span *ngIf="!recording" class="d-block">{{'voice.Start Voice Recognition' | translate }}</span>
+                      <i class="mt-2 fa-2x fa fa-microphone" *ngIf="!recording"></i>
+                      <span *ngIf="recording" class="d-block">{{'voice.Stop Voice Recognition' | translate }}</span>
+                      <i class="mt-2 fa-2x fa fa-stop danger" *ngIf="recording"></i>
+                      <div *ngIf="recording" class="d-block recording-indicator">
+                        <i class="fa fa-circle record-icon"></i> {{'voice.Recording' | translate }}...
+                      </div>
+                      <div *ngIf="recording" class="d-block">
+                        <p>{{ timerDisplay }}</p>
+                      </div>
+                    </div>
+                    
+                  </div>
                 <div class="row">
                     <div class="col-md-12 center-elements">
                         <textarea #inputTextArea class="form-control data-hj-allow" style="height:320px;" [(ngModel)]="medicalText"
                   name="medicalText" placeholder="{{'summaryDx.placeholder' | translate }}"></textarea>
-                  <button type="button" class="mt-2 btn btn-lg btn-primary round" [disabled]="callingSummary" title="{{'summaryDx.Generate summary' | translate }}"
+                  <button type="button" class="mt-2 btn btn-lg btn-primary round" [disabled]="callingSummary || recording" title="{{'summaryDx.Generate summary' | translate }}"
                   (click)="createFile();">{{'summaryDx.Generate summary' | translate }}</button>
                     </div>
                 </div>
