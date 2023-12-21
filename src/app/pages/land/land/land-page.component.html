@@ -21,288 +21,301 @@
     </div>
 </div>
 <div *ngIf="mode=='1'" [@testani]="mode">
-    <div class="col-md-12">
-        <buttom class="mt-3 btn btn-lg btn-primary text-bold-700 mt-2" (click)="backmode0()"><em class="fa fa-arrow-left"></em> {{'generics.Back' | translate }}</buttom>
-    </div>
-    <div class="col-md-12" *ngIf="submode=='opt3'">
-        <div class="card border">
-            <div class="card-header" id="idHeader">
-                <div class="content-header text-left">
-                    <h4 class="mb-0">{{'summaryDx.Diagnostic Summarizer' | translate }} <button *ngIf="summaryDx29!='' && !callingSummary" class="btn btn-dark round mb-0 ml-2" (click)="restartSummaryDx()"> {{'summaryDx.New summary' | translate }}</button></h4>
-                </div>
-            </div>
-            <div class="card-body content-wrapper p-2" id="idBody">
-                <div class="p-1">
-                    <div>
-                        <span class="animate-bottom" *ngIf="showButtonScroll" id="buttomScroll">
-                            <button type="button" class="btn btn-dark round mb-0" (click)="goToTop()">{{'summaryDx.Go top' | translate }}</button>
-                        </span>
-                        <div class="row">
-                            <div class="col-md-7 center-elements">
-                                <textarea #inputTextArea class="form-control data-hj-allow" style="height:320px;" [(ngModel)]="medicalText"
-                          name="medicalText" placeholder="{{'summaryDx.placeholder' | translate }}"></textarea>
-                          <button type="button" class="mt-2 btn btn-lg btn-primary round" [disabled]="callingSummary" title="{{'summaryDx.Generate summary' | translate }}"
-                          (click)="createSummaryDx29();">{{'summaryDx.Generate summary' | translate }}</button>
-                            </div>
-                            <div class="col-md-5">
-                                <p class="text-bold-500">{{'summaryDx.Summary for DxGPT' | translate }}</p>
-                                <span *ngIf="callingSummary"><em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em></span>
-                                <span *ngIf="summaryDx29=='' && !callingSummary">{{'summaryDx.The summary will appear here' | translate }}</span>
-                                <span *ngIf="summaryDx29!='' && !callingSummary" [innerHTML]= "summaryDx29 | safe: 'html'"></span>
-                                <span class="d-block center-elements mt-2" *ngIf="summaryDx29!='' && !callingSummary">
-                                    <button class="btn btn-primary" (click)="gotoDxGPT()">{{'summaryDx.Test in DxGPT' | translate }}</button>
-                                    <a class="d-block mt-1" href="javascript:;" (click)="copySummaryDx()"><em class="fa fa-clipboard pointer"></em> {{'generics.Copy' | translate }}</a>
-                                </span>
-                            </div>
-                        </div>
-                        
-        
+    <buttom *ngIf="docs.length==0" class="ml-3 mt-3 btn btn-lg btn-primary text-bold-700 mt-2" style="position: fixed;z-index: 2;" (click)="backmode0()"><em class="fa fa-arrow-left"></em> {{'generics.Back' | translate }}</buttom>
+    <div class="col-md-12" *ngIf="submode=='opt3' || submode=='opt1'">
+        <div *ngIf="docs.length == 0">
+            <div class="container-home">
+                <h1 class="title-home text-center text-bold-700 mb-5">{{'demo.How do you want to start?' | translate }}</h1>
+                <div class="row row-home w-100">
+                    <div class="col-md-4">
+                        <img class="logo-img" src='assets/img/home/opt4.png' />
+                        <buttom class="btn btn-lg btn-primary text-bold-700 mt-2" (click)="entryOpt('opt1', contentPhoto)">{{'demo.Take a photo' | translate }}</buttom>
                     </div>
-                </div>
-            </div>
-        </div>
-       
-    </div>
-    <div class="col-md-12" *ngIf="submode=='opt2'">
-        <div *ngIf="supported">
-            <div class="voice-recorder">
-                <div class="card-body border round p-3 mic-icon pointer bg-white" (click)="toggleRecording()">
-                  <span *ngIf="!recording" class="d-block">{{'voice.Start Voice Recognition' | translate }}</span>
-                  <i class="mt-2 fa-2x fa fa-microphone" *ngIf="!recording"></i>
-                  <span *ngIf="recording" class="d-block">{{'voice.Stop Voice Recognition' | translate }}</span>
-                  <i class="mt-2 fa-2x fa fa-stop danger" *ngIf="recording"></i>
-                  <div *ngIf="recording" class="d-block recording-indicator">
-                    <i class="fa fa-circle record-icon"></i> {{'voice.Recording' | translate }}...
-                  </div>
-                  <div *ngIf="recording" class="d-block">
-                    <p>{{ timerDisplay }}</p>
-                  </div>
-                </div>
-                
-              </div>
-              <div *ngIf="medicalText.length>0 && !recording" class="card border">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-7 center-elements">
-                            <textarea #inputTextArea class="form-control data-hj-allow" style="height:320px;" [(ngModel)]="medicalText"
-                      name="medicalText" placeholder="{{'summaryDx.placeholder' | translate }}"></textarea>
-                      <button class="mt-2 btn btn-primary mb-2" (click)="madeSummaryTranscript()">{{'demo.Summarise the transcript' | translate }}</button>
-                        </div>
-                        <div class="col-md-5">
-                            <span *ngIf="callingSummary"><em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em></span>
-                            <span *ngIf="summaryDx29=='' && !callingSummary">{{'summaryDx.The summary will appear here' | translate }}</span>
-                            <span *ngIf="summaryDx29!='' && !callingSummary" [innerHTML]= "summaryDx29 | safe: 'html'"></span>
-                            <span class="d-block center-elements mt-2" *ngIf="summaryDx29!='' && !callingSummary">
-                                <a class="d-block" href="javascript:;" (click)="copySummaryDx()"><em class="fa fa-clipboard pointer"></em> {{'generics.Copy' | translate }}</a>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                
-                
-              </div>
-        </div>
-        <div *ngIf="!supported" class="offset-md-3 col-md-6">
-            <div class="alert alert-danger" style="font-size: 1.25rem !important;font-weight: 700;">
-                <p>{{'voice.Sorry, voice recognition is not supported in your browser.' | translate }}</p>
-                <p>{{'voice.We recommend that you use Google Chrome, Microsoft Edge, or Safari.' | translate }}</p>
-              </div>
-        </div>
-        
-    </div>
-    <div class="col-md-12" *ngIf="submode=='opt1'">
-        <div *ngIf="!loadedDocs">
-            <div class="mt-4 mx-auto center-elements" style="max-width: 40rem !important;">
-                <em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em>
-                <p>{{'generics.Please wait' | translate }}</p>
-            </div>
-        </div>
-        <div *ngIf="loadedDocs">
-            <div class="mt-4 offset-md-1 col-md-10">
-                <div class="row">
-                    <div class="col-md-5" [ngClass]="(docs.length==0)?'offset-md-3 col-md-6':''">
-                        <div *ngIf="docs.length==0" class="container-custom m-2" appDnd (fileDropped)="onFileDropped($event)">
+                    <div class="col-md-4">
+                        <img class="logo-img" src='assets/img/home/opt5.png' />
+                        <div class="container-custom2">
                             <input class="pointer" aria-label="new file" type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event);"
-                              accept=".pdf, .docx" />
-                            <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="arrow-alt-from-bottom"
-                              role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
-                              class="secondary svg-inline--fa fa-arrow-alt-from-bottom fa-w-12 fa-fw fa-2x">
-                              <path fill="currentColor"
-                                d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48z"
-                                class=""></path>
-                            </svg>
-                            <h3 class="mt-2">{{'demo.Drag and drop file here' | translate }}</h3>
-                            <h3>{{'demo.or' | translate }}</h3>
-                            <buttom class="btn btn-lg btn-primary"
-                              style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
-                              for="fileDropRef">{{'demo.Browse for file' | translate }}</buttom>
-                            <h3 class="mt-2 d-block">{{'demo.Accepted files' | translate }}</h3>
-                            <span class="mt-2 font-small-3 text-muted">{{'demo.descripReports' | translate }}</span>
-                          </div>
-                        <div class="card" *ngIf="docs.length>0">
-                            <div class="card-content">
-                                <div class="card-body py-0">
-                                    <div class="media pb-1">
-                                        <div class="media-body text-left">
-                                            <span *ngIf="loadedDocs">
-                                                <h3 class="font-large-1 mb-0" *ngIf="docs.length>0" (click)="showModeGod()">
-                                                    {{docs.length}}</h3>
-                                                <h3 class="font-large-1 mb-0" *ngIf="docs.length==0">0</h3>
-                                            </span>
-                                            <span *ngIf="!loadedDocs">
-                                                <em class="fa fa-spinner fa-spin fa-fw primary"></em>
-                                            </span>
-                                            <span>{{'home.s1.1' | translate }}</span>
-                                        </div>
-                                        <div class="media-right text-right">
-                                            <em class="fa fa-files-o secondary fa-2x"></em>
+                            accept=".pdf, .docx, .jpg, .png, .jpeg, .bmp, .tiff, .heif, .pptx" />
+                            <buttom class="btn btn-lg btn-primary text-bold-700 mt-2" for="fileDropRef">{{'demo.Use a file' | translate }}</buttom>
+                        </div>
+                        <!--<buttom class="btn btn-lg btn-primary text-bold-700 mt-2" (click)="entryOpt('opt2', null)">Usar uno o varios informes</buttom>-->
+                    </div>
+                    <div class="col-md-4">
+                        <img class="logo-img" src='assets/img/home/opt6.png' />
+                        <buttom class="btn btn-lg btn-primary text-bold-700 mt-2" (click)="showPanelMedium(contentSummaryDx)">{{'demo.Write text' | translate }}</buttom>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="docs.length > 0">
+            <div *ngIf="!loadedDocs">
+                <div class="mt-4 mx-auto center-elements" style="max-width: 40rem !important;">
+                    <em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em>
+                    <p>{{'generics.Please wait' | translate }}</p>
+                </div>
+            </div>
+            <div *ngIf="loadedDocs">
+                
+                <div class="mt-4 col-md-12">
+                    <div class="col-md-12 mb-3 center-elements">
+                        <buttom class="btn btn-lg btn-primary text-bold-700 float-left" (click)="backmode0()"><em class="fa fa-arrow-left"></em> {{'generics.Back' | translate }}</buttom>
+                        <h1 *ngIf="submode == 'opt1'">{{'demo.Summarize medical reports' | translate }}</h1>
+                        <h1 *ngIf="submode == 'opt2'">{{'demo.Summarize a medical conversation' | translate }}</h1>
+                        <h1 *ngIf="submode == 'opt3'">{{'demo.Find a diagnosis' | translate }}</h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5" [ngClass]="(docs.length==0)?'offset-md-3 col-md-6':''">
+                            <div *ngIf="docs.length==0" class="container-custom m-2" appDnd (fileDropped)="onFileDropped($event)">
+                                <input class="pointer" aria-label="new file" type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event);"
+                                accept=".pdf, .docx, .jpg, .png, .jpeg, .bmp, .tiff, .heif, .pptx" />
+                                <svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="arrow-alt-from-bottom"
+                                  role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"
+                                  class="secondary svg-inline--fa fa-arrow-alt-from-bottom fa-w-12 fa-fw fa-2x">
+                                  <path fill="currentColor"
+                                    d="M369.9 97.9L286 14C277 5 264.8-.1 252.1-.1H48C21.5 0 0 21.5 0 48v416c0 26.5 21.5 48 48 48h288c26.5 0 48-21.5 48-48V131.9c0-12.7-5.1-25-14.1-34zM332.1 128H256V51.9l76.1 76.1zM48 464V48h160v104c0 13.3 10.7 24 24 24h104v288H48z"
+                                    class=""></path>
+                                </svg>
+                                <h3 class="mt-2">{{'demo.Drag and drop file here' | translate }}</h3>
+                                <h3>{{'demo.or' | translate }}</h3>
+                                <buttom class="btn btn-lg btn-primary"
+                                  style="text-transform: none;letter-spacing: 0px;cursor: pointer;"
+                                  for="fileDropRef">{{'demo.Browse for file' | translate }}</buttom>
+                                <h3 class="mt-2 d-block">{{'demo.Accepted files' | translate }}</h3>
+                                <span class="mt-2 font-small-3 text-muted">{{'demo.descripReports' | translate }}</span>
+                              </div>
+                            <div class="card" *ngIf="docs.length>0">
+                                <div class="card-content">
+                                    <div class="card-body py-0">
+                                        <div class="media pb-1">
+                                            <div class="media-body text-left">
+                                                <span *ngIf="loadedDocs">
+                                                    <h3 class="font-large-1 mb-0" *ngIf="docs.length>0" (click)="showModeGod()">
+                                                        {{docs.length}}</h3>
+                                                    <h3 class="font-large-1 mb-0" *ngIf="docs.length==0">0</h3>
+                                                </span>
+                                                <span *ngIf="!loadedDocs">
+                                                    <em class="fa fa-spinner fa-spin fa-fw primary"></em>
+                                                </span>
+                                                <span>{{'home.s1.1' | translate }}</span>
+                                            </div>
+                                            <div class="media-right text-right">
+                                                <em class="fa fa-files-o secondary fa-2x"></em>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div>
-                                <hr class="mt-0 mb-0">
-                                <div *ngFor="let doc of docs; let i = index " class="">
-                                    <div class="card-body" [ngClass]="{'panelHearder': innerWidth>992}">
-                                        <span class="text-bold-500 text-left">
-                                            <span class="dark nav-item pt-1" ngbDropdown display="dynamic"
-                                                placement="bottom-right"
-                                                style="position: absolute; right: 0px;">
-                                                <a class="position-relative colorlink"
-                                                    style="padding: 0rem 1rem;" id="dropdownSympt{{i}}"
-                                                    ngbDropdownToggle
-                                                    title="{{'generics.Options' | translate }}">
-                                                    <i class="fa fa-ellipsis-v fa-1_5x"></i>
-                                                </a>
-                                                <div ngbDropdownMenu aria-labelledby="dropdownSympt{{i}}"
-                                                    class="dropdown">
-                                                    <a class="dropdown-item py-1" 
-                                                    (click)="getBlobUrl(doc)"
-                                                    target="_blank">
-                                                        <i class="fa fa-file"></i>
-                                                        <span class="ml-2">{{'messages.m1.3' | translate }}</span>
+                                <div>
+                                    <hr class="mt-0 mb-0">
+                                    <div *ngFor="let doc of docs; let i = index " class="">
+                                        <div class="card-body" [ngClass]="{'panelHearder': innerWidth>992}">
+                                            <span class="text-bold-500 text-left">
+                                                <span class="dark nav-item pt-1" ngbDropdown display="dynamic"
+                                                    placement="bottom-right"
+                                                    style="position: absolute; right: 0px;">
+                                                    <a class="position-relative colorlink"
+                                                        style="padding: 0rem 1rem;" id="dropdownSympt{{i}}"
+                                                        ngbDropdownToggle
+                                                        title="{{'generics.Options' | translate }}">
+                                                        <i class="fa fa-ellipsis-v fa-1_5x"></i>
                                                     </a>
-                                                    <!--<a class="dropdown-item py-1" href="javascript:;"
-                                                        (click)="openResults(doc, contentSummaryDoc)">
-                                                        <i class="fa fa-file"></i><span
-                                                            class="ml-2">{{'messages.m1.2' | translate
-                                                            }}</span>
-                                                    </a>-->
-                                                    <a *ngIf="doc.state=='done'" class="dropdown-item py-1 danger" href="javascript:;"
-                                                        (click)="deleteDoc(doc, i);">
-                                                        <i class="fa fa-trash"></i><span
-                                                            class="ml-2">{{'generics.Delete' | translate
-                                                            }}</span>
-                                                    </a>
+                                                    <div ngbDropdownMenu aria-labelledby="dropdownSympt{{i}}"
+                                                        class="dropdown">
+                                                        <a class="dropdown-item py-1" 
+                                                        (click)="getBlobUrl(doc)"
+                                                        target="_blank">
+                                                            <i class="fa fa-file"></i>
+                                                            <span class="ml-2">{{'messages.m1.3' | translate }}</span>
+                                                        </a>
+                                                        <!--<a class="dropdown-item py-1" href="javascript:;"
+                                                            (click)="openResults(doc, contentSummaryDoc)">
+                                                            <i class="fa fa-file"></i><span
+                                                                class="ml-2">{{'messages.m1.2' | translate
+                                                                }}</span>
+                                                        </a>-->
+                                                        <a *ngIf="doc.state=='done'" class="dropdown-item py-1 danger" href="javascript:;"
+                                                            (click)="deleteDoc(doc, i);">
+                                                            <i class="fa fa-trash"></i><span
+                                                                class="ml-2">{{'generics.Delete' | translate
+                                                                }}</span>
+                                                        </a>
+                                                    </div>
+                                                </span>
+                                                <span *ngIf="doc.dataFile">
+                                                    <span class="d-inline-block">{{doc.dataFile.name}}</span>
+                                                    <span class="d-block text-muted">{{ doc.dataFile.event.size | bytes }} </span>
+                                                    <span *ngIf="doc.tokens>1000" class="d-block text-muted">{{doc.tokens | tokens}} </span>
+                                                </span>
+                                                <span>
+                                                    {{'generics.Status' | translate }}:
+                                                </span>
+                                                <span *ngIf="doc.state=='done'">
+                                                    <em class="fa fa-check fa-fw success"></em>
+                                                </span>
+                                                <span *ngIf="doc.state!='done' && doc.state!='failed'">
+                                                    <span *ngIf="doc.state=='uploading'">{{'messages.m1.1' | translate }}</span>
+                                                    <em class="fa fa-spinner fa-spin fa-fw primary"></em>
+                                                </span>
+                                                <span *ngIf="doc.state=='failed'">
+                                                    <em class="fa fa-times fa-fw danger"></em>
+                                                </span>
+                                            </span>
+                                            <div class="d-block">
+                                                <span *ngIf="doc.numTotalEvents>0">
+                                                    <span *ngIf="doc.numLeftEvents>0">
+                                                        {{doc.numLeftEvents}} {{'home.of' | translate }} {{doc.numTotalEvents}} {{'home.unchecked events' | translate }}
+                                                    </span>
+                                                    <span *ngIf="doc.numLeftEvents==0">
+                                                        {{doc.numTotalEvents}} {{'home.checked events' | translate }}
+                                                    </span>
+                                                    <span></span>
+                                                </span>
+                                                <span *ngIf="doc.numTotalEvents==0">{{'home.No events have been detected' | translate }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-2" *ngIf="totalTokens>1000">
+                                        <div class="progress">
+                                            <div 
+                                              class="progress-bar" 
+                                              role="progressbar" 
+                                              [style.width]="(totalTokens / TOKENS_LIMIT) * 100 + '%'" 
+                                              [attr.aria-valuenow]="totalTokens" 
+                                              aria-valuemin="0" 
+                                              aria-valuemax="TOKENS_LIMIT">
+                                            </div>
+                                          </div>
+                                          <p> {{totalTokens | tokens}} / {{TOKENS_LIMIT |tokens}}</p>
+                                          <p *ngIf="totalTokens>TOKENS_LIMIT" class="danger"> {{'demo.Tokens limit exceeded' | translate }}</p>
+                                    </div>
+                                    
+                                </div>
+                                <div class="border-top card-footer center-elements" style="background-color: #d9d9d9;">
+                                    <p class="text-bold-700">{{'demo.Add new reports' | translate }}</p>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div><img class="logo-img-sm" src='assets/img/home/opt4.png' width="40px"/></div>
+                                            <div><buttom class="btnblock btn btn-sm btn-primary mt-2" (click)="entryOpt('opt1', contentPhoto)">{{'demo.Take a photo' | translate }}</buttom></div>
+                                            
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div><img class="logo-img-sm" src='assets/img/home/opt5.png' width="40px"/></div>
+                                            <div>
+                                                <div class="container-custom2">
+                                                    <input class="pointer" aria-label="new file" type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event);"
+                                                    accept=".pdf, .docx, .jpg, .png, .jpeg, .bmp, .tiff, .heif, .pptx" />
+                                                    <buttom class="btnblock btn btn-sm btn-primary mt-2" for="fileDropRef">{{'demo.Use a file' | translate }}</buttom>
                                                 </div>
-                                            </span>
-                                            <span *ngIf="doc.dataFile">
-                                                <span class="d-inline-block">{{doc.dataFile.name}}</span>
-                                                <span class="d-block text-muted">{{ doc.dataFile.event.size | bytes }} </span>
-                                                <span *ngIf="doc.tokens>1000" class="d-block text-muted">{{doc.tokens | tokens}} </span>
-                                            </span>
-                                            <span>
-                                                {{'generics.Status' | translate }}:
-                                            </span>
-                                            <span *ngIf="doc.state=='done'">
-                                                <em class="fa fa-check fa-fw success"></em>
-                                            </span>
-                                            <span *ngIf="doc.state!='done' && doc.state!='failed'">
-                                                <span *ngIf="doc.state=='uploading'">{{'messages.m1.1' | translate }}</span>
-                                                <em class="fa fa-spinner fa-spin fa-fw primary"></em>
-                                            </span>
-                                            <span *ngIf="doc.state=='failed'">
-                                                <em class="fa fa-times fa-fw danger"></em>
-                                            </span>
-                                        </span>
-                                        <div class="d-block">
-                                            <span *ngIf="doc.numTotalEvents>0">
-                                                <span *ngIf="doc.numLeftEvents>0">
-                                                    {{doc.numLeftEvents}} {{'home.of' | translate }} {{doc.numTotalEvents}} {{'home.unchecked events' | translate }}
-                                                </span>
-                                                <span *ngIf="doc.numLeftEvents==0">
-                                                    {{doc.numTotalEvents}} {{'home.checked events' | translate }}
-                                                </span>
-                                                <span></span>
-                                            </span>
-                                            <span *ngIf="doc.numTotalEvents==0">{{'home.No events have been detected' | translate }}</span>
+                                            </div>
+                                            
                                         </div>
+                                        <div class="col-sm-4">
+                                            <div><img class="logo-img-sm" src='assets/img/home/opt6.png' width="40px"/></div>
+                                            <div><buttom class="btnblock btn btn-sm btn-primary mt-2" (click)="showPanelMedium(contentSummaryDx)">{{'demo.Write text' | translate }}</buttom></div>
+                                        </div>
+
                                     </div>
+                                    <!--<button class="mt-3 btn btn-primary" style="padding: 0.2rem 0.57rem;" 
+                                    [disabled]="callingOpenai" (click)="openFileInput(fileDropRef2)" aria-label="new file">
+                                    <em class="fa fa-paperclip fa-rotate-180 h-4 w-auto" width="1em" height="1em" fill="currentColor"></em> {{'demo.Add new reports' | translate }}
+                                    </button>
+                                    <p class="mt-2 d-block">{{'demo.Accepted files' | translate }}</p>
+                                    <input type="file" #fileDropRef2 id="fileDropRef2" multiple style="display: none;" (change)="onFileChangePDF($event)"
+                                    accept=".pdf, .docx" />-->
                                 </div>
-                                <div class="p-2" *ngIf="totalTokens>1000">
-                                    <div class="progress">
-                                        <div 
-                                          class="progress-bar" 
-                                          role="progressbar" 
-                                          [style.width]="(totalTokens / TOKENS_LIMIT) * 100 + '%'" 
-                                          [attr.aria-valuenow]="totalTokens" 
-                                          aria-valuemin="0" 
-                                          aria-valuemax="TOKENS_LIMIT">
-                                        </div>
-                                      </div>
-                                      <p> {{totalTokens | tokens}} / {{TOKENS_LIMIT |tokens}}</p>
-                                      <p *ngIf="totalTokens>TOKENS_LIMIT" class="danger"> {{'demo.Tokens limit exceeded' | translate }}</p>
-                                </div>
-                                
-                            </div>
-                            <div class="border-top card-footer center-elements" style="background-color: #d9d9d9;">
-                                <button class="mt-3 btn btn-primary" style="padding: 0.2rem 0.57rem;" 
-                                [disabled]="callingOpenai" (click)="openFileInput(fileDropRef2)" aria-label="new file">
-                                <em class="fa fa-paperclip fa-rotate-180 h-4 w-auto" width="1em" height="1em" fill="currentColor"></em> {{'demo.Add new reports' | translate }}
-                            </button>
-                            <p class="mt-2 d-block">{{'demo.Accepted files' | translate }}</p>
-                            <input type="file" #fileDropRef2 id="fileDropRef2" multiple style="display: none;" (change)="onFileChangePDF($event)"
-                            accept=".pdf, .docx" />
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-7" *ngIf="docs.length>0">
-                        <div class="card card-body">
-                            <div class="row" *ngIf="callingSummary">
-                                <div class="col-md-12">
-                                    <span class="d-block mt-2 center-elements"><em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em></span>
-                                </div>
-                            </div>
-                            <div class="row" *ngIf="!callingSummary && summaryPatient==''">
-                                <div class="col-md-12">
-                                    <h4 class="text-center">{{'demo.Make a summary for' | translate }}</h4>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="center-elements">
-                                        <button class="mb-2 btn btn-primary mr-1" (click)="madeSummary('physician')">{{'demo.a physician' | translate }}</button>
-                                        <button class="mb-2 btn btn-primary ml-1" (click)="selectSubrole()">{{'demo.a patient' | translate }}</button>
-                                    </div>
-                                    <div *ngIf="showPatientTypeButtons" class="center-elements mt-3">
-                                        <div class="col-md-12">
-                                            <h5 class="text-muted text-center">{{'demo.Written for' | translate }}</h5>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <button class="mb-2 btn btn-secondary ml-1" (click)="madeSummary('adult')">
-                                                {{ 'demo.Adults' | translate }}
-                                            </button>
-                                            <button class="mb-2 btn btn-secondary ml-1" (click)="madeSummary('young')">
-                                                {{ 'demo.Children' | translate }}
-                                            </button>
-                                        </div>
-                                        
+                        <div class="col-lg-7" *ngIf="docs.length>0 && submode=='opt1'">
+                            <div class="card card-body">
+                                <div class="row" *ngIf="callingSummary">
+                                    <div class="col-md-12">
+                                        <span class="d-block mt-2 center-elements"><em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em></span>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row" *ngIf="!callingSummary && summaryPatient!=''">
-                                <div class="center-elements">
-                                    <div class="d-block mt-2">
+                                <div class="row" *ngIf="!callingSummary && summaryPatient==''">
+                                    <div class="col-md-12">
+                                        <h4 class="text-center">{{'demo.I want a summary for' | translate }}</h4>
+                                    </div>
+                                    <div class="col-md-12">
                                         <div class="center-elements">
-                                            <button class="btn btn-primary mr-1" (click)="newSummary()">{{'demo.New summary' | translate }}</button>
-                                            <button class="btn btn-primary ml-1 mr-1" (click)="openFeedback()" target="_blank">{{'demo.Make evaluation' | translate }}</button>
-                                            <button class="btn btn-primary ml-1" (click)="download()">{{'generics.ExportData' | translate }}</button>
+                                            <button class="mb-2 btn btn-primary mr-1" (click)="madeSummary('physician')">{{'demo.a physician' | translate }}</button>
+                                            <button class="mb-2 btn ml-1" (click)="selectSubrole()" [ngClass]="(showPatientTypeButtons)?'btn-secondary':'btn-primary'">{{'demo.a patient' | translate }}</button>
                                         </div>
-                                        <div class="text-left p-2">
-                                            <span [innerHTML]= "summaryPatient | safe: 'html'"></span>
+                                        <div *ngIf="showPatientTypeButtons" class="center-elements mt-3">
+                                            <div class="col-md-12">
+                                                <h4 class="text-center">{{'demo.Written for' | translate }}</h4>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <button class="mb-2 btn btn-primary ml-1" (click)="madeSummary('adult')">
+                                                    {{ 'demo.Adults' | translate }}
+                                                </button>
+                                                <button class="mb-2 btn btn-primary ml-1" (click)="madeSummary('young')">
+                                                    {{ 'demo.Children' | translate }}
+                                                </button>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="!callingSummary && summaryPatient!=''">
+                                    <div class="center-elements">
+                                        <div class="d-block mt-2">
+                                            <div class="center-elements">
+                                                <button class="btn btn-primary mr-1" (click)="newSummary()">{{'demo.New summary' | translate }}</button>
+                                                <button class="btn btn-primary ml-1 mr-1" (click)="openFeedback()" target="_blank">{{'demo.Make evaluation' | translate }}</button>
+                                                <button class="btn btn-primary ml-1" (click)="download()">{{'generics.ExportData' | translate }}</button>
+                                            </div>
+                                            <div class="text-left p-2">
+                                                <span [innerHTML]= "summaryPatient | safe: 'html'"></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="p-2 mt-2 rounded bg-grey" *ngIf="modegod">
+                            
+                            
+                        </div>
+                        <div class="col-md-7" *ngIf="docs.length>0 && submode=='opt3'">
+                            <div class="card card-body">
+                                <p class="text-bold-500" *ngIf="!callingSummary && summaryDx29==''">{{'summaryDx.Summary for DxGPT' | translate }}</p>
+                                <div class="row" *ngIf="callingSummary">
+                                    <div class="col-md-12">
+                                        <span class="d-block mt-2 center-elements"><em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em></span>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="!callingSummary && summaryDx29==''">
+                                    <div class="col-md-12 center-elements">
+                                        <button type="button" class="mt-2 btn btn-lg btn-primary round" [disabled]="callingSummary" title="{{'summaryDx.Generate summary' | translate }}"
+                                        (click)="createSummaryDx29();">{{'summaryDx.Generate summary' | translate }}</button>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="!callingSummary && summaryDx29!=''">
+                                    <div class="col-md-12">
+                                        <div class="center-elements">
+                                            <div class="d-block mt-2">
+                                                <div class="center-elements">
+                                                    <button class="btn btn-primary mr-1" (click)="createSummaryDx29()">{{'demo.New summary' | translate }}</button>
+                                                    <button class="btn btn-primary ml-1" (click)="openFeedback()" target="_blank">{{'demo.Make evaluation' | translate }}</button>
+                                                </div>
+                                                <div class="text-left mt-3 mb-3 p-2">
+                                                    <p class="text-bold-500 mb-0">{{'summaryDx.These are the symptoms obtained from your reports' | translate }}:</p>
+                                                    <span [innerHTML]= "summaryDx29 | safe: 'html'"></span>
+                                                </div>
+    
+                                                <span class="d-block center-elements mt-2">
+                                                    <p class="text-bold-500 mt-2">{{'summaryDx.To see the list of possible diagnostics, click on the following button' | translate }}</p>
+                                                    <button class="btn btn-primary" (click)="gotoDxGPT()">{{'summaryDx.Test in DxGPT' | translate }}</button>
+                                                    <a class="d-block mt-1" href="javascript:;" (click)="copySummaryDx()"><em class="fa fa-clipboard pointer"></em> {{'generics.Copy' | translate }}</a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="offset-md-5 col-md-7" *ngIf="docs.length>0 && modegod">
+                            <div class="p-2 mt-2 rounded bg-grey" style="max-width: 700px;">
                                 <h5 class="text-muted mt-3 white">{{'home.s1.2' | translate }}
                                     <button class="float-right btn btn-primary" (click)="deleteChat()">
                                         <em class="fa fa-plus mr-1"></em> {{'home.s1.2.1' | translate }}
@@ -352,7 +365,7 @@
                                                 <em class="fa fa-paperclip fa-rotate-180 h-4 w-auto" width="1em" height="1em" fill="currentColor"></em>
                                             </button>
                                             <input type="file" #fileDropRef2 id="fileDropRef2" multiple style="display: none;" (change)="onFileChangePDF($event)"
-                                            accept=".pdf, .docx" />
+                                            accept=".pdf, .docx, .jpg, .png, .jpeg, .bmp, .tiff, .heif, .pptx" />
                                             <button class="mr-1 btn btn-primary" style="padding: 0.2rem 0.57rem;" 
                                                     [disabled]="callingOpenai" (click)="sendMessage()" aria-label="send text">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 256 256" class="h-4 w-auto"><path d="M232,127.89a16,16,0,0,1-8.18,14L55.91,237.9A16.14,16.14,0,0,1,48,240a16,16,0,0,1-15.05-21.34L60.3,138.71A4,4,0,0,1,64.09,136H136a8,8,0,0,0,8-8.53,8.19,8.19,0,0,0-8.26-7.47H64.16a4,4,0,0,1-3.79-2.7l-27.44-80A16,16,0,0,1,55.85,18.07l168,95.89A16,16,0,0,1,232,127.89Z"></path></svg>
@@ -362,17 +375,62 @@
                                     </span>
                                 </div>
                             </div>
-                            
                         </div>
                         
-                        
+                    </div>
+                    
+                </div>    
+            </div>
+        </div>
+       
+    </div>
+    <div class="col-md-12" *ngIf="submode=='opt2'">
+        <div *ngIf="supported">
+            <div class="voice-recorder">
+                <div class="card-body border round p-3 mic-icon pointer bg-white" (click)="toggleRecording()">
+                  <span *ngIf="!recording" class="d-block">{{'voice.Start Voice Recognition' | translate }}</span>
+                  <i class="mt-2 fa-2x fa fa-microphone" *ngIf="!recording"></i>
+                  <span *ngIf="recording" class="d-block">{{'voice.Stop Voice Recognition' | translate }}</span>
+                  <i class="mt-2 fa-2x fa fa-stop danger" *ngIf="recording"></i>
+                  <div *ngIf="recording" class="d-block recording-indicator">
+                    <i class="fa fa-circle record-icon"></i> {{'voice.Recording' | translate }}...
+                  </div>
+                  <div *ngIf="recording" class="d-block">
+                    <p>{{ timerDisplay }}</p>
+                  </div>
+                </div>
+                
+              </div>
+              <div *ngIf="medicalText.length>0 && !recording" class="card border">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-7 center-elements">
+                            <textarea #inputTextArea class="form-control data-hj-allow" style="height:320px;" [(ngModel)]="medicalText"
+                      name="medicalText" placeholder="{{'summaryDx.placeholder' | translate }}"></textarea>
+                      <button class="mt-2 btn btn-primary mb-2" (click)="madeSummaryTranscript()">{{'demo.Summarise the transcript' | translate }}</button>
+                        </div>
+                        <div class="col-md-5">
+                            <span *ngIf="callingSummary"><em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em></span>
+                            <span *ngIf="summaryDx29=='' && !callingSummary">{{'summaryDx.The summary will appear here' | translate }}</span>
+                            <span *ngIf="summaryDx29!='' && !callingSummary" [innerHTML]= "summaryDx29 | safe: 'html'"></span>
+                            <span class="d-block center-elements mt-2" *ngIf="summaryDx29!='' && !callingSummary">
+                                <a class="d-block" href="javascript:;" (click)="copySummaryDx()"><em class="fa fa-clipboard pointer"></em> {{'generics.Copy' | translate }}</a>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 
-            </div>    
+                
+              </div>
         </div>
-    </div>
-  
+        <div *ngIf="!supported" class="offset-md-3 col-md-6 mt-3">
+            <div class="alert alert-danger" style="font-size: 1.25rem !important;font-weight: 700;">
+                <p>{{'voice.Sorry, voice recognition is not supported in your browser.' | translate }}</p>
+                <p>{{'voice.We recommend that you use Google Chrome, Microsoft Edge, or Safari.' | translate }}</p>
+              </div>
+        </div>
+        
+    </div>  
 </div>
 
 
@@ -443,3 +501,77 @@
     </div>
 </ng-template>
 <button id="openModalIntro" [hidden]="true" (click)="showPanelIntro(contentIntro)">.</button>
+<ng-template #contentPhoto let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header" id="idHeader">
+        <button type="button" class="close" aria-label="Close" (click)="closeModal();">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <a id="initcontentIntro" class="anchorSteps"></a>
+    <div class="modal-body">
+      <div class="row text-left">
+        <div class="card-body col-md-12">
+          <div class="row">
+            <div class="col-sm-12" *ngIf="stepPhoto==1">
+                <video #videoElement id="videoElement" class="w-100" autoplay></video>
+            </div>
+            <div class="col-sm-12" *ngIf="stepPhoto==2">
+                <img *ngIf="capturedImage" class="w-100" [src]="capturedImage" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="form-actions col-md-12 center-elements">
+        <button type="button" *ngIf="stepPhoto>1" class="btn round btn-secondary float-left" (click)="prevCamera();">{{'demo.Repeat photo' | translate }}</button>
+        <button type="button" *ngIf="stepPhoto==1" class="btn round btn-primary float-right" (click)="captureImage()">{{'demo.Capture photo' | translate }}</button>
+        <button type="button" *ngIf="stepPhoto==2" class="btn round btn-primary float-right" (click)="finishPhoto()">{{'demo.I like it' | translate }}</button>
+      </div>
+    </div>
+</ng-template>
+
+<ng-template #contentSummaryDx id="contentSummaryDx" let-c="close" let-d="dismiss" appendTo="body">
+    <div class="modal-header" id="idHeader">
+        <div class="content-header text-left">
+            <h4 class="mb-0">{{'summaryDx.Diagnostic Summarizer' | translate }} <button *ngIf="summaryDx29!='' && !callingSummary" class="btn btn-dark round mb-0 ml-2" (click)="restartSummaryDx()"> {{'demo.New summary' | translate }}</button></h4>
+        </div>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal();">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body content-wrapper p-2" id="idBody">
+        <div class="p-1">
+            <div>
+                <span class="animate-bottom" *ngIf="showButtonScroll" id="buttomScroll">
+                    <button type="button" class="btn btn-dark round mb-0" (click)="goToTop()">{{'summaryDx.Go top' | translate }}</button>
+                </span>
+                <div class="voice-recorder" *ngIf="supported" style="margin-bottom: 20px;">
+                    <div class="card-body border round p-3 mic-icon pointer bg-white" (click)="toggleRecording()">
+                      <span *ngIf="!recording" class="d-block">{{'voice.Start Voice Recognition' | translate }}</span>
+                      <i class="mt-2 fa-2x fa fa-microphone" *ngIf="!recording"></i>
+                      <span *ngIf="recording" class="d-block">{{'voice.Stop Voice Recognition' | translate }}</span>
+                      <i class="mt-2 fa-2x fa fa-stop danger" *ngIf="recording"></i>
+                      <div *ngIf="recording" class="d-block recording-indicator">
+                        <i class="fa fa-circle record-icon"></i> {{'voice.Recording' | translate }}...
+                      </div>
+                      <div *ngIf="recording" class="d-block">
+                        <p>{{ timerDisplay }}</p>
+                      </div>
+                    </div>
+                    
+                  </div>
+                <div class="row">
+                    <div class="col-md-12 center-elements">
+                        <textarea #inputTextArea class="form-control data-hj-allow" style="height:320px;" [(ngModel)]="medicalText"
+                  name="medicalText" placeholder="{{'summaryDx.placeholder' | translate }}"></textarea>
+                  <button type="button" class="mt-2 btn btn-lg btn-primary round" [disabled]="callingSummary || recording" title="{{'summaryDx.Generate summary' | translate }}"
+                  (click)="createFile();">{{'summaryDx.Generate summary' | translate }}</button>
+                    </div>
+                </div>
+                
+
+            </div>
+        </div>
+    </div>
+</ng-template>

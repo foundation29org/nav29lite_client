@@ -4,13 +4,17 @@
     "Summarize medical reports": "Resumir informes médicos",
     "Summarize a medical conversation": "Resumir una conversación médica",
     "Find a diagnosis": "Buscar un diagnóstico",
+    "How do you want to start?": "¿Cómo quieres empezar?",
+    "Take a photo": "Tomar una foto",
+    "Use a file": "Usar un archivo",
+    "Write text": "Escribir texto",
     "Drag and drop file here": "Arrastre y deje sus informes aquí",
     "or": "o",
     "Browse for file": "Busque los archivos",
     "Accepted files": "Archivos aceptados: pdf, docx",
     "descripReports": "Entendemos que estos datos son muy sensibles. Todos los datos se borran al cerrar esta ventana.",
     "Tokens limit exceeded": "Límite de tokens excedido, elimine un documento para continuar.",
-    "Make a summary for": "Hacer un resumen para",
+    "I want a summary for": "Quiero un resumen para",
     "a patient": "Un paciente",
     "a physician": "Un médico",
     "Summarise the transcript": "Resumir la transcripción",
@@ -20,7 +24,10 @@
     "New summary": "Nuevo resumen",
     "Make evaluation": "Hacer evaluación",
     "No documents to summarize": "No hay documentos para resumir, o no ha terminado de extraer el texto.",
-    "Add new reports": "Añadir nuevos informes"
+    "Add new reports": "Añadir nuevos informes",
+    "Repeat photo": "Repetir foto",
+    "Capture photo": "Capturar foto",
+    "I like it": "Me gusta"
    },
    "voice":{
     "Start Voice Recognition": "Iniciar reconocimiento de voz",
@@ -36,10 +43,12 @@
     "Error in voice recognition.": "Error en el reconocimiento de voz."
    },
    "summaryDx":{
-    "Summary for DxGPT": "Resumen para DxGPT",
+    "Summary for DxGPT": "Para visualizar los posibles diagnósticos a partir de la información de sus informes, primero es necesario resumir los síntomas. Haga clic en el botón siguiente para continuar.",
     "Diagnostic Summarizer": "Resumidor para diagnóstico",
     "Go top": "Ir arriba",
     "Generate summary": "Generar resumen",
+    "These are the symptoms obtained from your reports": "Estos son los síntomas obtenidos de sus informes",
+    "To see the list of possible diagnostics, click on the following button": "Para ver la lista de posibles diagnósticos, haga clic en el siguiente botón",
     "The summary will appear here": "El resumen aparecerá aquí",
     "placeholder": "Escribe, o corta y pega un infome. Después tienes que hacer clic en el botón de generar resumen.",
     "Test in DxGPT": "Probar en DxGPT",
@@ -984,7 +993,7 @@
     "Search condition": "Escribe el nombre de tu enfermedad",
     "Nothing found. Try again.": "No se ha encontrado nada. Inténtalo de nuevo.",
     "Share": "Compartir",
-    "error extension": "El archivo cargado debe tener una extensión .pdf, .docx",
+    "error extension": "El archivo subido debe tener una extensión .pdf, .docx, .jpg, .png, .jpeg, .bmp, .tiff, .heif, o .pptx",
     "Files uploaded": "Archivos añadidos"
   },
   "permissions":{
