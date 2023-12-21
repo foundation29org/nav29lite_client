@@ -4,6 +4,10 @@
     "Summarize medical reports": "Summarize medical reports",
     "Summarize a medical conversation": "Summarize a medical conversation",
     "Find a diagnosis": "Find a diagnosis",
+    "How do you want to start?": "How do you want to start?",
+    "Take a photo of a report": "Take a photo of a report",
+    "Use one or more reports": "Use one or more reports",
+    "Write or paste a report": "Write or paste a report",
     "Drag and drop file here": "Drag and drop your reports here",
     "or": "or",
     "Browse for file": "Browse the files",
@@ -20,7 +24,10 @@
     "New summary": "New summary",
     "Make evaluation": "Make evaluation",
     "No documents to summarize": "There are no documents to summarize, or you have not finished extracting the text.",
-    "Add new reports": "Add new reports"
+    "Add new reports": "Add new reports",
+    "Repeat photo": "Repeat photo",
+    "Capture photo": "Capture photo",
+    "I like the photo, continue.": "I like the photo, continue."
   },
   "voice":{
    "Start Voice Recognition": "Start Voice Recognition",

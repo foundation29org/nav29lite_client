@@ -4,6 +4,10 @@
     "Summarize medical reports": "Resumir informes médicos",
     "Summarize a medical conversation": "Resumir una conversación médica",
     "Find a diagnosis": "Buscar un diagnóstico",
+    "How do you want to start?": "¿Cómo quieres empezar?",
+    "Take a photo of a report": "Hacer una foto de un informe",
+    "Use one or more reports": "Usar uno o más informes",
+    "Write or paste a report": "Escribir o pegar un informe",
     "Drag and drop file here": "Arrastre y deje sus informes aquí",
     "or": "o",
     "Browse for file": "Busque los archivos",
@@ -20,7 +24,10 @@
     "New summary": "Nuevo resumen",
     "Make evaluation": "Hacer evaluación",
     "No documents to summarize": "No hay documentos para resumir, o no ha terminado de extraer el texto.",
-    "Add new reports": "Añadir nuevos informes"
+    "Add new reports": "Añadir nuevos informes",
+    "Repeat photo": "Repetir foto",
+    "Capture photo": "Capturar foto",
+    "I like the photo, continue.": "Me gusta la foto, continuar."
    },
    "voice":{
     "Start Voice Recognition": "Iniciar reconocimiento de voz",

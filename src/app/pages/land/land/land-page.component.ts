@@ -208,8 +208,9 @@ showForm() {
     this.loadedDocs = false;
     this.step = 1;*/
     if(this.submode=='opt2'){
-      this.setupRecognition();
+      
     }
+    this.setupRecognition();
   }
 
   backmode0(): void {

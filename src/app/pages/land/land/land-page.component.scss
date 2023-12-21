@@ -309,7 +309,11 @@ input[type="text"],
 @media ( max-width: 991px ){
   .logo-img {
     width: 150px !important;
-  }  
+  }
+  .btnblock{
+    display: block !important;
+    margin-bottom: 1.5em !important;
+  } 
 }
 
 @media ( max-width: 767px ){
@@ -328,6 +332,12 @@ input[type="text"],
     
   
 }
+
+
+@media ( max-width: 575px ){
+  
+}
+
 @media ( max-width: 449px ){
   .container-custom {
   
