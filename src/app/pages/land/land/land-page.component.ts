@@ -96,6 +96,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
   private interval: any;
   private audioIntro = new Audio('assets/audio/sonido1.mp4');
   private audioOutro = new Audio('assets/audio/sonido2.mp4');
+  stepPhoto = 1;
+  capturedImage: any;
 
   constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public insightsService: InsightsService, private clipboard: Clipboard, public jsPDFService: jsPDFService, private ngZone: NgZone) {
     this.screenWidth = window.innerWidth;
@@ -1011,7 +1013,7 @@ async translateInverseSummary(msg): Promise<string> {
             return this.translate.instant(literal);
         }
 
-        showPanelBig(content) {
+        showPanelMedium(content) {
           this.medicalText = '';
           this.summaryDx29 = '';
           if (this.modalReference != undefined) {
@@ -1020,7 +1022,7 @@ async translateInverseSummary(msg): Promise<string> {
           let ngbModalOptions: NgbModalOptions = {
               backdrop: 'static',
               keyboard: false,
-              windowClass: 'ModalClass-xl'
+              windowClass: 'ModalClass-lg'
           };
           this.modalReference = this.modalService.open(content, ngbModalOptions);
       }
@@ -1029,15 +1031,21 @@ async translateInverseSummary(msg): Promise<string> {
             console.log(this.medicalText)
             //this.summaryDx29
             this.callingSummary = true;
-              if(this.medicalText.length == 0){
+            this.context = [];
+            let nameFiles = [];
+              for (let doc of this.docs) {
+                if(doc.state == 'done'){
+                  this.context.push(doc.medicalText);
+                  nameFiles.push(doc.dataFile.name);
+                }
+              }
+              if(this.context.length == 0){
                 this.callingSummary = false;
                 this.toastr.error('', this.translate.instant("demo.No documents to summarize"));
                 return;
               }
-              let context = [];
-              context.push(this.medicalText);
               this.paramForm = this.myuuid+'/results/'+this.makeid(8)
-              var query = { "userId": this.myuuid, "context": context, "conversation": this.conversation, paramForm: this.paramForm };
+              var query = { "userId": this.myuuid, "context": this.context, "conversation": this.conversation, paramForm: this.paramForm };
               this.subscription.add(this.http.post(environment.api + '/api/calldxsummary/', query)
                 .subscribe(async (res: any) => {
                   if(res.response != undefined){
@@ -1132,5 +1140,132 @@ async translateInverseSummary(msg): Promise<string> {
           let url = `https://dxgpt.app/?medicalText=${encodeURIComponent(this.summaryDx29)}`;
           window.open(url, '_blank');
         }
+
+        async entryOpt(opt, content){
+          if(opt=='opt1'){
+            this.stepPhoto = 1;
+            let ngbModalOptions: NgbModalOptions = {
+              keyboard: false,
+              windowClass: 'ModalClass-sm' // xl, lg, sm
+            };
+            if (this.modalReference != undefined) {
+              this.modalReference.close();
+              this.modalReference = undefined;
+            }
+            this.modalReference = this.modalService.open(content, ngbModalOptions);
+            await this.delay(200);
+            this.openCamera();
+          }
+        }
+
+        openCamera() {
+          const videoElement = document.querySelector('#videoElement') as HTMLVideoElement;
+          if (videoElement) {
+            navigator.mediaDevices.getUserMedia({ video: true })
+              .then(stream => {
+                videoElement.srcObject = stream;
+              })
+              .catch(err => {
+                console.error("Error accessing camera:", err);
+                //debe permitir la camara para continuar
+                this.toastr.error('', 'You must allow the camera to continue. Please enable camera access in your browser settings and try again.');
+                if (this.modalReference != undefined) {
+                  this.modalReference.close();
+                  this.modalReference = undefined;
+                }
+              });
+          } else {
+            console.error("Video element not found");
+            this.toastr.error('', this.translate.instant("generics.error try again"));
+          }
+        }
+
+        captureImage() {
+          const videoElement = document.querySelector('#videoElement') as HTMLVideoElement;
+          if (videoElement) {
+            const canvas = document.createElement('canvas');
+            canvas.width = videoElement.videoWidth;
+            canvas.height = videoElement.videoHeight;
+            const context = canvas.getContext('2d');
+            context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+        
+            this.capturedImage = canvas.toDataURL('image/png');
+            this.stopCamera();
+            this.stepPhoto = 2;
+          } else {
+            console.error("Video element not ready for capture.");
+          }
+        }
+
+        stopCamera() {
+          const videoElement = document.querySelector('#videoElement') as HTMLVideoElement;
+          if (videoElement && videoElement.srcObject) {
+            const stream = videoElement.srcObject as MediaStream;
+            const tracks = stream.getTracks();
+        
+            tracks.forEach(track => track.stop());
+            videoElement.srcObject = null;
+          }
+        }
+
+        async prevCamera(){
+          this.stepPhoto = 1;
+          await this.delay(200);
+          this.openCamera();
+          this.capturedImage = '';
+        }
+
+        finishPhoto(){
+          if (this.modalReference != undefined) {
+            this.modalReference.close();
+            this.modalReference = undefined;
+          }
+          //add file to docs
+          let file = this.dataURLtoFile(this.capturedImage, 'photo.png');
+          var reader = new FileReader();
+          reader.readAsArrayBuffer(file); // read file as data url
+          this.docs.push({ dataFile: { event: file, name: file.name, url: file.name, content: this.capturedImage }, langToExtract: '', medicalText: '', state: 'false', tokens: 0 });
+          let index = this.docs.length - 1;
+          this.prepareFile(index);
+        }
+
+        //create dataURLtoFile
+        dataURLtoFile(dataurl, filename) {
+          var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+              bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+          while(n--){
+              u8arr[n] = bstr.charCodeAt(n);
+          }
+          return new File([u8arr], filename, {type:mime});
+        }
+
+        createFile(){
+          //from this.medicalText create a txt file and add to docs
+          //est the name with the date
+          let today = new Date();
+          let dd = today.getDate();
+          let mm = today.getMonth()+1;
+          let yyyy = today.getFullYear();
+          let hh = today.getHours();
+          let min = today.getMinutes();
+          let sec = today.getSeconds();
+          let ms = today.getMilliseconds();
+          let date = dd+mm+yyyy+hh+min+sec+ms;
+          let fileName = 'manualFile-'+date+'.txt';
+          if(this.lang == 'es'){
+            fileName = 'informeManual-'+date+'.txt';
+          }
+          
+          let file = new File([this.medicalText], fileName, {type: 'text/plain'});
+          var reader = new FileReader();
+          reader.readAsArrayBuffer(file); // read file as data url
+          this.docs.push({ dataFile: { event: file, name: file.name, url: file.name, content: this.medicalText }, langToExtract: '', medicalText: this.medicalText, state: 'done', tokens: 0 });
+          this.createSummaryDx29();
+          if (this.modalReference != undefined) {
+            this.modalReference.close();
+            this.modalReference = undefined;
+          }
+        }
+        
 
 }
