@@ -5,16 +5,16 @@
     "Summarize a medical conversation": "Summarize a medical conversation",
     "Find a diagnosis": "Find a diagnosis",
     "How do you want to start?": "How do you want to start?",
-    "Take a photo of a report": "Take a photo of a report",
-    "Use one or more reports": "Use one or more reports",
-    "Write or paste a report": "Write or paste a report",
+    "Take a photo": "Take a photo",
+    "Use a file": "Use a file",
+    "Write text": "Write text",
     "Drag and drop file here": "Drag and drop your reports here",
     "or": "or",
     "Browse for file": "Browse the files",
     "Accepted files": "Accepted files: pdf, docx",
     "descripReports": "We understand that these data are very sensitive. All the data will be deleted when you close this window.",
     "Tokens limit exceeded": "Token limit exceeded, delete a document to continue.",
-    "Make a summary for": "Make a summary for",
+    "I want a summary for": "I want a summary for",
     "a patient": "A patient",
     "a physician": "A physician",
     "Summarise the transcript": "Summarise the transcript",
@@ -27,7 +27,7 @@
     "Add new reports": "Add new reports",
     "Repeat photo": "Repeat photo",
     "Capture photo": "Capture photo",
-    "I like the photo, continue.": "I like the photo, continue."
+    "I like it": "I like it"
   },
   "voice":{
    "Start Voice Recognition": "Start Voice Recognition",
@@ -43,10 +43,12 @@
    "Error in voice recognition.": "Error in voice recognition."
   },
   "summaryDx":{
-   "Summary for DxGPT": "Summary for DxGPT",
+   "Summary for DxGPT": "To display the possible diagnoses from the information in your reports, it is first necessary to summarize the symptoms. Please click on the button below to proceed.",
    "Diagnostic Summarizer": "Diagnostic Summarizer",
    "Go top": "Go top",
    "Generate summary": "Generate summary",
+   "These are the symptoms obtained from your reports": "These are the symptoms obtained from your reports",
+   "To see the list of possible diagnostics, click on the following button": "To see the list of possible diagnostics, click on the following button",
    "The summary will appear here": "The summary will appear here",
    "placeholder": "Write, or cut and paste a report. Then you have to click on the generate summary button.",
    "Test in DxGPT": "Test in DxGPT",

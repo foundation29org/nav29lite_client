@@ -5,16 +5,16 @@
       "Summarize a medical conversation": "Resumir uma conversa",
       "Find a diagnosis": "Encontre um diagnóstico",
       "How do you want to start?": "Como você quer começar?",
-      "Take a photo of a report": "Tire uma foto de um relatório",
-      "Use one or more reports": "Use um ou mais relatórios",
-      "Write or paste a report": "Escreva ou cole um relatório",
+      "Take a photo": "Tire uma foto",
+      "Use a file": "Use um arquivo",
+      "Write text": "Escreva um texto",
       "Drag and drop file here": "Arraste e solte seus relatórios aqui",
       "or": "ou",
       "Browse for file": "Procurar pelos arquivos",
       "Accepted files": "Arquivos aceitos: pdf, docx",
       "descripReports": "Entendemos que esses dados são muito confidenciais. Todos os dados serão excluídos quando você fechar esta janela.",
       "Tokens limit exceeded": "Limite de tokens excedido, exclua um documento para continuar.",
-      "Make a summary for": "Faça um resumo para",
+      "I want a summary for": "Eu quero um resumo para",
       "a patient": "Um paciente",
       "a physician": "Um médico",
       "Summarise the transcript": "Resumir a transcrição",
@@ -27,7 +27,7 @@
       "Add new reports": "Adicionar novos relatórios",
       "Repeat photo": "Repetir foto",
       "Capture photo": "Capturar foto",
-      "I like the photo, continue.": "Gosto da foto, continue."
+      "I like it": "Eu gosto"
     },
     "voice":{
      "Start Voice Recognition": "Iniciar reconhecimento de voz",
@@ -43,10 +43,12 @@
      "Error in voice recognition.": "Erro no reconhecimento de voz."
     },
     "summaryDx":{
-     "Summary for DxGPT": "Resumo para DxGPT",
+     "Summary for DxGPT": "Para apresentar os possíveis diagnósticos a partir das informações dos seus relatórios, é necessário resumir os sintomas. Por favor, clique no botão abaixo para prosseguir.",
      "Diagnostic Summarizer": "Sumarizador de diagnóstico",
      "Go top": "Ir para o topo",
      "Generate summary": "Gerar resumo",
+     "These are the symptoms obtained from your reports": "Estes são os sintomas obtidos dos seus relatórios",
+     "To see the list of possible diagnostics, click on the following button": "Para ver a lista de possíveis diagnósticos, clique no seguinte botão",
      "The summary will appear here": "O resumo aparecerá aqui",
      "placeholder": "Escreva ou recorte e cole um relatório. Então você deve clicar no botão gerar resumo.",
      "Test in DxGPT": "Teste no DxGPT",

@@ -29,20 +29,20 @@
                 <div class="row row-home w-100">
                     <div class="col-md-4">
                         <img class="logo-img" src='assets/img/home/opt4.png' />
-                        <buttom class="btn btn-lg btn-primary text-bold-700 mt-2" (click)="entryOpt('opt1', contentPhoto)">{{'demo.Take a photo of a report' | translate }}</buttom>
+                        <buttom class="btn btn-lg btn-primary text-bold-700 mt-2" (click)="entryOpt('opt1', contentPhoto)">{{'demo.Take a photo' | translate }}</buttom>
                     </div>
                     <div class="col-md-4">
                         <img class="logo-img" src='assets/img/home/opt5.png' />
                         <div class="container-custom2">
                             <input class="pointer" aria-label="new file" type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event);"
                             accept=".pdf, .docx, .jpg, .png, .jpeg, .bmp, .tiff, .heif, .pptx" />
-                            <buttom class="btn btn-lg btn-primary text-bold-700 mt-2" for="fileDropRef">{{'demo.Use one or more reports' | translate }}</buttom>
+                            <buttom class="btn btn-lg btn-primary text-bold-700 mt-2" for="fileDropRef">{{'demo.Use a file' | translate }}</buttom>
                         </div>
                         <!--<buttom class="btn btn-lg btn-primary text-bold-700 mt-2" (click)="entryOpt('opt2', null)">Usar uno o varios informes</buttom>-->
                     </div>
                     <div class="col-md-4">
                         <img class="logo-img" src='assets/img/home/opt6.png' />
-                        <buttom class="btn btn-lg btn-primary text-bold-700 mt-2" (click)="showPanelMedium(contentSummaryDx)">{{'demo.Write or paste a report' | translate }}</buttom>
+                        <buttom class="btn btn-lg btn-primary text-bold-700 mt-2" (click)="showPanelMedium(contentSummaryDx)">{{'demo.Write text' | translate }}</buttom>
                     </div>
                 </div>
             </div>
@@ -193,20 +193,24 @@
                                     <p class="text-bold-700">{{'demo.Add new reports' | translate }}</p>
                                     <div class="row">
                                         <div class="col-sm-4">
-                                            <img class="logo-img-sm" src='assets/img/home/opt4.png' width="40px"/>
-                                            <buttom class="btnblock btn btn-sm btn-primary mt-2" (click)="entryOpt('opt1', contentPhoto)">{{'demo.Take a photo of a report' | translate }}</buttom>
+                                            <div><img class="logo-img-sm" src='assets/img/home/opt4.png' width="40px"/></div>
+                                            <div><buttom class="btnblock btn btn-sm btn-primary mt-2" (click)="entryOpt('opt1', contentPhoto)">{{'demo.Take a photo' | translate }}</buttom></div>
+                                            
                                         </div>
                                         <div class="col-sm-4">
-                                            <img class="logo-img-sm" src='assets/img/home/opt5.png' width="40px"/>
-                                            <div class="container-custom2">
-                                                <input class="pointer" aria-label="new file" type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event);"
-                                                accept=".pdf, .docx, .jpg, .png, .jpeg, .bmp, .tiff, .heif, .pptx" />
-                                                <buttom class="btnblock btn btn-sm btn-primary mt-2" for="fileDropRef">{{'demo.Use one or more reports' | translate }}</buttom>
+                                            <div><img class="logo-img-sm" src='assets/img/home/opt5.png' width="40px"/></div>
+                                            <div>
+                                                <div class="container-custom2">
+                                                    <input class="pointer" aria-label="new file" type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event);"
+                                                    accept=".pdf, .docx, .jpg, .png, .jpeg, .bmp, .tiff, .heif, .pptx" />
+                                                    <buttom class="btnblock btn btn-sm btn-primary mt-2" for="fileDropRef">{{'demo.Use a file' | translate }}</buttom>
+                                                </div>
                                             </div>
+                                            
                                         </div>
                                         <div class="col-sm-4">
-                                            <img class="logo-img-sm" src='assets/img/home/opt6.png' width="40px"/>
-                                            <buttom class="btnblock btn btn-sm btn-primary mt-2" (click)="showPanelMedium(contentSummaryDx)">{{'demo.Write or paste a report' | translate }}</buttom>
+                                            <div><img class="logo-img-sm" src='assets/img/home/opt6.png' width="40px"/></div>
+                                            <div><buttom class="btnblock btn btn-sm btn-primary mt-2" (click)="showPanelMedium(contentSummaryDx)">{{'demo.Write text' | translate }}</buttom></div>
                                         </div>
 
                                     </div>
@@ -229,7 +233,7 @@
                                 </div>
                                 <div class="row" *ngIf="!callingSummary && summaryPatient==''">
                                     <div class="col-md-12">
-                                        <h4 class="text-center">{{'demo.Make a summary for' | translate }}</h4>
+                                        <h4 class="text-center">{{'demo.I want a summary for' | translate }}</h4>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="center-elements">
@@ -272,35 +276,40 @@
                         </div>
                         <div class="col-md-7" *ngIf="docs.length>0 && submode=='opt3'">
                             <div class="card card-body">
-                                <p class="text-bold-500">{{'summaryDx.Summary for DxGPT' | translate }}</p>
+                                <p class="text-bold-500" *ngIf="!callingSummary && summaryDx29==''">{{'summaryDx.Summary for DxGPT' | translate }}</p>
                                 <div class="row" *ngIf="callingSummary">
                                     <div class="col-md-12">
                                         <span class="d-block mt-2 center-elements"><em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em></span>
                                     </div>
                                 </div>
                                 <div class="row" *ngIf="!callingSummary && summaryDx29==''">
-                                    <button type="button" class="mt-2 btn btn-lg btn-primary round" [disabled]="callingSummary" title="{{'summaryDx.Generate summary' | translate }}"
-                                    (click)="createSummaryDx29();">{{'summaryDx.Generate summary' | translate }}</button>
-                                    
-                                    <span *ngIf="summaryDx29=='' && !callingSummary">{{'summaryDx.The summary will appear here' | translate }}</span>
+                                    <div class="col-md-12 center-elements">
+                                        <button type="button" class="mt-2 btn btn-lg btn-primary round" [disabled]="callingSummary" title="{{'summaryDx.Generate summary' | translate }}"
+                                        (click)="createSummaryDx29();">{{'summaryDx.Generate summary' | translate }}</button>
+                                    </div>
                                 </div>
                                 <div class="row" *ngIf="!callingSummary && summaryDx29!=''">
-                                    <div class="center-elements">
-                                        <div class="d-block mt-2">
-                                            <div class="center-elements">
-                                                <button class="btn btn-primary mr-1" (click)="createSummaryDx29()">{{'demo.New summary' | translate }}</button>
-                                                <button class="btn btn-primary ml-1" (click)="openFeedback()" target="_blank">{{'demo.Make evaluation' | translate }}</button>
+                                    <div class="col-md-12">
+                                        <div class="center-elements">
+                                            <div class="d-block mt-2">
+                                                <div class="center-elements">
+                                                    <button class="btn btn-primary mr-1" (click)="createSummaryDx29()">{{'demo.New summary' | translate }}</button>
+                                                    <button class="btn btn-primary ml-1" (click)="openFeedback()" target="_blank">{{'demo.Make evaluation' | translate }}</button>
+                                                </div>
+                                                <div class="text-left mt-3 mb-3 p-2">
+                                                    <p class="text-bold-500 mb-0">{{'summaryDx.These are the symptoms obtained from your reports' | translate }}:</p>
+                                                    <span [innerHTML]= "summaryDx29 | safe: 'html'"></span>
+                                                </div>
+    
+                                                <span class="d-block center-elements mt-2">
+                                                    <p class="text-bold-500 mt-2">{{'summaryDx.To see the list of possible diagnostics, click on the following button' | translate }}</p>
+                                                    <button class="btn btn-primary" (click)="gotoDxGPT()">{{'summaryDx.Test in DxGPT' | translate }}</button>
+                                                    <a class="d-block mt-1" href="javascript:;" (click)="copySummaryDx()"><em class="fa fa-clipboard pointer"></em> {{'generics.Copy' | translate }}</a>
+                                                </span>
                                             </div>
-                                            <div class="text-left p-2">
-                                                <span [innerHTML]= "summaryDx29 | safe: 'html'"></span>
-                                            </div>
-
-                                            <span class="d-block center-elements mt-2">
-                                                <button class="btn btn-primary" (click)="gotoDxGPT()">{{'summaryDx.Test in DxGPT' | translate }}</button>
-                                                <a class="d-block mt-1" href="javascript:;" (click)="copySummaryDx()"><em class="fa fa-clipboard pointer"></em> {{'generics.Copy' | translate }}</a>
-                                            </span>
                                         </div>
                                     </div>
+                                    
                                 </div>
                             </div>
                             
@@ -517,7 +526,7 @@
       <div class="form-actions col-md-12 center-elements">
         <button type="button" *ngIf="stepPhoto>1" class="btn round btn-secondary float-left" (click)="prevCamera();">{{'demo.Repeat photo' | translate }}</button>
         <button type="button" *ngIf="stepPhoto==1" class="btn round btn-primary float-right" (click)="captureImage()">{{'demo.Capture photo' | translate }}</button>
-        <button type="button" *ngIf="stepPhoto==2" class="btn round btn-primary float-right" (click)="finishPhoto()">{{'demo.I like the photo, continue.' | translate }}</button>
+        <button type="button" *ngIf="stepPhoto==2" class="btn round btn-primary float-right" (click)="finishPhoto()">{{'demo.I like it' | translate }}</button>
       </div>
     </div>
 </ng-template>

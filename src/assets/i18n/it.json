@@ -5,16 +5,16 @@
       "Summarize a medical conversation": "Riassumi una conversazione",
       "Find a diagnosis": "Trova una diagnosi",
       "How do you want to start?": "Come vuoi iniziare?",
-      "Take a photo of a report": "Scatta una foto di un rapporto",
-      "Use one or more reports": "Usa uno o più rapporti",
-      "Write or paste a report": "Scrivi o incolla un rapporto",
+      "Take a photo": "Scatta una foto",
+      "Use a file": "Usa un file",
+      "Write text": "Scrivi il testo",
       "Drag and drop file here": "Trascina e rilascia i tuoi rapporti qui",
       "or": "o",
       "Browse for file": "Sfoglia i file",
       "Accepted files": "File accettati: pdf, docx",
       "descripReports": "Comprendiamo che questi dati sono molto sensibili. Tutti i dati verranno eliminati quando chiudi questa finestra.",
       "Tokens limit exceeded": "Limite token superato, elimina un documento per continuare.",
-      "Make a summary for": "Fai un riepilogo per",
+      "I want a summary for": "Voglio un riepilogo per",
       "a patient": "Un paziente",
       "a physician": "Un medico",
       "Summarise the transcript": "Riassumi la trascrizione",
@@ -27,7 +27,7 @@
       "Add new reports": "Aggiungi nuovi rapporti",
       "Repeat photo": "Ripeti foto",
       "Capture photo": "Scatta foto",
-      "I like the photo, continue.": "Mi piace la foto, continua."
+      "I like it": "Mi piace"
     },
     "voice":{
      "Start Voice Recognition": "Inizia il riconoscimento vocale",
@@ -43,10 +43,12 @@
      "Error in voice recognition.": "Errore nel riconoscimento vocale."
     },
     "summaryDx":{
-     "Summary for DxGPT": "Riepilogo per DxGPT",
+     "Summary for DxGPT": "Per visualizzare le possibili diagnosi a partire dalle informazioni contenute nei vostri rapporti, è necessario innanzitutto riassumere i sintomi. Per procedere, fare clic sul pulsante sottostante.",
      "Diagnostic Summarizer": "Diagnostic Summarizer",
      "Go top": "Vai in cima",
      "Generate summary": "Genera riepilogo",
+     "These are the symptoms obtained from your reports": "Questi sono i sintomi ottenuti dai tuoi rapporti",
+     "To see the list of possible diagnostics, click on the following button": "Per vedere l'elenco delle possibili diagnosi, fare clic sul pulsante seguente",
      "The summary will appear here": "Il riepilogo apparirà qui",
      "placeholder": "Scrivi o taglia e incolla un report. Quindi devi fare clic sul pulsante Genera riepilogo.",
      "Test in DxGPT": "Test in DxGPT",

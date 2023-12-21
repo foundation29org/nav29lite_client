@@ -1010,6 +1010,7 @@ async translateInverseSummary(msg): Promise<string> {
 
           newSummary(){
             this.summaryPatient = '';
+            this.showPatientTypeButtons = false;
           }
 
           getLiteral(literal) {

@@ -5,16 +5,16 @@
       "Summarize a medical conversation": "Résumer une conversation",
       "Find a diagnosis": "Trouver un diagnostic",
       "How do you want to start?": "Comment voulez-vous commencer ?",
-      "Take a photo of a report": "Prendre une photo d'un rapport",
-      "Use one or more reports": "Utiliser un ou plusieurs rapports",
-      "Write or paste a report": "Écrire ou coller un rapport",
+      "Take a photo": "Prendre une photo",
+      "Use a file": "Utiliser un fichier",
+      "Write text": "Écrire du texte",
       "Drag and drop file here": "Faites glisser et déposez vos rapports ici",
       "or": "ou",
       "Browse for file": "Parcourir les fichiers",
       "Accepted files": "Fichiers acceptés: pdf, docx",
       "descripReports": "Nous comprenons que ces données sont très sensibles. Toutes les données seront supprimées lorsque vous fermerez cette fenêtre.",
       "Tokens limit exceeded": "Limite de jetons dépassée, supprimez un document pour continuer.",
-      "Make a summary for": "Faire un résumé pour",
+      "I want a summary for": "Je veux un résumé pour",
       "a patient": "Un patient",
       "a physician": "Un médecin",
       "Summarise the transcript": "Résumer la transcription",
@@ -27,7 +27,7 @@
       "Add new reports": "Ajouter de nouveaux rapports",
       "Repeat photo": "Répéter la photo",
       "Capture photo": "Prendre une photo",
-      "I like the photo, continue.": "J'aime la photo, continuez."
+      "I like it": "J'aime"
     },
     "voice":{
      "Start Voice Recognition": "Démarrer la reconnaissance vocale",
@@ -43,10 +43,12 @@
      "Error in voice recognition.": "Erreur de reconnaissance vocale."
     },
     "summaryDx":{
-     "Summary for DxGPT": "Résumé pour DxGPT",
+     "Summary for DxGPT": "Pour afficher les diagnostics possibles à partir des informations contenues dans vos rapports, il est d'abord nécessaire de résumer les symptômes. Veuillez cliquer sur le bouton ci-dessous pour continuer.",
      "Diagnostic Summarizer": "Diagnostic Summarizer",
      "Go top": "Aller en haut",
      "Generate summary": "Générer un résumé",
+     "These are the symptoms obtained from your reports": "Ce sont les symptômes obtenus à partir de vos rapports",
+     "To see the list of possible diagnostics, click on the following button": "Pour voir la liste des diagnostics possibles, cliquez sur le bouton suivant",
      "The summary will appear here": "Le résumé apparaîtra ici",
      "placeholder": "Écrivez ou coupez et collez un rapport. Ensuite, vous devez cliquer sur le bouton générer un résumé.",
      "Test in DxGPT": "Testez-le dans DxGPT",
