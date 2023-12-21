@@ -984,7 +984,7 @@
        "Search condition":"Tapez le nom de votre condition",
        "Nothing found. Try again.":"Rien n'a été trouvé. Réessayer.",
        "Share":"Partager",
-       "error extension":"Le fichier téléchargé doit avoir une extension .pdf, ou .docx",
+       "error extension":"Le fichier téléchargé doit avoir une extension .pdf, .docx, .jpg, .png, .jpeg, .bmp, .tiff, .heif ou .pptx",
        "Files uploaded":"Fichiers téléchargés"
     },
     "permissions":{

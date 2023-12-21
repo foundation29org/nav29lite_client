@@ -984,7 +984,7 @@
     "Search condition": "Escribe el nombre de tu enfermedad",
     "Nothing found. Try again.": "No se ha encontrado nada. Inténtalo de nuevo.",
     "Share": "Compartir",
-    "error extension": "El archivo cargado debe tener una extensión .pdf, .docx",
+    "error extension": "El archivo subido debe tener una extensión .pdf, .docx, .jpg, .png, .jpeg, .bmp, .tiff, .heif, o .pptx",
     "Files uploaded": "Archivos añadidos"
   },
   "permissions":{

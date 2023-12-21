@@ -984,7 +984,7 @@
     "Search condition": "Type the name of your condition",
     "Nothing found. Try again.": "Nothing found. Try again.",
     "Share": "Share",
-    "error extension": "The uploaded file must have a .pdf, or .docx extension",
+    "error extension": "The uploaded file must have a .pdf, .docx, .jpg, .png, .jpeg, .bmp, .tiff, .heif, or .pptx extension.",
     "Files uploaded": "Uploaded files"
   },
   "permissions":{

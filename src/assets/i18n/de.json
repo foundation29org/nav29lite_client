@@ -984,7 +984,7 @@
        "Search condition":"Geben Sie den Namen Ihrer Bedingung ein",
        "Nothing found. Try again.":"Nichts gefunden. Versuchen Sie es nochmal.",
        "Share":"Teilen",
-       "error extension":"Die hochgeladene Datei muss die Erweiterung .pdf, oder .docx",
+       "error extension":"Die hochgeladene Datei muss die Erweiterung .pdf, .docx, .jpg, .png, .jpeg, .bmp, .tiff, .heif oder .pptx haben",
        "Files uploaded":"Hochgeladene Dateien"
     },
     "permissions":{
