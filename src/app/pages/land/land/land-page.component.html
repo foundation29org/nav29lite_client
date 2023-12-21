@@ -25,24 +25,24 @@
     <div class="col-md-12" *ngIf="submode=='opt3' || submode=='opt1'">
         <div *ngIf="docs.length == 0">
             <div class="container-home">
-                <h1 class="title-home text-center text-bold-700 mb-5">¿Cómo quiere empezar?</h1>
+                <h1 class="title-home text-center text-bold-700 mb-5">{{'demo.How do you want to start?' | translate }}</h1>
                 <div class="row row-home w-100">
                     <div class="col-md-4">
                         <img class="logo-img" src='assets/img/home/opt4.png' />
-                        <buttom class="btn btn-lg btn-primary text-bold-700 mt-2" (click)="entryOpt('opt1', contentPhoto)">Hacer una foto a un informe</buttom>
+                        <buttom class="btn btn-lg btn-primary text-bold-700 mt-2" (click)="entryOpt('opt1', contentPhoto)">{{'demo.Take a photo of a report' | translate }}</buttom>
                     </div>
                     <div class="col-md-4">
                         <img class="logo-img" src='assets/img/home/opt5.png' />
                         <div class="container-custom2">
                             <input class="pointer" aria-label="new file" type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event);"
                             accept=".pdf, .docx, .jpg, .png, .jpeg, .bmp, .tiff, .heif, .pptx" />
-                            <buttom class="btn btn-lg btn-primary text-bold-700 mt-2" for="fileDropRef">Usar uno o varios informes</buttom>
+                            <buttom class="btn btn-lg btn-primary text-bold-700 mt-2" for="fileDropRef">{{'demo.Use one or more reports' | translate }}</buttom>
                         </div>
                         <!--<buttom class="btn btn-lg btn-primary text-bold-700 mt-2" (click)="entryOpt('opt2', null)">Usar uno o varios informes</buttom>-->
                     </div>
                     <div class="col-md-4">
                         <img class="logo-img" src='assets/img/home/opt6.png' />
-                        <buttom class="btn btn-lg btn-primary text-bold-700 mt-2" (click)="showPanelMedium(contentSummaryDx)">Escribir o pegar un informe</buttom>
+                        <buttom class="btn btn-lg btn-primary text-bold-700 mt-2" (click)="showPanelMedium(contentSummaryDx)">{{'demo.Write or paste a report' | translate }}</buttom>
                     </div>
                 </div>
             </div>
@@ -64,7 +64,7 @@
                         <h1 *ngIf="submode == 'opt3'">{{'demo.Find a diagnosis' | translate }}</h1>
                     </div>
                     <div class="row">
-                        <div class="col-md-5" [ngClass]="(docs.length==0)?'offset-md-3 col-md-6':''">
+                        <div class="col-lg-5" [ngClass]="(docs.length==0)?'offset-md-3 col-md-6':''">
                             <div *ngIf="docs.length==0" class="container-custom m-2" appDnd (fileDropped)="onFileDropped($event)">
                                 <input class="pointer" aria-label="new file" type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event);"
                                 accept=".pdf, .docx, .jpg, .png, .jpeg, .bmp, .tiff, .heif, .pptx" />
@@ -190,24 +190,23 @@
                                     
                                 </div>
                                 <div class="border-top card-footer center-elements" style="background-color: #d9d9d9;">
-                                    <p class="text-bold-700">Añadir nuevo informe</p>
+                                    <p class="text-bold-700">{{'demo.Add new reports' | translate }}</p>
                                     <div class="row">
-                                        <div class="col-md-4">
-                                            <img class="logo-img" src='assets/img/home/opt4.png' width="40px"/>
-                                            <buttom class="btn btn-sm btn-primary mt-2" (click)="entryOpt('opt1', contentPhoto)">Hacer una foto a un informe</buttom>
+                                        <div class="col-sm-4">
+                                            <img class="logo-img-sm" src='assets/img/home/opt4.png' width="40px"/>
+                                            <buttom class="btnblock btn btn-sm btn-primary mt-2" (click)="entryOpt('opt1', contentPhoto)">{{'demo.Take a photo of a report' | translate }}</buttom>
                                         </div>
-                                        <div class="col-md-4">
-                                            <img class="logo-img" src='assets/img/home/opt5.png' width="40px"/>
+                                        <div class="col-sm-4">
+                                            <img class="logo-img-sm" src='assets/img/home/opt5.png' width="40px"/>
                                             <div class="container-custom2">
                                                 <input class="pointer" aria-label="new file" type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event);"
                                                 accept=".pdf, .docx, .jpg, .png, .jpeg, .bmp, .tiff, .heif, .pptx" />
-                                                <buttom class="btn btn-sm btn-primary mt-2" for="fileDropRef">Usar uno o varios informes</buttom>
+                                                <buttom class="btnblock btn btn-sm btn-primary mt-2" for="fileDropRef">{{'demo.Use one or more reports' | translate }}</buttom>
                                             </div>
-                                            <!--<buttom class="btn btn-lg btn-primary text-bold-700 mt-2" (click)="entryOpt('opt2', null)">Usar uno o varios informes</buttom>-->
                                         </div>
-                                        <div class="col-md-4">
-                                            <img class="logo-img" src='assets/img/home/opt6.png' width="40px"/>
-                                            <buttom class="btn btn-sm btn-primary mt-2" (click)="showPanelMedium(contentSummaryDx)">Escribir o pegar un informe</buttom>
+                                        <div class="col-sm-4">
+                                            <img class="logo-img-sm" src='assets/img/home/opt6.png' width="40px"/>
+                                            <buttom class="btnblock btn btn-sm btn-primary mt-2" (click)="showPanelMedium(contentSummaryDx)">{{'demo.Write or paste a report' | translate }}</buttom>
                                         </div>
 
                                     </div>
@@ -221,7 +220,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-7" *ngIf="docs.length>0 && submode=='opt1'">
+                        <div class="col-lg-7" *ngIf="docs.length>0 && submode=='opt1'">
                             <div class="card card-body">
                                 <div class="row" *ngIf="callingSummary">
                                     <div class="col-md-12">
@@ -235,17 +234,17 @@
                                     <div class="col-md-12">
                                         <div class="center-elements">
                                             <button class="mb-2 btn btn-primary mr-1" (click)="madeSummary('physician')">{{'demo.a physician' | translate }}</button>
-                                            <button class="mb-2 btn btn-primary ml-1" (click)="selectSubrole()">{{'demo.a patient' | translate }}</button>
+                                            <button class="mb-2 btn ml-1" (click)="selectSubrole()" [ngClass]="(showPatientTypeButtons)?'btn-secondary':'btn-primary'">{{'demo.a patient' | translate }}</button>
                                         </div>
                                         <div *ngIf="showPatientTypeButtons" class="center-elements mt-3">
                                             <div class="col-md-12">
                                                 <h4 class="text-center">{{'demo.Written for' | translate }}</h4>
                                             </div>
                                             <div class="col-md-12">
-                                                <button class="mb-2 btn btn-secondary ml-1" (click)="madeSummary('adult')">
+                                                <button class="mb-2 btn btn-primary ml-1" (click)="madeSummary('adult')">
                                                     {{ 'demo.Adults' | translate }}
                                                 </button>
-                                                <button class="mb-2 btn btn-secondary ml-1" (click)="madeSummary('young')">
+                                                <button class="mb-2 btn btn-primary ml-1" (click)="madeSummary('young')">
                                                     {{ 'demo.Children' | translate }}
                                                 </button>
                                             </div>
@@ -415,7 +414,7 @@
                 
               </div>
         </div>
-        <div *ngIf="!supported" class="offset-md-3 col-md-6">
+        <div *ngIf="!supported" class="offset-md-3 col-md-6 mt-3">
             <div class="alert alert-danger" style="font-size: 1.25rem !important;font-weight: 700;">
                 <p>{{'voice.Sorry, voice recognition is not supported in your browser.' | translate }}</p>
                 <p>{{'voice.We recommend that you use Google Chrome, Microsoft Edge, or Safari.' | translate }}</p>
@@ -508,7 +507,7 @@
                 <video #videoElement id="videoElement" class="w-100" autoplay></video>
             </div>
             <div class="col-sm-12" *ngIf="stepPhoto==2">
-                <img *ngIf="capturedImage" [src]="capturedImage" />
+                <img *ngIf="capturedImage" class="w-100" [src]="capturedImage" />
             </div>
           </div>
         </div>
@@ -516,9 +515,9 @@
     </div>
     <div class="modal-footer">
       <div class="form-actions col-md-12 center-elements">
-        <button type="button" *ngIf="stepPhoto>1" class="btn round btn-secondary float-left" (click)="prevCamera();">Repetir la foto</button>
-        <button type="button" *ngIf="stepPhoto==1" class="btn round btn-primary float-right" (click)="captureImage()">Capturar foto</button>
-        <button type="button" *ngIf="stepPhoto==2" class="btn round btn-primary float-right" (click)="finishPhoto()">Me guta la foto, continuar.</button>
+        <button type="button" *ngIf="stepPhoto>1" class="btn round btn-secondary float-left" (click)="prevCamera();">{{'demo.Repeat photo' | translate }}</button>
+        <button type="button" *ngIf="stepPhoto==1" class="btn round btn-primary float-right" (click)="captureImage()">{{'demo.Capture photo' | translate }}</button>
+        <button type="button" *ngIf="stepPhoto==2" class="btn round btn-primary float-right" (click)="finishPhoto()">{{'demo.I like the photo, continue.' | translate }}</button>
       </div>
     </div>
 </ng-template>
@@ -526,7 +525,7 @@
 <ng-template #contentSummaryDx id="contentSummaryDx" let-c="close" let-d="dismiss" appendTo="body">
     <div class="modal-header" id="idHeader">
         <div class="content-header text-left">
-            <h4 class="mb-0">{{'summaryDx.Diagnostic Summarizer' | translate }} <button *ngIf="summaryDx29!='' && !callingSummary" class="btn btn-dark round mb-0 ml-2" (click)="restartSummaryDx()"> New summary</button></h4>
+            <h4 class="mb-0">{{'summaryDx.Diagnostic Summarizer' | translate }} <button *ngIf="summaryDx29!='' && !callingSummary" class="btn btn-dark round mb-0 ml-2" (click)="restartSummaryDx()"> {{'demo.New summary' | translate }}</button></h4>
         </div>
         <button type="button" class="close" aria-label="Close" (click)="closeModal();">
             <span aria-hidden="true">&times;</span>
