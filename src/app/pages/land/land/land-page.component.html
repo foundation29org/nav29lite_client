@@ -261,7 +261,7 @@
                                         <div class="d-block mt-2">
                                             <div class="center-elements">
                                                 <button class="btn btn-primary mr-1" (click)="newSummary()">{{'demo.New summary' | translate }}</button>
-                                                <button class="btn btn-primary ml-1 mr-1" (click)="openFeedback()" target="_blank">{{'demo.Make evaluation' | translate }}</button>
+                                                <button class="btn btn-primary ml-1 mr-1" (click)="openFeedback()" target="_blank">{{'demo.Give your opinion' | translate }}</button>
                                                 <button class="btn btn-primary ml-1" (click)="download()">{{'generics.ExportData' | translate }}</button>
                                             </div>
                                             <div class="text-left p-2">
@@ -294,7 +294,7 @@
                                             <div class="d-block mt-2">
                                                 <div class="center-elements">
                                                     <button class="btn btn-primary mr-1" (click)="createSummaryDx29()">{{'demo.New summary' | translate }}</button>
-                                                    <button class="btn btn-primary ml-1" (click)="openFeedback()" target="_blank">{{'demo.Make evaluation' | translate }}</button>
+                                                    <button class="btn btn-primary ml-1" (click)="openFeedback()" target="_blank">{{'demo.Give your opinion' | translate }}</button>
                                                 </div>
                                                 <div class="text-left mt-3 mb-3 p-2">
                                                     <p class="text-bold-500 mb-0">{{'summaryDx.These are the symptoms obtained from your reports' | translate }}:</p>
@@ -401,21 +401,28 @@
                 </div>
                 
               </div>
-              <div *ngIf="medicalText.length>0 && !recording" class="card border">
+              <div *ngIf="medicalText.length>0 && !recording">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-7 center-elements">
+                        <!--<div class="col-md-7 center-elements">
                             <textarea #inputTextArea class="form-control data-hj-allow" style="height:320px;" [(ngModel)]="medicalText"
                       name="medicalText" placeholder="{{'summaryDx.placeholder' | translate }}"></textarea>
                       <button class="mt-2 btn btn-primary mb-2" (click)="madeSummaryTranscript()">{{'demo.Summarise the transcript' | translate }}</button>
-                        </div>
-                        <div class="col-md-5">
-                            <span *ngIf="callingSummary"><em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em></span>
-                            <span *ngIf="summaryDx29=='' && !callingSummary">{{'summaryDx.The summary will appear here' | translate }}</span>
-                            <span *ngIf="summaryDx29!='' && !callingSummary" [innerHTML]= "summaryDx29 | safe: 'html'"></span>
-                            <span class="d-block center-elements mt-2" *ngIf="summaryDx29!='' && !callingSummary">
-                                <a class="d-block" href="javascript:;" (click)="copySummaryDx()"><em class="fa fa-clipboard pointer"></em> {{'generics.Copy' | translate }}</a>
-                            </span>
+                        </div>-->
+                        <div class="offset-md-3 col-md-6">
+                            <div class="card border p-3">
+                                <span *ngIf="callingSummary" class="center-elements">
+                                    <em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em>
+                                    <label class="d-block mt-2">{{'messages.m3.1' | translate }}</label>
+                                </span>
+                                <span *ngIf="summaryDx29=='' && !callingSummary">{{'summaryDx.The summary will appear here' | translate }}</span>
+                                <span *ngIf="summaryDx29!='' && !callingSummary" [innerHTML]= "summaryDx29 | safe: 'html'"></span>
+                                <span class="d-block center-elements mt-2" *ngIf="summaryDx29!='' && !callingSummary">
+                                    <a class="mr-1" href="javascript:;" (click)="copySummaryDx()"><em class="fa fa-clipboard pointer"></em> {{'generics.Copy' | translate }}</a>
+                                    <button class="btn btn-primary ml-1" (click)="openFeedback()" target="_blank">{{'demo.Give your opinion' | translate }}</button>
+                                </span>
+                            </div>
+                           
                         </div>
                     </div>
                 </div>
