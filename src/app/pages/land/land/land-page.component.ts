@@ -826,12 +826,7 @@ selectSubrole(){
 }
 
 madeSummary(role){
-  this.actualRole = role;
-  if(role=='physician'){
-    this.showPatientTypeButtons = false;
-  }
-  this.callingSummary = true;
-  this.summaryPatient = '';
+
   this.context = [];
   let nameFiles = [];
     for (let doc of this.docs) {
@@ -845,7 +840,19 @@ madeSummary(role){
         
         nameFiles.push(doc.dataFile.name);
       }
+      if(doc.state == 'uploading'){
+        this.toastr.error('', this.translate.instant("demo.Documents not processed"));
+        return;
+      }
     }
+    
+  this.actualRole = role;
+  if(role=='physician'){
+    this.showPatientTypeButtons = false;
+  }
+  this.callingSummary = true;
+  this.summaryPatient = '';
+
     if(this.context.length == 0){
       this.callingSummary = false;
       this.toastr.error('', this.translate.instant("demo.No documents to summarize"));
