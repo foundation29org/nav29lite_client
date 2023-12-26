@@ -288,6 +288,7 @@ showForm() {
       }.bind(this), 2000);
       
       this.recording = !this.recording;
+      this.madeSummaryTranscript();
     } else {
       if(this.medicalText.length > 0){
         //quiere continuar con la grabacion o empezar una nueva
@@ -999,7 +1000,7 @@ async translateInverseSummary(msg): Promise<string> {
           }
 
           async download(){
-           let url = 'https://davlv9v24on.typeform.com/to/z6hgZFGs#uuid='+this.paramForm+'&role='+this.actualRole
+           let url = 'https://davlv9v24on.typeform.com/to/z6hgZFGs#uuid='+this.paramForm+'&role='+this.actualRole+'&mode='+this.submode
             const qrCodeDataURL = await QRCode.toDataURL(url);
             console.log(this.summaryPatient)
             let tempSumary = this.summaryPatient.replace(/<br\s*\/?>/gi, '').replace(/\s{2,}/g, ' ');
@@ -1010,7 +1011,7 @@ async translateInverseSummary(msg): Promise<string> {
           }
 
           openFeedback(){
-            let url = 'https://davlv9v24on.typeform.com/to/z6hgZFGs#uuid='+this.paramForm+'&role='+this.actualRole
+            let url = 'https://davlv9v24on.typeform.com/to/z6hgZFGs#uuid='+this.paramForm+'&role='+this.actualRole+'&mode='+this.submode
             window.open(url, "_blank");
           }
 
@@ -1045,7 +1046,12 @@ async translateInverseSummary(msg): Promise<string> {
             let nameFiles = [];
               for (let doc of this.docs) {
                 if(doc.state == 'done'){
-                  this.context.push(doc.summary);
+                  if(doc.summary){
+                    this.context.push(doc.summary);
+                  }else{
+                    this.context.push(doc.medicalText);
+                  }
+                  //this.context.push(doc.summary);
                   nameFiles.push(doc.dataFile.name);
                 }
               }
