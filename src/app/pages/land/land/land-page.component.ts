@@ -129,6 +129,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
 
     this.eventsService.on('changelang', function (task) {
       (async () => {
+        this.lang = this.translate.store.currentLang;
+        this.originalLang = this.translate.store.currentLang;
         this.setupRecognition();
       })();
     }.bind(this));
@@ -1000,7 +1002,11 @@ async translateInverseSummary(msg): Promise<string> {
           }
 
           async download(){
-           let url = 'https://davlv9v24on.typeform.com/to/z6hgZFGs#uuid='+this.paramForm+'&role='+this.actualRole+'&mode='+this.submode
+            let questionnaire = 'ah7rg7N8';
+            if(this.lang == 'es'){
+              questionnaire = 'z6hgZFGs';
+            }
+            let url = 'https://davlv9v24on.typeform.com/to/'+questionnaire+'#uuid='+this.paramForm+'&role='+this.actualRole+'&mode='+this.submode
             const qrCodeDataURL = await QRCode.toDataURL(url);
             console.log(this.summaryPatient)
             let tempSumary = this.summaryPatient.replace(/<br\s*\/?>/gi, '').replace(/\s{2,}/g, ' ');
@@ -1011,7 +1017,11 @@ async translateInverseSummary(msg): Promise<string> {
           }
 
           openFeedback(){
-            let url = 'https://davlv9v24on.typeform.com/to/z6hgZFGs#uuid='+this.paramForm+'&role='+this.actualRole+'&mode='+this.submode
+            let questionnaire = 'ah7rg7N8';
+            if(this.lang == 'es'){
+              questionnaire = 'z6hgZFGs';
+            }
+            let url = 'https://davlv9v24on.typeform.com/to/'+questionnaire+'#uuid='+this.paramForm+'&role='+this.actualRole+'&mode='+this.submode
             window.open(url, "_blank");
           }
 
