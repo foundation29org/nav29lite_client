@@ -293,8 +293,8 @@
                                         <div class="center-elements">
                                             <div class="d-block mt-2">
                                                 <div class="center-elements">
-                                                    <button class="btn btn-primary mr-1" (click)="createSummaryDx29()">{{'demo.New summary' | translate }}</button>
-                                                    <button class="btn btn-primary ml-1" (click)="openFeedback()" target="_blank">{{'demo.Evaluate summary' | translate }}</button>
+                                                    <button class="btn btn-primary" (click)="createSummaryDx29()">{{'demo.New summary' | translate }}</button>
+                                                    <!--<button class="btn btn-primary ml-1" (click)="openFeedback()" target="_blank">{{'demo.Evaluate summary' | translate }}</button>-->
                                                 </div>
                                                 <div class="text-left mt-3 mb-3 p-2">
                                                     <p class="text-bold-500 mb-0">{{'summaryDx.These are the symptoms obtained from your reports' | translate }}:</p>
@@ -418,8 +418,8 @@
                                 <span *ngIf="summaryDx29=='' && !callingSummary">{{'summaryDx.The summary will appear here' | translate }}</span>
                                 <span *ngIf="summaryDx29!='' && !callingSummary" [innerHTML]= "summaryDx29 | safe: 'html'"></span>
                                 <span class="d-block center-elements mt-2" *ngIf="summaryDx29!='' && !callingSummary">
-                                    <a class="mr-1" href="javascript:;" (click)="copySummaryDx()"><em class="fa fa-clipboard pointer"></em> {{'generics.Copy' | translate }}</a>
-                                    <button class="btn btn-primary ml-1" (click)="openFeedback()" target="_blank">{{'demo.Evaluate summary' | translate }}</button>
+                                    <a class="" href="javascript:;" (click)="copySummaryDx()"><em class="fa fa-clipboard pointer"></em> {{'generics.Copy' | translate }}</a>
+                                    <!--<button class="btn btn-primary ml-1" (click)="openFeedback()" target="_blank">{{'demo.Evaluate summary' | translate }}</button>-->
                                 </span>
                             </div>
                            
