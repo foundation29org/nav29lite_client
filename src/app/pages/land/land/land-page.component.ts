@@ -127,10 +127,10 @@ export class LandPageComponent implements OnInit, OnDestroy {
       this.step = 2;
     }
 
-    this.eventsService.on('changelang', function (task) {
+    this.eventsService.on('changelang', function (lang) {
       (async () => {
-        this.lang = this.translate.store.currentLang;
-        this.originalLang = this.translate.store.currentLang;
+        this.lang = lang;
+        this.originalLang = lang;
         this.setupRecognition();
       })();
     }.bind(this));
