@@ -86,6 +86,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
   actualRole: string = '';
   medicalText: string = '';
   summaryDx29: string = '';
+  summaryTranscript2: string = '';
   mode: string = '0';
   submode: string = null;
   recognition: any;
@@ -363,6 +364,7 @@ showForm() {
   madeSummaryTranscript(){
     console.log(this.medicalText)
     //this.summaryDx29
+    this.summaryTranscript2 = '';
     this.callingSummary = true;
       if(this.medicalText.length == 0){
         this.callingSummary = false;
@@ -375,7 +377,30 @@ showForm() {
       var query = { "userId": this.myuuid, "context": context, "conversation": this.conversation, paramForm: this.paramForm };
       this.subscription.add(this.http.post(environment.api + '/api/calltranscriptsummary/', query)
         .subscribe(async (res: any) => {
-          if(res.response != undefined){
+          if(res.result.response != undefined || res.result2.response != undefined){
+            if(res.result.response != undefined){
+              res.result.response = res.result.response.replace(/^```html\n|\n```$/g, '');
+              res.result.response = res.result.response.replace(/\\n\\n/g, '<br>');
+              res.result.response = res.result.response.replace(/\n/g, '<br>');
+              this.translateInverseSummaryDx(res.result.response).catch(error => {
+                console.error('Error al procesar el mensaje:', error);
+                this.insightsService.trackException(error);
+              });
+            }
+            if(res.result2.response != undefined){
+              res.result2.response = res.result2.response.replace(/^```html\n|\n```$/g, '');
+              res.result2.response = res.result2.response.replace(/\\n\\n/g, '<br>');
+              res.result2.response = res.result2.response.replace(/\n/g, '<br>');
+              this.translateInverseTranscript(res.result2.response).catch(error => {
+                console.error('Error al procesar el mensaje:', error);
+                this.insightsService.trackException(error);
+              });
+            }
+          }else{
+            this.callingSummary = false;
+            this.toastr.error('', this.translate.instant("generics.error try again"));
+          }
+          /*if(res.response != undefined){
             res.response = res.response.replace(/^```html\n|\n```$/g, '');
             res.response = res.response.replace(/\\n\\n/g, '<br>');
             res.response = res.response.replace(/\n/g, '<br>');
@@ -386,7 +411,7 @@ showForm() {
           }else{
             this.callingSummary = false;
             this.toastr.error('', this.translate.instant("generics.error try again"));
-          }
+          }*/
           
 
         }, (err) => {
@@ -478,6 +503,7 @@ showForm() {
     this.submitted = true;
     this.subscription.add(this.http.post(environment.api + '/api/upload', formData)
       .subscribe((res: any) => {
+        console.log(res)
         if(res.status!=200){
           this.docs[index].state = 'failed';
         }else{
@@ -1155,8 +1181,93 @@ async translateInverseSummary(msg): Promise<string> {
             });
           }
 
+          async translateInverseTranscript(msg): Promise<string> {
+            return new Promise((resolve, reject) => {
+              // Función auxiliar para procesar el contenido de la tabla
+              const processTable = (tableContent) => {
+                return tableContent.replace(/\n/g, ''); // Eliminar saltos de línea dentro de la tabla
+              };
+          
+              // Función auxiliar para procesar el texto fuera de las tablas
+              const processNonTableContent = (text) => {
+                return text.replace(/\\n\\n/g, '<br>').replace(/\n/g, '<br>');
+              };
+          
+              if (this.lang != 'en') {
+                var jsontestLangText = [{ "Text": msg }]
+                this.subscription.add(this.apiDx29ServerService.getDeepLTranslationInvert(this.lang, jsontestLangText)
+                  .subscribe((res2: any) => {
+                    if (res2.text != undefined) {
+                      msg = res2.text;
+                    }
+                    
+                    // Aquí procesamos el mensaje
+                    const parts = msg.split(/(<table>|<\/table>)/); // Divide el mensaje en partes de tabla y no tabla
+                    this.summaryTranscript2 = parts.map((part, index) => {
+                      if (index % 4 === 2) { // Los segmentos de tabla estarán en las posiciones 2, 6, 10, etc. (cada 4 desde el segundo)
+                        return processTable(part);
+                      } else {
+                        return processNonTableContent(part);
+                      }
+                    }).join('');
+          
+                    this.callingSummary = false;
+                    resolve('ok');
+                  }, (err) => {
+                    console.log(err);
+                    this.insightsService.trackException(err);
+                    this.summaryTranscript2 = processNonTableContent(msg);
+                    this.callingSummary = false;
+                    resolve('ok');
+                  }));
+              } else {
+                this.summaryTranscript2 = processNonTableContent(msg);
+                this.callingSummary = false;
+                resolve('ok');
+              }
+            });
+          }
+
+          removeHtmlTags(html) {
+            // Crear un elemento div temporal
+            var tempDivElement = document.createElement("div");
+            // Asignar el HTML al div
+            tempDivElement.innerHTML = html;
+            // Usar textContent para obtener el texto plano
+            return tempDivElement.textContent || tempDivElement.innerText || "";
+        }
+
+        convertHtmlToPlainText(html) {
+          // Reemplazar etiquetas <br> y </div> con saltos de línea
+          let text = html.replace(/<br\s*[\/]?>/gi, "\n").replace(/<\/div>/gi, "\n");
+      
+          // Crear un elemento div temporal para manejar cualquier otra etiqueta HTML
+          var tempDivElement = document.createElement("div");
+          tempDivElement.innerHTML = text;
+      
+          // Obtener texto plano
+          return tempDivElement.textContent || tempDivElement.innerText || "";
+      }
+
+          copySummaryTranscript(){
+            this.clipboard.copy(this.convertHtmlToPlainText(this.summaryTranscript2));
+            //this.clipboard.copy(this.summaryTranscript2);
+            Swal.fire({
+                icon: 'success',
+                html: this.translate.instant("messages.Results copied to the clipboard"),
+                showCancelButton: false,
+                showConfirmButton: false,
+                allowOutsideClick: false
+            })
+            setTimeout(function () {
+                Swal.close();
+            }, 2000);
+        }
+
+
           copySummaryDx(){
-            this.clipboard.copy(this.summaryDx29);
+            this.clipboard.copy(this.convertHtmlToPlainText(this.summaryTranscript2));
+            //this.clipboard.copy(this.summaryDx29);
             Swal.fire({
                 icon: 'success',
                 html: this.translate.instant("messages.Results copied to the clipboard"),
