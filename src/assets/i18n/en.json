@@ -27,7 +27,8 @@
     "Add new reports": "Add new reports",
     "Repeat photo": "Repeat photo",
     "Capture photo": "Capture photo",
-    "I like it": "I like it"
+    "I like it": "I like it",
+    "Create report": "Create report"
   },
   "voice":{
    "Start Voice Recognition": "Start Voice Recognition",
@@ -50,7 +51,7 @@
    "These are the symptoms obtained from your reports": "These are the symptoms obtained from your reports",
    "To see the list of possible diagnostics, click on the following button": "To see the list of possible diagnostics, click on the following button",
    "The summary will appear here": "The summary will appear here",
-   "placeholder": "Write, or cut and paste a report. Then you have to click on the generate summary button.",
+   "placeholder": "Write, or cut and paste a report. Then you have to click on the button below.",
    "Test in DxGPT": "Test in DxGPT",
    "New summary": "New summary"
   },

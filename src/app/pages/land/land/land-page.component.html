@@ -541,7 +541,8 @@
 <ng-template #contentSummaryDx id="contentSummaryDx" let-c="close" let-d="dismiss" appendTo="body">
     <div class="modal-header" id="idHeader">
         <div class="content-header text-left">
-            <h4 class="mb-0">{{'summaryDx.Diagnostic Summarizer' | translate }} <button *ngIf="summaryDx29!='' && !callingSummary" class="btn btn-dark round mb-0 ml-2" (click)="restartSummaryDx()"> {{'demo.New summary' | translate }}</button></h4>
+            <h4 class="mb-0" *ngIf="submode=='opt1'">{{'demo.Create report' | translate }}</h4>
+            <h4 class="mb-0" *ngIf="submode=='opt3'">{{'summaryDx.Diagnostic Summarizer' | translate }} <button *ngIf="summaryDx29!='' && !callingSummary" class="btn btn-dark round mb-0 ml-2" (click)="restartSummaryDx()"> {{'demo.New summary' | translate }}</button></h4>
         </div>
         <button type="button" class="close" aria-label="Close" (click)="closeModal();">
             <span aria-hidden="true">&times;</span>
@@ -573,7 +574,11 @@
                         <textarea #inputTextArea class="form-control data-hj-allow" style="height:320px;" [(ngModel)]="medicalText"
                   name="medicalText" placeholder="{{'summaryDx.placeholder' | translate }}"></textarea>
                   <button type="button" class="mt-2 btn btn-lg btn-primary round" [disabled]="callingSummary || recording" title="{{'summaryDx.Generate summary' | translate }}"
-                  (click)="createFile();">{{'summaryDx.Generate summary' | translate }}</button>
+                  (click)="createFile();">
+                  <span *ngIf="submode=='opt1'">{{'demo.Create report' | translate }}</span>
+                  <span *ngIf="submode=='opt3'">{{'summaryDx.Generate summary' | translate }}</span>
+                 
+                </button>
                     </div>
                 </div>
                 
