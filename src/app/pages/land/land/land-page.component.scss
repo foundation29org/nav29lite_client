@@ -7,6 +7,18 @@
   padding: 0;
 }
 
+.buttomback{
+  margin-left: 1.5rem !important;
+  margin-top: 1.5rem !important;
+  //position: fixed;
+  position: initial;
+  z-index: 2;
+}
+
+.buttomback2{
+  float: left;
+}
+
 .row-home {
   display: flex;
   justify-content: center;
@@ -335,7 +347,13 @@ input[type="text"],
 
 
 @media ( max-width: 575px ){
-  
+  .buttomback{
+    position: relative !important;
+  }
+
+  .buttomback2{
+    float: none !important;
+  }
 }
 
 @media ( max-width: 449px ){

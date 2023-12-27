@@ -21,7 +21,7 @@
     </div>
 </div>
 <div *ngIf="mode=='1'" [@testani]="mode">
-    <buttom *ngIf="docs.length==0" class="ml-3 mt-3 btn btn-lg btn-primary text-bold-700 mt-2" style="position: fixed;z-index: 2;" (click)="backmode0()"><em class="fa fa-arrow-left"></em> {{'generics.Back' | translate }}</buttom>
+    <buttom *ngIf="docs.length==0" class="buttomback btn btn-lg btn-primary text-bold-700 mt-2" (click)="backmode0()"><em class="fa fa-arrow-left"></em> {{'generics.Back' | translate }}</buttom>
     <div class="col-md-12" *ngIf="submode=='opt3' || submode=='opt1'">
         <div *ngIf="docs.length == 0">
             <div class="container-home">
@@ -58,7 +58,7 @@
                 
                 <div class="mt-4 col-md-12">
                     <div class="col-md-12 mb-3 center-elements">
-                        <buttom class="btn btn-lg btn-primary text-bold-700 float-left" (click)="backmode0()"><em class="fa fa-arrow-left"></em> {{'generics.Back' | translate }}</buttom>
+                        <buttom class="buttomback2 mb-2 btn btn-lg btn-primary text-bold-700" (click)="backmode0()"><em class="fa fa-arrow-left"></em> {{'generics.Back' | translate }}</buttom>
                         <h1 *ngIf="submode == 'opt1'">{{'demo.Summarize medical reports' | translate }}</h1>
                         <h1 *ngIf="submode == 'opt2'">{{'demo.Summarize a medical conversation' | translate }}</h1>
                         <h1 *ngIf="submode == 'opt3'">{{'demo.Find a diagnosis' | translate }}</h1>
