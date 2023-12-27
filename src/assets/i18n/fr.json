@@ -27,7 +27,8 @@
       "Add new reports": "Ajouter de nouveaux rapports",
       "Repeat photo": "Répéter la photo",
       "Capture photo": "Prendre une photo",
-      "I like it": "J'aime"
+      "I like it": "J'aime",
+      "Create report": "Créer un rapport"
     },
     "voice":{
      "Start Voice Recognition": "Démarrer la reconnaissance vocale",
@@ -50,7 +51,7 @@
      "These are the symptoms obtained from your reports": "Ce sont les symptômes obtenus à partir de vos rapports",
      "To see the list of possible diagnostics, click on the following button": "Pour voir la liste des diagnostics possibles, cliquez sur le bouton suivant",
      "The summary will appear here": "Le résumé apparaîtra ici",
-     "placeholder": "Écrivez ou coupez et collez un rapport. Ensuite, vous devez cliquer sur le bouton générer un résumé.",
+     "placeholder": "Écrivez ou coupez et collez un rapport. Ensuite, vous devez cliquer sur le bouton ci-dessous.",
      "Test in DxGPT": "Testez-le dans DxGPT",
      "New summary": "Nouveau résumé"
     },

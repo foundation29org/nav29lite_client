@@ -282,15 +282,20 @@ showForm() {
         showConfirmButton: false,
         allowOutsideClick: false
       })
-      //esperar dos segundos
+      //esperar 4 segundos
+      console.log('esperando 4 segundos')
       setTimeout(function () {
+        console.log('cerrando swal')
         this.stopTimer();
         this.recognition.stop();
         Swal.close();
-      }.bind(this), 2000);
+        if(this.submode == 'opt2'){
+          this.madeSummaryTranscript();
+        }
+      }.bind(this), 4000);
       
       this.recording = !this.recording;
-      this.madeSummaryTranscript();
+      
     } else {
       if(this.medicalText.length > 0){
         //quiere continuar con la grabacion o empezar una nueva
@@ -841,7 +846,7 @@ madeSummary(role){
         nameFiles.push(doc.dataFile.name);
       }
       if(doc.state == 'uploading'){
-        this.toastr.error('', this.translate.instant("demo.No documents to summarize"));
+        this.toastr.error('', this.translate.instant("demo.Documents not processed"));
         return;
       }
     }
@@ -1293,7 +1298,9 @@ async translateInverseSummary(msg): Promise<string> {
           var reader = new FileReader();
           reader.readAsArrayBuffer(file); // read file as data url
           this.docs.push({ dataFile: { event: file, name: file.name, url: file.name, content: this.medicalText }, langToExtract: '', medicalText: this.medicalText, state: 'done', tokens: 0 });
-          this.createSummaryDx29();
+          if(this.submode == 'opt3'){
+            this.createSummaryDx29();
+          }
           if (this.modalReference != undefined) {
             this.modalReference.close();
             this.modalReference = undefined;
