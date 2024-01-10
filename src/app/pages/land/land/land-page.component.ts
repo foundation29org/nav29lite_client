@@ -99,6 +99,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
   private audioOutro = new Audio('assets/audio/sonido2.mp4');
   stepPhoto = 1;
   capturedImage: any;
+  private cameraDevices: MediaDeviceInfo[] = [];
+  private currentCameraIndex = 0;
 
   constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public insightsService: InsightsService, private clipboard: Clipboard, public jsPDFService: jsPDFService, private ngZone: NgZone) {
     this.screenWidth = window.innerWidth;
@@ -1303,17 +1305,40 @@ async translateInverseSummary(msg): Promise<string> {
             }
             this.modalReference = this.modalService.open(content, ngbModalOptions);
             await this.delay(200);
-            this.openCamera();
+
+            this.initializeCameraDevices();
+            //this.openCamera();
           }
         }
 
-        openCamera() {
+        initializeCameraDevices() {
+          navigator.mediaDevices.enumerateDevices()
+            .then(devices => {
+              this.cameraDevices = devices.filter(device => device.kind === 'videoinput');
+              console.log(this.cameraDevices)
+              if (this.cameraDevices.length > 0) {
+                this.openCamera(this.cameraDevices[0].deviceId);
+              }
+            })
+            .catch(err => console.error("Error enumerating devices:", err));
+        }
+      
+        switchCamera() {
+          if (this.cameraDevices.length > 1) {
+            this.currentCameraIndex = (this.currentCameraIndex + 1) % this.cameraDevices.length;
+            this.openCamera(this.cameraDevices[this.currentCameraIndex].deviceId);
+          }
+        }
+
+        openCamera(cameraId) {
           const videoElement = document.querySelector('#videoElement') as HTMLVideoElement;
           if (videoElement) {
-            navigator.mediaDevices.getUserMedia({ video: true })
-              .then(stream => {
-                videoElement.srcObject = stream;
-              })
+            navigator.mediaDevices.getUserMedia({ 
+              video: { deviceId: { exact: cameraId } } 
+            })
+            .then(stream => {
+              videoElement.srcObject = stream;
+            })
               .catch(err => {
                 console.error("Error accessing camera:", err);
                 //debe permitir la camara para continuar
@@ -1360,7 +1385,8 @@ async translateInverseSummary(msg): Promise<string> {
         async prevCamera(){
           this.stepPhoto = 1;
           await this.delay(200);
-          this.openCamera();
+          this.initializeCameraDevices();
+          //this.openCamera();
           this.capturedImage = '';
         }
 
