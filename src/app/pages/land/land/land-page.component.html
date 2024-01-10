@@ -536,6 +536,8 @@
         <div class="card-body col-md-12">
           <div class="row">
             <div class="col-sm-12" *ngIf="stepPhoto==1">
+                <button *ngIf="cameraDevices.length>0" type="button" class="btn btn-secondary" (click)="switchCamera()">Cambiar Cámara</button>
+
                 <video #videoElement id="videoElement" class="w-100" autoplay></video>
             </div>
             <div class="col-sm-12" *ngIf="stepPhoto==2">
