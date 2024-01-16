@@ -21,7 +21,7 @@
     </div>
 </div>
 <div *ngIf="mode=='1'" [@testani]="mode">
-    <buttom *ngIf="docs.length==0" class="buttomback btn btn-lg btn-primary text-bold-700 mt-2" (click)="backmode0()"><em class="fa fa-arrow-left"></em> {{'generics.Back' | translate }}</buttom>
+    <buttom *ngIf="docs.length==0 || submode=='opt2'" class="buttomback btn btn-lg btn-primary text-bold-700 mt-2" (click)="backmode0()"><em class="fa fa-arrow-left"></em> {{'generics.Back' | translate }}</buttom>
     <div class="col-md-12" *ngIf="submode=='opt3' || submode=='opt1'">
         <div *ngIf="docs.length == 0">
             <div class="container-home">
@@ -59,9 +59,9 @@
                 <div class="mt-4 col-md-12">
                     <div class="col-md-12 mb-3 center-elements">
                         <buttom class="buttomback2 mb-2 btn btn-lg btn-primary text-bold-700" (click)="backmode0()"><em class="fa fa-arrow-left"></em> {{'generics.Back' | translate }}</buttom>
-                        <h1 *ngIf="submode == 'opt1'">{{'demo.Summarize medical reports' | translate }}</h1>
-                        <h1 *ngIf="submode == 'opt2'">{{'demo.Summarize a medical conversation' | translate }}</h1>
-                        <h1 *ngIf="submode == 'opt3'">{{'demo.Find a diagnosis' | translate }}</h1>
+                        <h1 *ngIf="submode == 'opt1'" (click)="showModeGod()">{{'demo.Summarize medical reports' | translate }}</h1>
+                        <h1 *ngIf="submode == 'opt2'" (click)="showModeGod()">{{'demo.Summarize a medical conversation' | translate }}</h1>
+                        <h1 *ngIf="submode == 'opt3'" (click)="showModeGod()">{{'demo.Find a diagnosis' | translate }}</h1>
                     </div>
                     <div class="row">
                         <div class="col-lg-5" [ngClass]="(docs.length==0)?'offset-md-3 col-md-6':''">
@@ -84,7 +84,7 @@
                                 <span class="mt-2 font-small-3 text-muted">{{'demo.descripReports' | translate }}</span>
                               </div>
                             <div class="card" *ngIf="docs.length>0">
-                                <div class="card-content">
+                                <!--<div class="card-content">
                                     <div class="card-body py-0">
                                         <div class="media pb-1">
                                             <div class="media-body text-left">
@@ -103,13 +103,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
                                 <div>
                                     <hr class="mt-0 mb-0">
                                     <div *ngFor="let doc of docs; let i = index " class="">
-                                        <div class="card-body" [ngClass]="{'panelHearder': innerWidth>992}">
-                                            <span class="text-bold-500 text-left">
-                                                <span class="dark nav-item pt-1" ngbDropdown display="dynamic"
+                                        <div class="card-body border-bottom" [ngClass]="{'panelHearder': innerWidth>992}">
+                                            <span class="text-left">
+                                                <span class="dark nav-item pt-2" ngbDropdown display="dynamic"
                                                     placement="bottom-right"
                                                     style="position: absolute; right: 0px;">
                                                     <a class="position-relative colorlink"
@@ -120,7 +120,7 @@
                                                     </a>
                                                     <div ngbDropdownMenu aria-labelledby="dropdownSympt{{i}}"
                                                         class="dropdown">
-                                                        <a class="dropdown-item py-1" 
+                                                        <a class="dropdown-item py-1 border-bottom" 
                                                         (click)="getBlobUrl(doc)"
                                                         target="_blank">
                                                             <i class="fa fa-file"></i>
@@ -141,8 +141,8 @@
                                                     </div>
                                                 </span>
                                                 <span *ngIf="doc.dataFile">
-                                                    <span class="d-inline-block">{{doc.dataFile.name}}</span>
-                                                    <span class="d-block text-muted">{{ doc.dataFile.event.size | bytes }} </span>
+                                                    <span class="d-block">{{doc.dataFile.name}}</span>
+                                                    <!--<span class="d-block text-muted">{{ doc.dataFile.event.size | bytes }} </span>-->
                                                     <span *ngIf="doc.tokens>1000" class="d-block text-muted">{{doc.tokens | tokens}} </span>
                                                 </span>
                                                 <span>
@@ -233,7 +233,7 @@
                                 </div>
                                 <div class="row" *ngIf="!callingSummary && summaryPatient==''">
                                     <div class="col-md-12">
-                                        <h4 class="text-center">{{'demo.I want a summary for' | translate }}</h4>
+                                        <p class="text-bold-700 text-center">{{'demo.I want a summary for' | translate }}</p>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="center-elements">
@@ -242,7 +242,7 @@
                                         </div>
                                         <div *ngIf="showPatientTypeButtons" class="center-elements mt-3">
                                             <div class="col-md-12">
-                                                <h4 class="text-center">{{'demo.Written for' | translate }}</h4>
+                                                <p class="text-bold-700 text-center">{{'demo.Written for' | translate }}</p>
                                             </div>
                                             <div class="col-md-12">
                                                 <button class="mb-2 btn btn-primary ml-1" (click)="madeSummary('adult')">
@@ -264,7 +264,7 @@
                                                 <button class="btn btn-primary ml-1 mr-1" (click)="openFeedback()" target="_blank">{{'demo.Evaluate summary' | translate }}</button>
                                                 <button class="btn btn-primary ml-1" (click)="download()">{{'generics.ExportData' | translate }}</button>
                                             </div>
-                                            <div class="text-left p-2">
+                                            <div class="custom-body text-left p-2">
                                                 <span [innerHTML]= "summaryPatient | safe: 'html'"></span>
                                             </div>
                                         </div>
@@ -284,7 +284,7 @@
                                 </div>
                                 <div class="row" *ngIf="!callingSummary && summaryDx29==''">
                                     <div class="col-md-12 center-elements">
-                                        <button type="button" class="mt-2 btn btn-lg btn-primary round" [disabled]="callingSummary" title="{{'summaryDx.Generate summary' | translate }}"
+                                        <button type="button" class="mt-2 btn btn-lg btn-primary" [disabled]="callingSummary" title="{{'summaryDx.Generate summary' | translate }}"
                                         (click)="createSummaryDx29();">{{'summaryDx.Generate summary' | translate }}</button>
                                     </div>
                                 </div>
@@ -296,7 +296,7 @@
                                                     <button class="btn btn-primary" (click)="createSummaryDx29()">{{'demo.New summary' | translate }}</button>
                                                     <!--<button class="btn btn-primary ml-1" (click)="openFeedback()" target="_blank">{{'demo.Evaluate summary' | translate }}</button>-->
                                                 </div>
-                                                <div class="text-left mt-3 mb-3 p-2">
+                                                <div class="text-left mt-3 mb-3 p-2 custom-body">
                                                     <p class="text-bold-500 mb-0">{{'summaryDx.These are the symptoms obtained from your reports' | translate }}:</p>
                                                     <span [innerHTML]= "summaryDx29 | safe: 'html'"></span>
                                                 </div>
@@ -387,7 +387,7 @@
     <div class="col-md-12" *ngIf="submode=='opt2'">
         <div *ngIf="supported">
             <div class="voice-recorder">
-                <div class="card-body border round p-3 mic-icon pointer bg-white" (click)="toggleRecording()">
+                <div class="card-body border p-3 mic-icon pointer bg-white" (click)="toggleRecording()">
                   <span *ngIf="!recording" class="d-block">{{'voice.Start Voice Recognition' | translate }}</span>
                   <i class="mt-2 fa-2x fa fa-microphone" *ngIf="!recording"></i>
                   <span *ngIf="recording" class="d-block">{{'voice.Stop Voice Recognition' | translate }}</span>
@@ -410,7 +410,8 @@
                       <button class="mt-2 btn btn-primary mb-2" (click)="madeSummaryTranscript()">{{'demo.Summarise the transcript' | translate }}</button>
                         </div>-->
                         <div class="col-md-6">
-                            <div class="card border p-3">
+                            <span>{{'summaryDx.Example' | translate }} 1:</span>
+                            <div class="card border p-3 custom-body">
                                 <span *ngIf="callingSummary" class="center-elements">
                                     <em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em>
                                     <label class="d-block mt-2">{{'messages.m3.1' | translate }}</label>
@@ -426,7 +427,8 @@
                         </div>
 
                         <div class="col-md-6">
-                            <div class="card border p-3">
+                            <span>{{'summaryDx.Example' | translate }} 2:</span>
+                            <div class="card border p-3 custom-body">
                                 <span *ngIf="callingSummary" class="center-elements">
                                     <em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em>
                                     <label class="d-block mt-2">{{'messages.m3.1' | translate }}</label>
@@ -472,7 +474,7 @@
                 <span class="animate-bottom" *ngIf="showButtonScroll" id="buttomScroll">
                     <button type="button" class="btn btn-dark round mb-0" (click)="goToTop()">{{'summaryDx.Go top' | translate }}</button>
                 </span>
-                <div class="">
+                <div class="custom-body">
                     <div style="text-align: justify;"
                         [innerHTML]="actualDoc.medicalText | safe: 'html'"></div>
                 </div>
@@ -517,9 +519,9 @@
     </div>
     <div class="modal-footer">
       <div class="form-actions col-md-12 center-elements">
-        <button type="button" *ngIf="stepDisclaimer>1" class="btn round btn-secondary float-left" (click)="prevDisclaimer();">{{'generics.Back' | translate }}</button>
-        <button type="button" *ngIf="stepDisclaimer==1" class="btn round btn-primary float-right" (click)="nextDisclaimer()">{{'generics.Begin' | translate }}</button>
-        <button type="button" *ngIf="stepDisclaimer==2" class="btn round btn-primary float-right" (click)="nextDisclaimer()">{{'generics.I agree' | translate }}</button>
+        <button type="button" *ngIf="stepDisclaimer>1" class="btn btn-secondary float-left" (click)="prevDisclaimer();">{{'generics.Back' | translate }}</button>
+        <button type="button" *ngIf="stepDisclaimer==1" class="btn btn-primary float-right" (click)="nextDisclaimer()">{{'generics.Begin' | translate }}</button>
+        <button type="button" *ngIf="stepDisclaimer==2" class="btn btn-primary float-right" (click)="nextDisclaimer()">{{'generics.I agree' | translate }}</button>
       </div>
     </div>
 </ng-template>
@@ -547,9 +549,9 @@
     </div>
     <div class="modal-footer">
       <div class="form-actions col-md-12 center-elements">
-        <button type="button" *ngIf="stepPhoto>1" class="btn round btn-secondary float-left" (click)="prevCamera();">{{'demo.Repeat photo' | translate }}</button>
-        <button type="button" *ngIf="stepPhoto==1" class="btn round btn-primary float-right" (click)="captureImage()">{{'demo.Capture photo' | translate }}</button>
-        <button type="button" *ngIf="stepPhoto==2" class="btn round btn-primary float-right" (click)="finishPhoto()">{{'demo.I like it' | translate }}</button>
+        <button type="button" *ngIf="stepPhoto>1" class="btn btn-secondary float-left" (click)="prevCamera();">{{'demo.Repeat photo' | translate }}</button>
+        <button type="button" *ngIf="stepPhoto==1" class="btn btn-primary float-right" (click)="captureImage()">{{'demo.Capture photo' | translate }}</button>
+        <button type="button" *ngIf="stepPhoto==2" class="btn btn-primary float-right" (click)="finishPhoto()">{{'demo.I like it' | translate }}</button>
       </div>
     </div>
 </ng-template>
@@ -558,7 +560,7 @@
     <div class="modal-header" id="idHeader">
         <div class="content-header text-left">
             <h4 class="mb-0" *ngIf="submode=='opt1'">{{'demo.Create report' | translate }}</h4>
-            <h4 class="mb-0" *ngIf="submode=='opt3'">{{'summaryDx.Diagnostic Summarizer' | translate }} <button *ngIf="summaryDx29!='' && !callingSummary" class="btn btn-dark round mb-0 ml-2" (click)="restartSummaryDx()"> {{'demo.New summary' | translate }}</button></h4>
+            <h4 class="mb-0" *ngIf="submode=='opt3'">{{'summaryDx.Diagnostic Summarizer' | translate }} <button *ngIf="summaryDx29!='' && !callingSummary" class="btn btn-dark mb-0 ml-2" (click)="restartSummaryDx()"> {{'demo.New summary' | translate }}</button></h4>
         </div>
         <button type="button" class="close" aria-label="Close" (click)="closeModal();">
             <span aria-hidden="true">&times;</span>
@@ -589,7 +591,7 @@
                     <div class="col-md-12 center-elements">
                         <textarea #inputTextArea class="form-control data-hj-allow" style="height:320px;" [(ngModel)]="medicalText"
                   name="medicalText" placeholder="{{'summaryDx.placeholder' | translate }}"></textarea>
-                  <button type="button" class="mt-2 btn btn-lg btn-primary round" [disabled]="callingSummary || recording" title="{{'summaryDx.Generate summary' | translate }}"
+                  <button type="button" class="mt-2 btn btn-lg btn-primary" [disabled]="callingSummary || recording" title="{{'summaryDx.Generate summary' | translate }}"
                   (click)="createFile();">
                   <span *ngIf="submode=='opt1'">{{'demo.Create report' | translate }}</span>
                   <span *ngIf="submode=='opt3'">{{'summaryDx.Generate summary' | translate }}</span>
