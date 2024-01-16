@@ -1,5 +1,7 @@
 {
    "demo":{
+      "t1": "Was ist Summary29?",
+      "des": "Summary29 ist ein von der Stiftung 29 entwickeltes Proof-of-Concept für die Möglichkeiten generativer KI im Gesundheitswesen. Es ermöglicht das Experimentieren mit realen Beispielen, wie KI zur Zusammenfassung medizinischer Inhalte genutzt werden kann.",
       "What do you want to do?": "Was möchten Sie tun?",
       "Summarize medical reports": "Erstellen Sie eine Dateizusammenfassung",
       "Summarize a medical conversation": "Fassen Sie ein Gespräch zusammen",
