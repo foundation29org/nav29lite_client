@@ -872,7 +872,7 @@ madeSummary(role){
         nameFiles.push(doc.dataFile.name);
       }
       if(doc.state == 'uploading'){
-        this.toastr.error('', this.translate.instant("demo.Documents not processed"));
+        this.toastr.error('', this.translate.instant("demo.No documents to summarize"));
         return;
       }
     }
