@@ -1,3 +1,14 @@
+.btn{
+  font-size: 1rem !important;
+}
+
+.custom-body span h1,
+.custom-body span h2,
+.custom-body span h3,
+.custom-body span h4 {
+    margin-top: 1.5rem;
+}
+
 .text-decoration-underline{
   text-decoration: underline !important;
 }

@@ -380,8 +380,10 @@ showForm() {
           if(res.result.response != undefined || res.result2.response != undefined){
             if(res.result.response != undefined){
               res.result.response = res.result.response.replace(/^```html\n|\n```$/g, '');
-              res.result.response = res.result.response.replace(/\\n\\n/g, '<br>');
-              res.result.response = res.result.response.replace(/\n/g, '<br>');
+              //res.result.response = res.result.response.replace(/\\n\\n/g, '<br>');
+              //res.result.response = res.result.response.replace(/\n/g, '<br>');
+              res.result.response = res.result.response.replace(/\\n\\n/g, '');
+              res.result.response = res.result.response.replace(/\n/g, '');
               this.translateInverseSummaryDx(res.result.response).catch(error => {
                 console.error('Error al procesar el mensaje:', error);
                 this.insightsService.trackException(error);
@@ -389,8 +391,10 @@ showForm() {
             }
             if(res.result2.response != undefined){
               res.result2.response = res.result2.response.replace(/^```html\n|\n```$/g, '');
-              res.result2.response = res.result2.response.replace(/\\n\\n/g, '<br>');
-              res.result2.response = res.result2.response.replace(/\n/g, '<br>');
+              //res.result2.response = res.result2.response.replace(/\\n\\n/g, '<br>');
+              //res.result2.response = res.result2.response.replace(/\n/g, '<br>');
+              res.result2.response = res.result2.response.replace(/\\n\\n/g, '');
+              res.result2.response = res.result2.response.replace(/\n/g, '');
               this.translateInverseTranscript(res.result2.response).catch(error => {
                 console.error('Error al procesar el mensaje:', error);
                 this.insightsService.trackException(error);
@@ -895,8 +899,10 @@ madeSummary(role){
       .subscribe(async (res: any) => {
         if(res.response != undefined){
           res.response = res.response.replace(/^```html\n|\n```$/g, '');
-          res.response = res.response.replace(/\\n\\n/g, '<br>');
-          res.response = res.response.replace(/\n/g, '<br>');
+          //res.response = res.response.replace(/\\n\\n/g, '<br>');
+          //res.response = res.response.replace(/\n/g, '<br>');
+          res.response = res.response.replace(/\\n\\n/g, '');
+          res.response = res.response.replace(/\n/g, '');
           this.translateInverseSummary(res.response).catch(error => {
             console.error('Error al procesar el mensaje:', error);
             this.insightsService.trackException(error);
@@ -1114,8 +1120,10 @@ async translateInverseSummary(msg): Promise<string> {
                 .subscribe(async (res: any) => {
                   if(res.response != undefined){
                     res.response = res.response.replace(/^```html\n|\n```$/g, '');
-                    res.response = res.response.replace(/\\n\\n/g, '<br>');
-                    res.response = res.response.replace(/\n/g, '<br>');
+                    //res.response = res.response.replace(/\\n\\n/g, '<br>');
+                    //res.response = res.response.replace(/\n/g, '<br>');
+                    res.response = res.response.replace(/\\n\\n/g, '');
+                    res.response = res.response.replace(/\n/g, '');
                     this.translateInverseSummaryDx(res.response).catch(error => {
                       console.error('Error al procesar el mensaje:', error);
                       this.insightsService.trackException(error);
