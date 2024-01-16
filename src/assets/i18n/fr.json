@@ -1,5 +1,7 @@
 {
    "demo":{
+      "t1" : "Qu'est-ce que Summary29?",
+      "des" : "Summary29 est une preuve de concept développée par la Fondation 29 des capacités de l'IA générative dans un contexte de soins de santé. Il permet d'expérimenter des exemples réels de la manière dont l'IA peut être utilisée pour résumer du contenu médical",
       "What do you want to do?": "Que voulez-vous faire ?",
       "Summarize medical reports": "Faire un résumé de fichier",
       "Summarize a medical conversation": "Résumer une conversation",

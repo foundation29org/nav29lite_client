@@ -1,5 +1,7 @@
 {
   "demo":{
+    "t1": "What is Summary29?",
+    "des": "Summary29 is a proof of concept developed by Foundation 29 of the capabilities of generative AI in a healthcare context. It allows experimentation with real examples of how AI can be used to summarise medical content.",
     "What do you want to do?": "What do you want to do?",
     "Summarize medical reports": "Summarize medical reports",
     "Summarize a medical conversation": "Summarize a medical conversation",
