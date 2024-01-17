@@ -16,6 +16,7 @@ import { jsPDFService } from 'app/shared/services/jsPDF.service'
 import * as QRCode from 'qrcode';
 import { v4 as uuidv4 } from 'uuid';
 declare var webkitSpeechRecognition: any;
+import * as datos from './icons.json';
 
 @Component({
   selector: 'app-land',
@@ -99,7 +100,7 @@ export class LandPageComponent implements OnInit, OnDestroy {
   private audioOutro = new Audio('assets/audio/sonido2.mp4');
   stepPhoto = 1;
   capturedImage: any;
-
+  icons: any = (datos as any).default;
   constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public insightsService: InsightsService, private clipboard: Clipboard, public jsPDFService: jsPDFService, private ngZone: NgZone) {
     this.screenWidth = window.innerWidth;
     if(sessionStorage.getItem('lang') == null){
