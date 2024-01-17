@@ -10,15 +10,15 @@
                 <h1 class="mt-3 title-home text-center text-bold-700 mb-4">{{'demo.What do you want to do?' | translate }}</h1>
                 <div class="mb-4 row row-home w-100">
                     <div class="col-md-4">
-                        <img class="logo-img" [src]="icons[0].data" />
+                        <img class="logo-img pointer" [src]="icons[0].data" (click)="selectOpt('opt1')"/>
                         <buttom class="btn btn-sm btn-primary text-bold-700 mt-2" (click)="selectOpt('opt1')">{{'demo.Summarize medical reports' | translate }}</buttom>
                     </div>
                     <div class="col-md-4">
-                        <img class="logo-img" [src]="icons[1].data" />
+                        <img class="logo-img pointer" [src]="icons[1].data" (click)="selectOpt('opt2')"/>
                         <buttom class="btn btn-sm btn-primary text-bold-700 mt-2" (click)="selectOpt('opt2')">{{'demo.Summarize a medical conversation' | translate }}</buttom>
                     </div>
                     <div class="col-md-4">
-                        <img class="logo-img" [src]="icons[2].data" />
+                        <img class="logo-img pointer" [src]="icons[2].data" (click)="selectOpt('opt3')"/>
                         <buttom class="btn btn-sm btn-primary text-bold-700 mt-2" (click)="selectOpt('opt3')">{{'demo.Find a diagnosis' | translate }}</buttom>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                         <h1 class="mt-3 title-home text-center text-bold-700 mb-5">{{'demo.How do you want to start?' | translate }}</h1>
                         <div class="mb-4 row row-home w-100">
                             <div class="col-md-4">
-                                <img class="logo-img" [src]="icons[3].data" />
+                                <img class="logo-img pointer" [src]="icons[3].data" (click)="entryOpt('opt1', contentPhoto)"/>
                                 <buttom class="btn btn-sm btn-primary text-bold-700 mt-2" (click)="entryOpt('opt1', contentPhoto)">{{'demo.Take a photo' | translate }}</buttom>
                             </div>
                             <div class="col-md-4">
@@ -54,7 +54,7 @@
                                 <!--<buttom class="btn btn-sm btn-primary text-bold-700 mt-2" (click)="entryOpt('opt2', null)">Usar uno o varios informes</buttom>-->
                             </div>
                             <div class="col-md-4">
-                                <img class="logo-img" [src]="icons[5].data" />
+                                <img class="logo-img pointer" [src]="icons[5].data" (click)="showPanelMedium(contentSummaryDx)"/>
                                 <buttom class="btn btn-sm btn-primary text-bold-700 mt-2" (click)="showPanelMedium(contentSummaryDx)">{{'demo.Write text' | translate }}</buttom>
                             </div>
                         </div>
@@ -191,12 +191,12 @@
                                     <p class="text-bold-700">{{'demo.Add new reports' | translate }}</p>
                                     <div class="row">
                                         <div class="col-sm-4">
-                                            <div><img class="logo-img-sm" src='assets/img/home/opt4.png' width="40px"/></div>
+                                            <div><img class="logo-img-sm pointer" [src]="icons[3].data" width="40px" (click)="entryOpt('opt1', contentPhoto)"/></div>
                                             <div><buttom class="btnblock btn btn-sm btn-primary mt-2" (click)="entryOpt('opt1', contentPhoto)">{{'demo.Take a photo' | translate }}</buttom></div>
                                             
                                         </div>
                                         <div class="col-sm-4">
-                                            <div><img class="logo-img-sm" src='assets/img/home/opt5.png' width="40px"/></div>
+                                            <div><img class="logo-img-sm" [src]="icons[4].data" width="40px"/></div>
                                             <div>
                                                 <div class="container-custom2">
                                                     <input class="pointer" aria-label="new file" type="file" #fileDropRef id="fileDropRef" multiple (change)="onFileChangePDF($event);"
@@ -207,7 +207,7 @@
                                             
                                         </div>
                                         <div class="col-sm-4">
-                                            <div><img class="logo-img-sm" src='assets/img/home/opt6.png' width="40px"/></div>
+                                            <div><img class="logo-img-sm pointer" [src]="icons[5].data" width="40px" (click)="showPanelMedium(contentSummaryDx)"/></div>
                                             <div><buttom class="btnblock btn btn-sm btn-primary mt-2" (click)="showPanelMedium(contentSummaryDx)">{{'demo.Write text' | translate }}</buttom></div>
                                         </div>
 
