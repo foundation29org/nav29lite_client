@@ -18,7 +18,8 @@
       "es2016",
       "dom"
     ],
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "resolveJsonModule": true
   },
   "angularCompilerOptions": {
     "preserveWhitespaces": false
