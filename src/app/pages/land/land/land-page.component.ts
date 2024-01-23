@@ -378,25 +378,25 @@ showForm() {
       var query = { "userId": this.myuuid, "context": context, "conversation": this.conversation, paramForm: this.paramForm };
       this.subscription.add(this.http.post(environment.api + '/api/calltranscriptsummary/', query)
         .subscribe(async (res: any) => {
-          if(res.result.response != undefined || res.result2.response != undefined){
-            if(res.result.response != undefined){
-              res.result.response = res.result.response.replace(/^```html\n|\n```$/g, '');
+          if(res.result1 != undefined || res.result2 != undefined){
+            if(res.result1 != undefined){
+              res.result1 = res.result1.replace(/^```html\n|\n```$/g, '');
               //res.result.response = res.result.response.replace(/\\n\\n/g, '<br>');
               //res.result.response = res.result.response.replace(/\n/g, '<br>');
-              res.result.response = res.result.response.replace(/\\n\\n/g, '');
-              res.result.response = res.result.response.replace(/\n/g, '');
-              this.translateInverseSummaryDx(res.result.response).catch(error => {
+              res.result1 = res.result1.replace(/\\n\\n/g, '');
+              res.result1 = res.result1.replace(/\n/g, '');
+              this.translateInverseSummaryDx(res.result1).catch(error => {
                 console.error('Error al procesar el mensaje:', error);
                 this.insightsService.trackException(error);
               });
             }
-            if(res.result2.response != undefined){
-              res.result2.response = res.result2.response.replace(/^```html\n|\n```$/g, '');
+            if(res.result2 != undefined){
+              res.result2 = res.result2.replace(/^```html\n|\n```$/g, '');
               //res.result2.response = res.result2.response.replace(/\\n\\n/g, '<br>');
               //res.result2.response = res.result2.response.replace(/\n/g, '<br>');
-              res.result2.response = res.result2.response.replace(/\\n\\n/g, '');
-              res.result2.response = res.result2.response.replace(/\n/g, '');
-              this.translateInverseTranscript(res.result2.response).catch(error => {
+              res.result2 = res.result2.replace(/\\n\\n/g, '');
+              res.result2 = res.result2.replace(/\n/g, '');
+              this.translateInverseTranscript(res.result2).catch(error => {
                 console.error('Error al procesar el mensaje:', error);
                 this.insightsService.trackException(error);
               });
@@ -898,13 +898,13 @@ madeSummary(role){
     var query = { "userId": this.myuuid, "context": this.context, "conversation": this.conversation, "role": role, nameFiles: nameFiles, paramForm: this.paramForm };
     this.subscription.add(this.http.post(environment.api + '/api/callsummary/', query)
       .subscribe(async (res: any) => {
-        if(res.response != undefined){
-          res.response = res.response.replace(/^```html\n|\n```$/g, '');
+        if(res.result1 != undefined){
+          res.result1 = res.result1.replace(/^```html\n|\n```$/g, '');
           //res.response = res.response.replace(/\\n\\n/g, '<br>');
           //res.response = res.response.replace(/\n/g, '<br>');
-          res.response = res.response.replace(/\\n\\n/g, '');
-          res.response = res.response.replace(/\n/g, '');
-          this.translateInverseSummary(res.response).catch(error => {
+          res.result1 = res.result1.replace(/\\n\\n/g, '');
+          res.result1 = res.result1.replace(/\n/g, '');
+          this.translateInverseSummary(res.result1).catch(error => {
             console.error('Error al procesar el mensaje:', error);
             this.insightsService.trackException(error);
           });
