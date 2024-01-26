@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, NgZone } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, NgZone, ChangeDetectorRef  } from '@angular/core';
 import { trigger, transition, animate } from '@angular/animations';
 import { style } from '@angular/animations';
 import { TranslateService } from '@ngx-translate/core';
@@ -101,11 +101,19 @@ export class LandPageComponent implements OnInit, OnDestroy {
   stepPhoto = 1;
   capturedImage: any;
   icons: any = (datos as any).default;
-  constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public insightsService: InsightsService, private clipboard: Clipboard, public jsPDFService: jsPDFService, private ngZone: NgZone) {
+  timeline: any = [];
+  groupedEvents: any = [];
+
+  startDate: Date;
+  endDate: Date;
+  selectedEventType: string = null;
+  originalEvents: any[]; // Todos los eventos antes de aplicar el filtro
+  filteredEvents: any[];
+
+  constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public insightsService: InsightsService, private clipboard: Clipboard, public jsPDFService: jsPDFService, private ngZone: NgZone, private cdr: ChangeDetectorRef) {
     this.screenWidth = window.innerWidth;
     if(sessionStorage.getItem('lang') == null){
       sessionStorage.setItem('lang', this.translate.store.currentLang);
-
     }
     this.lang = this.translate.store.currentLang;
     this.originalLang = this.translate.store.currentLang;
@@ -136,6 +144,35 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.setupRecognition();
       })();
     }.bind(this));
+
+    /*this.timeline= [
+      {
+        "date": "2014-02-23",
+        "keyMedicalEvent": "Repeated convulsive status"
+      },
+      {
+        "date": "2014-03-01",
+        "keyMedicalEvent": "Repeated convulsive status"
+      },
+      {
+        "date": "2015-05-01",
+        "keyMedicalEvent": "Repeated convulsive status"
+      },
+      {
+        "date": "2023-03-10",
+        "keyMedicalEvent": "Consultation for refractory epilepsy, Dravet syndrome, SCN1A gene mutation"
+      },
+      {
+        "date": "2023-03-10",
+        "keyMedicalEvent": "Prescription of Diacomit, Depakine, Noiafren, Fenfluramine, and Ferrosol"
+      },
+      {
+        "date": "2023-03-10",
+        "keyMedicalEvent": "Order for video-EEG and blood tests"
+      }
+    ];
+    this.originalEvents = this.timeline;
+    this.filterEvents();*/
 
   }
 
@@ -862,7 +899,9 @@ selectSubrole(){
 }
 
 madeSummary(role){
-
+  this.timeline = [];
+  this.originalEvents = [];
+  this.groupedEvents = [];
   this.context = [];
   let nameFiles = [];
     for (let doc of this.docs) {
@@ -912,6 +951,14 @@ madeSummary(role){
           this.callingSummary = false;
           this.toastr.error('', this.translate.instant("generics.error try again"));
         }
+        if(res.result2 != undefined){
+          if(res.result2.length > 0){
+            this.timeline = JSON.parse(res.result2);
+            //this.groupedEvents = this.groupEventsByMonth(this.timeline);
+            this.originalEvents = this.timeline;
+            this.filterEvents();
+          }          
+        }
         
 
       }, (err) => {
@@ -919,6 +966,59 @@ madeSummary(role){
         console.log(err);
         this.insightsService.trackException(err);
       }));
+}
+
+private groupEventsByMonth(events: any[]): any[] {
+  const grouped = {};
+
+  events.forEach(event => {
+    const monthYear = this.getMonthYear(event.date);
+    if (!grouped[monthYear]) {
+      grouped[monthYear] = [];
+    }
+    grouped[monthYear].push(event);
+  });
+
+  return Object.keys(grouped).map(key => ({ monthYear: key, events: grouped[key] }));
+}
+
+private getMonthYear(dateStr: string): string {
+  const date = new Date(dateStr);
+  return date.toLocaleString(this.lang, { month: 'long', year: 'numeric' });
+}
+
+filterEvents() {
+  this.cdr.detectChanges();
+  console.log(this.originalEvents);
+  console.log(this.startDate);
+  console.log(this.endDate);
+
+  const startDate = this.startDate ? new Date(this.startDate) : null;
+  const endDate = this.endDate ? new Date(this.endDate) : null;
+
+  const filtered = this.originalEvents.filter(event => {
+    const eventDate = new Date(event.date);
+
+    const isAfterStartDate = !startDate || eventDate >= startDate;
+    const isBeforeEndDate = !endDate || eventDate <= endDate;
+    console.log(this.selectedEventType)
+    const isEventTypeMatch = !this.selectedEventType || this.selectedEventType=='null' || !event.eventType || event.eventType === this.selectedEventType;
+    //const isEventTypeMatch = !this.selectedEventType || event.keyMedicalEvent === this.selectedEventType;
+
+
+    return isAfterStartDate && isBeforeEndDate && isEventTypeMatch;
+  });
+
+  this.groupedEvents = this.groupEventsByMonth(filtered);
+}
+
+resetStartDate() {
+  this.startDate = null;
+  this.filterEvents();
+}
+resetEndDate() {
+  this.endDate = null;
+  this.filterEvents();
 }
 
 async translateInverseSummary2(msg): Promise<string> {

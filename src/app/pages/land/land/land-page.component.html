@@ -24,8 +24,6 @@
                 </div>
             </div>
         </div>
-        
-       
     </div>
     <div class="footer p-2">
         <a href="javascript:;" (click)="showPolicy()" class="policy-link">{{'disclaimer.t2' | translate }}</a>
@@ -266,6 +264,64 @@
                                                 <span [innerHTML]= "summaryPatient | safe: 'html'"></span>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div *ngIf="timeline.length>0 && !callingSummary" class="col-md-12">
+                                            <h4>Timeline</h4>
+                                            <div class="filters" class="row">
+                                                <div class="col-md-4">
+                                                    <mat-form-field>
+                                                        <mat-label>Choose a start date</mat-label>
+                                                        <input readonly matInput [matDatepicker]="picker" [(ngModel)]="startDate" (dateChange)="filterEvents()" (click)="picker.open()">
+                                                        <button *ngIf="startDate!=null" matSuffix mat-icon-button aria-label="Clear" (click)="resetStartDate(null)" style="position: absolute; left: 30px;">
+                                                            <em class="fa fa-trash danger"></em>
+                                                        </button>
+                                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                                        <mat-datepicker touchUi="true" #picker></mat-datepicker>
+                                                      </mat-form-field>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <mat-form-field>
+                                                        <mat-label>Choose a end date</mat-label>
+                                                        <input readonly matInput [matDatepicker]="picker2" [(ngModel)]="endDate" (dateChange)="filterEvents()" (click)="picker2.open()">
+                                                        <button *ngIf="endDate!=null" matSuffix mat-icon-button aria-label="Clear" (click)="resetEndDate(null)" style="position: absolute; left: 30px;">
+                                                            <em class="fa fa-trash danger"></em>
+                                                        </button>
+                                                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                                        <mat-datepicker touchUi="true" #picker2></mat-datepicker>
+                                                      </mat-form-field>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <mat-form-field>
+                                                        <mat-label>Tipo de Evento</mat-label>
+                                                        <mat-select [(ngModel)]="selectedEventType" (selectionChange)="filterEvents()">
+                                                          <mat-option [value]="null">All Event Types</mat-option>
+                                                          <mat-option value="diagnosis">Diagnoses 🩺</mat-option>
+                                                          <mat-option value="treatment">Treatment 💊</mat-option>
+                                                          <mat-option value="test">Tests 🔬</mat-option>
+                                                        </mat-select>
+                                                      </mat-form-field>
+                                                </div>
+                                              </div>
+                                              <div class="ml-2 timeline" *ngIf="groupedEvents.length>0">
+                                                <div *ngFor="let group of groupedEvents">
+                                                  <div class="timeline-month-title">{{ group.monthYear }}</div>
+                                                  <div class="timeline-item" *ngFor="let event of group.events">
+                                                    <div class="timeline-dot"></div>
+                                                    <div class="timeline-content">
+                                                      <span>{{ event.date | date }}</span>
+                                                      <p>
+                                                        <span *ngIf="event.eventType == 'diagnosis'">🩺 </span>
+                                                        <span *ngIf="event.eventType == 'treatment'">💊 </span>
+                                                        <span *ngIf="event.eventType == 'test'">🔬 </span>
+                                                        {{ event.keyMedicalEvent }}
+                                                      </p>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              <div *ngIf="groupedEvents.length==0">
+                                                <p>No hay eventos</p>
+                                              </div>
                                     </div>
                                 </div>
                             </div>
