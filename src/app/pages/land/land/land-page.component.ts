@@ -109,6 +109,8 @@ export class LandPageComponent implements OnInit, OnDestroy {
   selectedEventType: string = null;
   originalEvents: any[]; // Todos los eventos antes de aplicar el filtro
   filteredEvents: any[];
+  isOldestFirst = false;
+  showFilters = false;
 
   constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public insightsService: InsightsService, private clipboard: Clipboard, public jsPDFService: jsPDFService, private ngZone: NgZone, private cdr: ChangeDetectorRef) {
     this.screenWidth = window.innerWidth;
@@ -145,30 +147,32 @@ export class LandPageComponent implements OnInit, OnDestroy {
       })();
     }.bind(this));
 
+    
     /*this.timeline= [
       {
         "date": "2014-02-23",
-        "keyMedicalEvent": "Repeated convulsive status"
+        "eventType": "diagnosis",
+        "keyMedicalEvent": "Status convulsivo"
       },
       {
         "date": "2014-03-01",
-        "keyMedicalEvent": "Repeated convulsive status"
+        "eventType": "diagnosis",
+        "keyMedicalEvent": "Status convulsivo"
       },
       {
         "date": "2015-05-01",
-        "keyMedicalEvent": "Repeated convulsive status"
+        "eventType": "diagnosis",
+        "keyMedicalEvent": "Status convulsivo"
       },
       {
         "date": "2023-03-10",
-        "keyMedicalEvent": "Consultation for refractory epilepsy, Dravet syndrome, SCN1A gene mutation"
+        "eventType": "test",
+        "keyMedicalEvent": "Analítica de sangre"
       },
       {
         "date": "2023-03-10",
-        "keyMedicalEvent": "Prescription of Diacomit, Depakine, Noiafren, Fenfluramine, and Ferrosol"
-      },
-      {
-        "date": "2023-03-10",
-        "keyMedicalEvent": "Order for video-EEG and blood tests"
+        "eventType": "treatment",
+        "keyMedicalEvent": "Inicio de tratamiento con Diacomit, Depakine, Noiafren, Fenfluramina y Ferrosol"
       }
     ];
     this.originalEvents = this.timeline;
@@ -972,20 +976,25 @@ private groupEventsByMonth(events: any[]): any[] {
   const grouped = {};
 
   events.forEach(event => {
-    const monthYear = this.getMonthYear(event.date);
+    const monthYear = this.getMonthYear(event.date).getTime(); // Usar getTime para agrupar
     if (!grouped[monthYear]) {
       grouped[monthYear] = [];
     }
     grouped[monthYear].push(event);
   });
 
-  return Object.keys(grouped).map(key => ({ monthYear: key, events: grouped[key] }));
+  return Object.keys(grouped).map(key => ({
+    monthYear: new Date(Number(key)), // Convertir la clave de nuevo a fecha
+    events: grouped[key]
+  }));
 }
 
-private getMonthYear(dateStr: string): string {
+
+private getMonthYear(dateStr: string): Date {
   const date = new Date(dateStr);
-  return date.toLocaleString(this.lang, { month: 'long', year: 'numeric' });
+  return new Date(date.getFullYear(), date.getMonth(), 1); // Primer día del mes
 }
+
 
 filterEvents() {
   this.cdr.detectChanges();
@@ -1010,6 +1019,7 @@ filterEvents() {
   });
 
   this.groupedEvents = this.groupEventsByMonth(filtered);
+  this.orderEvents();
 }
 
 resetStartDate() {
@@ -1019,6 +1029,28 @@ resetStartDate() {
 resetEndDate() {
   this.endDate = null;
   this.filterEvents();
+}
+
+toggleEventOrder() {
+  this.isOldestFirst = !this.isOldestFirst; // Cambia el estado del orden
+  this.orderEvents();
+}
+
+orderEvents() {
+  this.groupedEvents.sort((a, b) => {
+    const dateA = a.monthYear.getTime(); // Convertir a timestamp
+    const dateB = b.monthYear.getTime(); // Convertir a timestamp
+    return this.isOldestFirst ? dateA - dateB : dateB - dateA;
+  });
+
+  this.groupedEvents.forEach(group => {
+    group.events.sort((a, b) => {
+      const dateA = new Date(a.date).getTime(); // Convertir a timestamp
+      const dateB = new Date(b.date).getTime(); // Convertir a timestamp
+      return this.isOldestFirst ? dateA - dateB : dateB - dateA;
+    });
+  });
+  console.log(this.groupedEvents)
 }
 
 async translateInverseSummary2(msg): Promise<string> {
@@ -1542,6 +1574,10 @@ async translateInverseSummary(msg): Promise<string> {
             this.modalReference.close();
             this.modalReference = undefined;
           }
+        }
+
+        toggleFilters() {
+          this.showFilters = !this.showFilters;
         }
         
 

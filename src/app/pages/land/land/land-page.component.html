@@ -266,11 +266,16 @@
                                         </div>
                                     </div>
                                     <div *ngIf="timeline.length>0 && !callingSummary" class="col-md-12">
-                                            <h4>Timeline</h4>
-                                            <div class="filters" class="row">
-                                                <div class="col-md-4">
+                                            <h4>{{'timeline.Timeline' | translate }}</h4>
+                                            <button class="btn btn-primary d-md-none mb-2" (click)="toggleFilters()">
+                                                <span *ngIf="!showFilters">{{'timeline.Show filters' | translate }}</span>
+                                                <span *ngIf="showFilters">{{'timeline.Hide filters' | translate }}</span>
+                                            </button>
+                                            <div class="row" [ngClass]="{'d-none d-md-flex': !showFilters, 'd-block-inline': showFilters}">
+                                                <div class="col-md-12">{{'timeline.Filter by' | translate }}</div>
+                                                <div class="col-md-4 aligself-start">
                                                     <mat-form-field>
-                                                        <mat-label>Choose a start date</mat-label>
+                                                        <mat-label>{{'timeline.Start date' | translate }}</mat-label>
                                                         <input readonly matInput [matDatepicker]="picker" [(ngModel)]="startDate" (dateChange)="filterEvents()" (click)="picker.open()">
                                                         <button *ngIf="startDate!=null" matSuffix mat-icon-button aria-label="Clear" (click)="resetStartDate(null)" style="position: absolute; left: 30px;">
                                                             <em class="fa fa-trash danger"></em>
@@ -279,9 +284,9 @@
                                                         <mat-datepicker touchUi="true" #picker></mat-datepicker>
                                                       </mat-form-field>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-4 aligself-start">
                                                     <mat-form-field>
-                                                        <mat-label>Choose a end date</mat-label>
+                                                        <mat-label>{{'timeline.End date' | translate }}</mat-label>
                                                         <input readonly matInput [matDatepicker]="picker2" [(ngModel)]="endDate" (dateChange)="filterEvents()" (click)="picker2.open()">
                                                         <button *ngIf="endDate!=null" matSuffix mat-icon-button aria-label="Clear" (click)="resetEndDate(null)" style="position: absolute; left: 30px;">
                                                             <em class="fa fa-trash danger"></em>
@@ -290,21 +295,24 @@
                                                         <mat-datepicker touchUi="true" #picker2></mat-datepicker>
                                                       </mat-form-field>
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-4 aligself-start">
                                                     <mat-form-field>
-                                                        <mat-label>Tipo de Evento</mat-label>
+                                                        <mat-label>{{'timeline.Event type' | translate }}</mat-label>
                                                         <mat-select [(ngModel)]="selectedEventType" (selectionChange)="filterEvents()">
-                                                          <mat-option [value]="null">All Event Types</mat-option>
-                                                          <mat-option value="diagnosis">Diagnoses 🩺</mat-option>
-                                                          <mat-option value="treatment">Treatment 💊</mat-option>
-                                                          <mat-option value="test">Tests 🔬</mat-option>
+                                                          <mat-option [value]="null">{{'timeline.All Event Types' | translate }}</mat-option>
+                                                          <mat-option value="diagnosis">{{'timeline.Diagnoses' | translate }} 🩺</mat-option>
+                                                          <mat-option value="treatment">{{'timeline.Treatment' | translate }} 💊</mat-option>
+                                                          <mat-option value="test">{{'timeline.Tests' | translate }} 🔬</mat-option>
                                                         </mat-select>
                                                       </mat-form-field>
                                                 </div>
                                               </div>
-                                              <div class="ml-2 timeline" *ngIf="groupedEvents.length>0">
+                                              <div class="timeline" *ngIf="groupedEvents.length>0">
+                                                <span class="pointer" (click)="toggleEventOrder()" style="text-decoration: underline !important;color: #b30000;">
+                                                    {{'generics.Sort' | translate }} <em class="fa" [class.fa-arrow-down]="!isOldestFirst" [class.fa-arrow-up]="isOldestFirst"></em>
+                                                </span>
                                                 <div *ngFor="let group of groupedEvents">
-                                                  <div class="timeline-month-title">{{ group.monthYear }}</div>
+                                                  <div class="timeline-month-title">{{ group.monthYear | date: 'MMMM y' : '' : lang }}</div>
                                                   <div class="timeline-item" *ngFor="let event of group.events">
                                                     <div class="timeline-dot"></div>
                                                     <div class="timeline-content">
@@ -320,7 +328,7 @@
                                                 </div>
                                               </div>
                                               <div *ngIf="groupedEvents.length==0">
-                                                <p>No hay eventos</p>
+                                                <p>{{'timeline.There are no events' | translate }}</p>
                                               </div>
                                     </div>
                                 </div>
