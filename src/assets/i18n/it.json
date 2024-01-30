@@ -32,6 +32,20 @@
       "I like it": "Mi piace",
       "Create report": "Crea rapporto"
     },
+    "timeline":{
+     "Timeline": "Cronologia",
+     "Filter by": "Filtra per",
+     "Start date": "Data di inizio",
+     "End date": "Data di fine",
+     "Event type": "Tipo di evento",
+     "All Event Types": "Tutti i tipi di eventi",
+     "Diagnoses": "Diagnosi",
+     "Treatment": "Trattamento",
+     "Tests": "Test",
+     "There are no events": "Non ci sono eventi",
+     "Show filters": "Mostra filtri",
+     "Hide filters": "Nascondi filtri"
+    },
     "voice":{
      "Start Voice Recognition": "Inizia il riconoscimento vocale",
      "Stop Voice Recognition": "Interrompi il riconoscimento vocale",

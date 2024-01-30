@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, NgZone } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef, NgZone, ChangeDetectorRef  } from '@angular/core';
 import { trigger, transition, animate } from '@angular/animations';
 import { style } from '@angular/animations';
 import { TranslateService } from '@ngx-translate/core';
@@ -101,11 +101,21 @@ export class LandPageComponent implements OnInit, OnDestroy {
   stepPhoto = 1;
   capturedImage: any;
   icons: any = (datos as any).default;
-  constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public insightsService: InsightsService, private clipboard: Clipboard, public jsPDFService: jsPDFService, private ngZone: NgZone) {
+  timeline: any = [];
+  groupedEvents: any = [];
+
+  startDate: Date;
+  endDate: Date;
+  selectedEventType: string = null;
+  originalEvents: any[]; // Todos los eventos antes de aplicar el filtro
+  filteredEvents: any[];
+  isOldestFirst = false;
+  showFilters = false;
+
+  constructor(private http: HttpClient, public translate: TranslateService, public toastr: ToastrService, private modalService: NgbModal, private apiDx29ServerService: ApiDx29ServerService, private eventsService: EventsService, public insightsService: InsightsService, private clipboard: Clipboard, public jsPDFService: jsPDFService, private ngZone: NgZone, private cdr: ChangeDetectorRef) {
     this.screenWidth = window.innerWidth;
     if(sessionStorage.getItem('lang') == null){
       sessionStorage.setItem('lang', this.translate.store.currentLang);
-
     }
     this.lang = this.translate.store.currentLang;
     this.originalLang = this.translate.store.currentLang;
@@ -136,6 +146,37 @@ export class LandPageComponent implements OnInit, OnDestroy {
         this.setupRecognition();
       })();
     }.bind(this));
+
+    
+    /*this.timeline= [
+      {
+        "date": "2014-02-23",
+        "eventType": "diagnosis",
+        "keyMedicalEvent": "Status convulsivo"
+      },
+      {
+        "date": "2014-03-01",
+        "eventType": "diagnosis",
+        "keyMedicalEvent": "Status convulsivo"
+      },
+      {
+        "date": "2015-05-01",
+        "eventType": "diagnosis",
+        "keyMedicalEvent": "Status convulsivo"
+      },
+      {
+        "date": "2023-03-10",
+        "eventType": "test",
+        "keyMedicalEvent": "Analítica de sangre"
+      },
+      {
+        "date": "2023-03-10",
+        "eventType": "treatment",
+        "keyMedicalEvent": "Inicio de tratamiento con Diacomit, Depakine, Noiafren, Fenfluramina y Ferrosol"
+      }
+    ];
+    this.originalEvents = this.timeline;
+    this.filterEvents();*/
 
   }
 
@@ -378,25 +419,25 @@ showForm() {
       var query = { "userId": this.myuuid, "context": context, "conversation": this.conversation, paramForm: this.paramForm };
       this.subscription.add(this.http.post(environment.api + '/api/calltranscriptsummary/', query)
         .subscribe(async (res: any) => {
-          if(res.result.response != undefined || res.result2.response != undefined){
-            if(res.result.response != undefined){
-              res.result.response = res.result.response.replace(/^```html\n|\n```$/g, '');
+          if(res.result1 != undefined || res.result2 != undefined){
+            if(res.result1 != undefined){
+              res.result1 = res.result1.replace(/^```html\n|\n```$/g, '');
               //res.result.response = res.result.response.replace(/\\n\\n/g, '<br>');
               //res.result.response = res.result.response.replace(/\n/g, '<br>');
-              res.result.response = res.result.response.replace(/\\n\\n/g, '');
-              res.result.response = res.result.response.replace(/\n/g, '');
-              this.translateInverseSummaryDx(res.result.response).catch(error => {
+              res.result1 = res.result1.replace(/\\n\\n/g, '');
+              res.result1 = res.result1.replace(/\n/g, '');
+              this.translateInverseSummaryDx(res.result1).catch(error => {
                 console.error('Error al procesar el mensaje:', error);
                 this.insightsService.trackException(error);
               });
             }
-            if(res.result2.response != undefined){
-              res.result2.response = res.result2.response.replace(/^```html\n|\n```$/g, '');
+            if(res.result2 != undefined){
+              res.result2 = res.result2.replace(/^```html\n|\n```$/g, '');
               //res.result2.response = res.result2.response.replace(/\\n\\n/g, '<br>');
               //res.result2.response = res.result2.response.replace(/\n/g, '<br>');
-              res.result2.response = res.result2.response.replace(/\\n\\n/g, '');
-              res.result2.response = res.result2.response.replace(/\n/g, '');
-              this.translateInverseTranscript(res.result2.response).catch(error => {
+              res.result2 = res.result2.replace(/\\n\\n/g, '');
+              res.result2 = res.result2.replace(/\n/g, '');
+              this.translateInverseTranscript(res.result2).catch(error => {
                 console.error('Error al procesar el mensaje:', error);
                 this.insightsService.trackException(error);
               });
@@ -862,7 +903,9 @@ selectSubrole(){
 }
 
 madeSummary(role){
-
+  this.timeline = [];
+  this.originalEvents = [];
+  this.groupedEvents = [];
   this.context = [];
   let nameFiles = [];
     for (let doc of this.docs) {
@@ -898,19 +941,27 @@ madeSummary(role){
     var query = { "userId": this.myuuid, "context": this.context, "conversation": this.conversation, "role": role, nameFiles: nameFiles, paramForm: this.paramForm };
     this.subscription.add(this.http.post(environment.api + '/api/callsummary/', query)
       .subscribe(async (res: any) => {
-        if(res.response != undefined){
-          res.response = res.response.replace(/^```html\n|\n```$/g, '');
+        if(res.result1 != undefined){
+          res.result1 = res.result1.replace(/^```html\n|\n```$/g, '');
           //res.response = res.response.replace(/\\n\\n/g, '<br>');
           //res.response = res.response.replace(/\n/g, '<br>');
-          res.response = res.response.replace(/\\n\\n/g, '');
-          res.response = res.response.replace(/\n/g, '');
-          this.translateInverseSummary(res.response).catch(error => {
+          res.result1 = res.result1.replace(/\\n\\n/g, '');
+          res.result1 = res.result1.replace(/\n/g, '');
+          this.translateInverseSummary(res.result1).catch(error => {
             console.error('Error al procesar el mensaje:', error);
             this.insightsService.trackException(error);
           });
         }else{
           this.callingSummary = false;
           this.toastr.error('', this.translate.instant("generics.error try again"));
+        }
+        if(res.result2 != undefined){
+          if(res.result2.length > 0){
+            this.timeline = JSON.parse(res.result2);
+            //this.groupedEvents = this.groupEventsByMonth(this.timeline);
+            this.originalEvents = this.timeline;
+            this.filterEvents();
+          }          
         }
         
 
@@ -919,6 +970,87 @@ madeSummary(role){
         console.log(err);
         this.insightsService.trackException(err);
       }));
+}
+
+private groupEventsByMonth(events: any[]): any[] {
+  const grouped = {};
+
+  events.forEach(event => {
+    const monthYear = this.getMonthYear(event.date).getTime(); // Usar getTime para agrupar
+    if (!grouped[monthYear]) {
+      grouped[monthYear] = [];
+    }
+    grouped[monthYear].push(event);
+  });
+
+  return Object.keys(grouped).map(key => ({
+    monthYear: new Date(Number(key)), // Convertir la clave de nuevo a fecha
+    events: grouped[key]
+  }));
+}
+
+
+private getMonthYear(dateStr: string): Date {
+  const date = new Date(dateStr);
+  return new Date(date.getFullYear(), date.getMonth(), 1); // Primer día del mes
+}
+
+
+filterEvents() {
+  this.cdr.detectChanges();
+  console.log(this.originalEvents);
+  console.log(this.startDate);
+  console.log(this.endDate);
+
+  const startDate = this.startDate ? new Date(this.startDate) : null;
+  const endDate = this.endDate ? new Date(this.endDate) : null;
+
+  const filtered = this.originalEvents.filter(event => {
+    const eventDate = new Date(event.date);
+
+    const isAfterStartDate = !startDate || eventDate >= startDate;
+    const isBeforeEndDate = !endDate || eventDate <= endDate;
+    console.log(this.selectedEventType)
+    const isEventTypeMatch = !this.selectedEventType || this.selectedEventType=='null' || !event.eventType || event.eventType === this.selectedEventType;
+    //const isEventTypeMatch = !this.selectedEventType || event.keyMedicalEvent === this.selectedEventType;
+
+
+    return isAfterStartDate && isBeforeEndDate && isEventTypeMatch;
+  });
+
+  this.groupedEvents = this.groupEventsByMonth(filtered);
+  this.orderEvents();
+}
+
+resetStartDate() {
+  this.startDate = null;
+  this.filterEvents();
+}
+resetEndDate() {
+  this.endDate = null;
+  this.filterEvents();
+}
+
+toggleEventOrder() {
+  this.isOldestFirst = !this.isOldestFirst; // Cambia el estado del orden
+  this.orderEvents();
+}
+
+orderEvents() {
+  this.groupedEvents.sort((a, b) => {
+    const dateA = a.monthYear.getTime(); // Convertir a timestamp
+    const dateB = b.monthYear.getTime(); // Convertir a timestamp
+    return this.isOldestFirst ? dateA - dateB : dateB - dateA;
+  });
+
+  this.groupedEvents.forEach(group => {
+    group.events.sort((a, b) => {
+      const dateA = new Date(a.date).getTime(); // Convertir a timestamp
+      const dateB = new Date(b.date).getTime(); // Convertir a timestamp
+      return this.isOldestFirst ? dateA - dateB : dateB - dateA;
+    });
+  });
+  console.log(this.groupedEvents)
 }
 
 async translateInverseSummary2(msg): Promise<string> {
@@ -1442,6 +1574,10 @@ async translateInverseSummary(msg): Promise<string> {
             this.modalReference.close();
             this.modalReference = undefined;
           }
+        }
+
+        toggleFilters() {
+          this.showFilters = !this.showFilters;
         }
         
 
