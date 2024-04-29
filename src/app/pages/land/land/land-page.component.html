@@ -447,8 +447,7 @@
        
     </div>
     <div class="col-md-12" *ngIf="submode=='opt2'">
-        <div *ngIf="supported">
-            <div class="voice-recorder">
+            <div class="voice-recorder" *ngIf="supported && summaryDx29 =='' && !callingSummary">
                 <div class="card-body border p-3 mic-icon pointer bg-white" (click)="toggleRecording()">
                   <span *ngIf="!recording" class="d-block">{{'voice.Start Voice Recognition' | translate }}</span>
                   <i class="mt-2 fa-2x fa fa-microphone" *ngIf="!recording"></i>
@@ -461,24 +460,38 @@
                     <p>{{ timerDisplay }}</p>
                   </div>
                 </div>
+                <div class="offset-md-3 col-md-6">
+                    <div class="divider mt-4">
+                        <span class="divider-text">or</span>
+                      </div>
+                </div>
                 
               </div>
-              <div *ngIf="medicalText.length>0 && !recording">
+              <div *ngIf="!supported && summaryDx29 =='' && !callingSummary" class="offset-md-3 col-md-6 mt-3">
+                <div class="alert alert-danger" style="font-size: 1.25rem !important;font-weight: 700;">
+                    <p>{{'voice.Sorry, voice recognition is not supported in your browser.' | translate }}</p>
+                    <p>{{'voice.We recommend that you use Google Chrome, Microsoft Edge, or Safari.' | translate }}</p>
+                  </div>
+            </div>
+              <div *ngIf="!recording">
                 <div class="card-body">
                     <div class="row">
-                        <!--<div class="col-md-7 center-elements">
-                            <textarea #inputTextArea class="form-control data-hj-allow" style="height:320px;" [(ngModel)]="medicalText"
-                      name="medicalText" placeholder="{{'summaryDx.placeholder' | translate }}"></textarea>
+                        <div class="col-md-12 center-elements" *ngIf="summaryDx29 =='' && !callingSummary">
+                            <textarea #inputTextArea class="bg-white form-control data-hj-allow" style="height:320px;" [(ngModel)]="medicalText"
+                      name="medicalText" placeholder="{{'summaryDx.palceholderTranscript' | translate }}"></textarea>
                       <button class="mt-2 btn btn-primary mb-2" (click)="madeSummaryTranscript()">{{'demo.Summarise the transcript' | translate }}</button>
-                        </div>-->
-                        <div class="col-md-6">
+                        </div>
+                        <div class="col-md-12 center-elements mb-3" *ngIf="summaryDx29 !='' && !callingSummary">
+                            <button class="btn btn-primary" (click)="restartTranscript()">{{'summaryDx.New summary' | translate }}</button>
+                        </div>
+                        <div class="col-md-6" *ngIf="summaryDx29 !='' || callingSummary">
                             <span>{{'summaryDx.Example' | translate }} 1:</span>
                             <div class="card border p-3 custom-body">
                                 <span *ngIf="callingSummary" class="center-elements">
                                     <em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em>
                                     <label class="d-block mt-2">{{'messages.m3.1' | translate }}</label>
                                 </span>
-                                <span *ngIf="summaryDx29=='' && !callingSummary">{{'summaryDx.The summary will appear here' | translate }}</span>
+                                <!--<span *ngIf="summaryDx29=='' && !callingSummary">{{'summaryDx.The summary will appear here' | translate }}</span>-->
                                 <span *ngIf="summaryDx29!='' && !callingSummary" [innerHTML]= "summaryDx29 | safe: 'html'"></span>
                                 <span class="d-block center-elements mt-2" *ngIf="summaryDx29!='' && !callingSummary">
                                     <a class="" href="javascript:;" (click)="copySummaryDx()"><em class="fa fa-clipboard pointer"></em> {{'generics.Copy' | translate }}</a>
@@ -488,14 +501,14 @@
                            
                         </div>
 
-                        <div class="col-md-6">
+                        <div class="col-md-6" *ngIf="summaryDx29 !='' || callingSummary">
                             <span>{{'summaryDx.Example' | translate }} 2:</span>
                             <div class="card border p-3 custom-body">
                                 <span *ngIf="callingSummary" class="center-elements">
                                     <em class="fa fa-spinner fa-spin fa-3x fa-fw primary"></em>
                                     <label class="d-block mt-2">{{'messages.m3.1' | translate }}</label>
                                 </span>
-                                <span *ngIf="summaryTranscript2=='' && !callingSummary">{{'summaryDx.The summary will appear here' | translate }}</span>
+                                <!--<span *ngIf="summaryTranscript2=='' && !callingSummary">{{'summaryDx.The summary will appear here' | translate }}</span>-->
                                 <span *ngIf="summaryTranscript2!='' && !callingSummary" [innerHTML]= "summaryTranscript2 | safe: 'html'"></span>
                                 <span class="d-block center-elements mt-2" *ngIf="summaryTranscript2!='' && !callingSummary">
                                     <a class="" href="javascript:;" (click)="copySummaryTranscript()"><em class="fa fa-clipboard pointer"></em> {{'generics.Copy' | translate }}</a>
@@ -509,14 +522,6 @@
                 
                 
               </div>
-        </div>
-        <div *ngIf="!supported" class="offset-md-3 col-md-6 mt-3">
-            <div class="alert alert-danger" style="font-size: 1.25rem !important;font-weight: 700;">
-                <p>{{'voice.Sorry, voice recognition is not supported in your browser.' | translate }}</p>
-                <p>{{'voice.We recommend that you use Google Chrome, Microsoft Edge, or Safari.' | translate }}</p>
-              </div>
-        </div>
-        
     </div>  
 </div>
 

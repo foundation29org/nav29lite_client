@@ -1,3 +1,31 @@
+.divider {
+  position: relative;
+  text-align: center;
+  margin: 20px 0; /* Ajusta el margen según sea necesario */
+}
+
+.divider:before,
+.divider:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40%; /* Ajusta la longitud de la línea según sea necesario */
+  height: 1px;
+  background: #E0E0E0;
+}
+
+.divider:before {
+  left: 5%;
+}
+
+.divider:after {
+  right: 5%;
+}
+
+.divider-text {
+  padding: 0 10px; /* Espaciado alrededor del texto "or" */
+}
+
 .aligself-start{
   align-items: self-start !important;
 }

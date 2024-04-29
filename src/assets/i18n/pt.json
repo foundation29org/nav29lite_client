@@ -68,6 +68,7 @@
      "To see the list of possible diagnostics, click on the following button": "Para ver a lista de possíveis diagnósticos, clique no seguinte botão",
      "The summary will appear here": "O resumo aparecerá aqui",
      "placeholder": "Escreva ou recorte e cole um relatório. Então você deve clicar no botão abaixo.",
+     "palceholderTranscript": "Cole uma conversa médico-paciente para resumir a conversa.",
      "Test in DxGPT": "Teste no DxGPT",
      "New summary": "Novo resumo",
      "Example": "Exemplo"

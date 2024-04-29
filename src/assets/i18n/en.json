@@ -68,6 +68,7 @@
    "To see the list of possible diagnostics, click on the following button": "To see the list of possible diagnostics, click on the following button",
    "The summary will appear here": "The summary will appear here",
    "placeholder": "Write, or cut and paste a report. Then you have to click on the button below.",
+   "palceholderTranscript": "Paste a doctor-patient conversation to summarize the conversation.",
    "Test in DxGPT": "Test in DxGPT",
    "New summary": "New summary",
    "Example": "Example"
