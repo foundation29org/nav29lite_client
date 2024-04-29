@@ -403,6 +403,11 @@ showForm() {
     setTimeout(() => this.continueRecording(false, false), 100); // Un breve retraso antes de reiniciar
   }
 
+  restartTranscript(){
+    this.medicalText = '';
+    this.summaryDx29 = '';
+  }
+
   madeSummaryTranscript(){
     console.log(this.medicalText)
     //this.summaryDx29
