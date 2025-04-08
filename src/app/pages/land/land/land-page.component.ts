@@ -946,6 +946,7 @@ madeSummary(role){
     var query = { "userId": this.myuuid, "context": this.context, "conversation": this.conversation, "role": role, nameFiles: nameFiles, paramForm: this.paramForm };
     this.subscription.add(this.http.post(environment.api + '/api/callsummary/', query)
       .subscribe(async (res: any) => {
+        console.log(res)
         if(res.result1 != undefined){
           res.result1 = res.result1.replace(/^```html\n|\n```$/g, '');
           //res.response = res.response.replace(/\\n\\n/g, '<br>');
@@ -962,7 +963,7 @@ madeSummary(role){
         }
         if(res.result2 != undefined){
           if(res.result2.length > 0){
-            this.timeline = JSON.parse(res.result2);
+            this.timeline = res.result2;
             //this.groupedEvents = this.groupEventsByMonth(this.timeline);
             this.originalEvents = this.timeline;
             this.filterEvents();
