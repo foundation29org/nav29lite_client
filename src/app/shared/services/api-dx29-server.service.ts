@@ -147,18 +147,4 @@ export class ApiDx29ServerService {
           })
         );
       }
-
-    callTextAnalytics(textf){
-      return this.http.post(environment.api+'/api/callTextAnalytics', textf).pipe(
-        map((res: any) => {
-          return res;
-        }),
-        catchError((err) => {
-          console.log(err);
-          this.insightsService.trackException(err);
-          return err;
-        })
-      );
-    }
-
 }
