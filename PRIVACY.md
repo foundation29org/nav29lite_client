@@ -1,12 +1,12 @@
-# Política de Privacidad - Nav29Lite
+# Política de Privacidad - Summary29
 
 ## 1. Introducción
 
-Esta Política de Privacidad describe cómo Nav29Lite recopila, utiliza y protege la información proporcionada por los usuarios de nuestra aplicación web. Estamos comprometidos a garantizar que su privacidad esté protegida y a cumplir con todas las leyes y regulaciones aplicables de protección de datos.
+Esta Política de Privacidad describe cómo Summary29 recopila, utiliza y protege la información proporcionada por los usuarios de nuestra aplicación web. Estamos comprometidos a garantizar que su privacidad esté protegida y a cumplir con todas las leyes y regulaciones aplicables de protección de datos.
 
 ## 2. Información que Recopilamos
 
-Al utilizar Nav29Lite, podemos recopilar los siguientes tipos de información:
+Al utilizar Summary29, podemos recopilar los siguientes tipos de información:
 
 - **Datos de Usuario**: Información que proporciona al registrarse o utilizar la aplicación.
 - **Datos de Navegación**: Información sobre cómo utiliza nuestra aplicación, incluyendo las páginas visitadas y funciones accedidas.
@@ -35,7 +35,7 @@ Implementamos medidas de seguridad técnicas y organizativas apropiadas para pro
 
 No vendemos su información personal a terceros. Podemos compartir datos anonimizados y agregados con:
 
-- Proveedores de servicios que nos ayudan a operar y mejorar Nav29Lite.
+- Proveedores de servicios que nos ayudan a operar y mejorar Summary29.
 - Autoridades regulatorias, cuando lo requiera la ley.
 
 ## 6. Sus Derechos
@@ -57,7 +57,7 @@ Conservamos su información personal solo el tiempo necesario para los fines par
 
 ## 8. Menores de Edad
 
-Nav29Lite no está diseñado para ser utilizado por menores sin la supervisión de un adulto responsable. No recopilamos a sabiendas información personal de menores sin el consentimiento verificable de los padres.
+Summary29 no está diseñado para ser utilizado por menores sin la supervisión de un adulto responsable. No recopilamos a sabiendas información personal de menores sin el consentimiento verificable de los padres.
 
 ## 9. Cambios en esta Política
 

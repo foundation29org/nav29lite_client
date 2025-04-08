@@ -1,6 +1,6 @@
-# Nav29Lite
+# Summary29
 
-Nav29Lite es una aplicación web desarrollada con Angular 14, diseñada para proporcionar una interfaz moderna y funcional para la navegación y gestión de contenido.
+Summary29 es una aplicación web desarrollada con Angular 14, diseñada para proporcionar una interfaz moderna y funcional para la navegación y gestión de contenido.
 
 ## 🚀 Características
 
